@@ -1,7 +1,9 @@
-import React from "react";
+import React from 'react'
 
 function pageAdministrador() {
-  return <div>pageAdministrador</div>;
+  return (
+    <div>pageAdministrador</div>
+  )
 }
 
-export default pageAdministrador;
+export default pageAdministrador
