@@ -13,7 +13,7 @@ module.exports = {
         "verde-principal": "#72aa00",
         Gris: "#d1d1d1",
         "Cafe-Footer": "#635B4F",
-        "verde": "#72AA00",
+        "verde": "#72aa29",
         "gris-claro": "#f7f7f7",
         "gris-oscuro": "#999999",
       },

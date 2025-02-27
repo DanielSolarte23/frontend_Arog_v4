@@ -63,7 +63,7 @@ function BarraHeader({ className }) {
                             <li>
                                 <Link
                                     className="px-3 py-1 border border-lime-600 rounded-md text-lime-600 whitespace-nowrap"
-                                    href="/registro"
+                                    href="/auth/registro"
                                 >
                                     Crear cuenta
                                 </Link>
