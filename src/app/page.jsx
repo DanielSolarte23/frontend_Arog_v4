@@ -1,9 +1,15 @@
-import React from 'react'
+import Bienvenida from "../components/publicas/Bienvenida";
+import FotterHome from "../components/publicas/FooterHome";
+import Servicios from "../components/publicas/Servicios";
+import SobreNosotros from "../components/publicas/SobreNostros";
 
-function HomePage() {
+export default function Home() {
   return (
-    <div className=''>HomePage</div>
-  )
+    <>
+      <Bienvenida />
+      <Servicios />
+      <SobreNosotros/>
+      <FotterHome />
+    </>
+  );
 }
-
-export default HomePage
