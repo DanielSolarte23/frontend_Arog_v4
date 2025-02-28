@@ -1,9 +1,10 @@
-import React from 'react'
+"use client";
+import React, { useState } from "react";
 
 function HomePage() {
   return (
-    <div className=''>HomePage</div>
-  )
+    <div></div>
+  );
 }
 
-export default HomePage
+export default HomePage;
