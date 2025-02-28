@@ -126,7 +126,7 @@ function pageAdministrador() {
             </button>
           </div>
         </form>
-      </header>
+      </header>   
     </>
   );
 }
