@@ -46,7 +46,7 @@ export default function BarraLateral() {
     return (
         <>
             <div
-                className={`sidebar shadow-xl h-full scrollbar bottom-0 xl:left-0 p-2 bg-white transition-all duration-700 ${isOpen ? "w-5/6" : "w-20"} md:w-1/5 overflow-y-auto text-center fixed`}
+                className={`sidebar shadow-xl h-full scrollbar bottom-0 xl:left-0 px-2 bg-white transition-all duration-700 ${isOpen ? "w-5/6" : "w-20"} md:w-1/5 overflow-y-auto text-center fixed`}
             >
                 {/* <div className={`flex items-center justify-end mr-1`}>
                     <button
@@ -59,7 +59,7 @@ export default function BarraLateral() {
                 <div className="h-1/10 flex mx-5 items-center">
                     <LogoArog className={`w-16 h-16`}/>
                 </div>
-                <hr className="my-2 text-gray-900" />
+                <hr className="text-gray-900" />
                 <Link href="/administrador/rutas" className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-verde-principal text-gray-900 whitespace-nowrap">
                     <div className="flex whitespace-nowrap items-center">
                         <i className="fa-solid fa-route text-lg sm:text-xl"></i>
