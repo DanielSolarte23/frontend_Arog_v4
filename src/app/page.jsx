@@ -69,7 +69,11 @@ export default function Home() {
           <ul className="flex items-center gap-8 font-medium">
             <li>
               <Link
-                className={` px-4 py-4 rounded-md  hover:bg-lime-700 transition-colors text-xl ${isScrolled ? "text-white bg-lime-600" : "bg-white text-verde"}`} 
+                className={` px-4 py-4 rounded-md   transition-colors text-xl ${
+                  isScrolled
+                    ? "text-white bg-lime-600 hover:bg-lime-700"
+                    : "bg-white text-verde hover:bg-lime-200"
+                }`}
                 href="/auth/inicio"
               >
                 Iniciar sesión
@@ -77,7 +81,11 @@ export default function Home() {
             </li>
             <li>
               <Link
-                className={`px-4 py-4  rounded-md  hover:bg-lime-50 transition-colors text-xl border ${isScrolled ? "border-lime-600 text-lime-600" : " border-white text-white"}`}  
+                className={`px-4 py-4  rounded-md  hover:bg-lime-50 transition-colors text-xl border ${
+                  isScrolled
+                    ? "border-lime-600 text-lime-600"
+                    : " border-white text-white hover:text-verde"
+                }`}
                 href="/auth/registro"
               >
                 Crear cuenta
@@ -142,9 +150,9 @@ export default function Home() {
         className="min-h-screen pt-24 md:pt-0 flex items-center hoja-verde"
         id="Inicio"
       >
-        <div className="container mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center md:mt-20">
+        <div className="w-full mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center md:mt-20 xl:mt-0 xl:h-screen">
           <div className="w-full md:w-1/2 text-center md:text-left mb-10 md:mb-0">
-            <div className="relative z-10">
+            <div className="relative z-10 pl-16">
               <p className="text-2xl md:text-3xl font-medium text-verde">
                 Asociación de
               </p>
@@ -175,9 +183,9 @@ export default function Home() {
             </div>
           </div>
           <div className="w-full md:w-1/2 relative bg-transparent h-full">
-            <div className="relative h-80 md:h-[560px] overflow-hidden">
+            <div className="relative h-80 md:h-[560px] xl:h-full overflow-hidden">
               <img
-                className="hidden md:block absolute top-[53%]  -right-12 transform -translate-y-1/2 h-[40rem] z-10"
+                className="hidden md:block absolute top-[53%]  -right-12 transform -translate-y-1/2 h-[40rem] xl:h-[58rem] z-10"
                 src="/telefono2.png"
                 alt="Aplicación AROG"
               />
@@ -187,10 +195,13 @@ export default function Home() {
       </section>
 
       {/* Sección Servicios */}
-      <section id="servicios" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4 md:px-8">
+      <section
+        id="servicios"
+        className="py-20 bg-gray-50 h-screen flex justify-center"
+      >
+        <div className="container mx-auto px-4 md:px-8 flex flex-col justify-center">
           <div className="text-center mb-16">
-            <span className="inline-block px-3 py-1 bg-green-100 text-verde-dos rounded-full text-sm font-medium mb-3">
+            <span className="inline-block px-3 py-1 bg-lime-100 text-verde-dos rounded-full text-sm font-medium mb-3">
               NUESTROS SERVICIOS
             </span>
             <h2 className="text-4xl md:text-5xl font-bold">
@@ -321,10 +332,10 @@ export default function Home() {
       </section>
 
       {/* Sección Sobre Nosotros */}
-      <section id="SobreNosotros" className="py-20">
-        <div className="container mx-auto px-4 md:px-8">
+      <section id="SobreNosotros" className="py-20 h-screen flex items-center">
+        <div className="container mx-auto px-4 md:px-8 flex flex-col justify-center mt-14">
           <div className="text-center mb-16">
-            <span className="inline-block px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm font-medium mb-3">
+            <span className="inline-block px-3 py-1 bg-lime-100 text-verde-dos rounded-full text-sm font-medium mb-3">
               QUIÉNES SOMOS
             </span>
             <h2 className="text-4xl md:text-5xl font-bold">Sobre Nosotros</h2>
@@ -364,10 +375,10 @@ export default function Home() {
 
               <div className="flex space-x-4 mb-8">
                 <div className="flex items-center gap-2">
-                  <div className="bg-green-100 p-2 rounded-full">
+                  <div className="bg-lime-100 p-2 rounded-full">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-green-600"
+                      className="h-6 w-6 text-verde-dos"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -383,10 +394,10 @@ export default function Home() {
                   <span>Compromiso ambiental</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="bg-green-100 p-2 rounded-full">
+                  <div className="bg-lime-100 p-2 rounded-full">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-green-600"
+                      className="h-6 w-6 text-verde-dos"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -547,7 +558,7 @@ export default function Home() {
                 <li>
                   <a
                     href="#Inicio"
-                    className="hover:text-green-300 transition-colors"
+                    className="hover:text-verde transition-colors"
                   >
                     Inicio
                   </a>
@@ -555,7 +566,7 @@ export default function Home() {
                 <li>
                   <a
                     href="#servicios"
-                    className="hover:text-green-300 transition-colors"
+                    className="hover:text-verde transition-colors"
                   >
                     Nuestros Servicios
                   </a>
@@ -563,7 +574,7 @@ export default function Home() {
                 <li>
                   <a
                     href="#SobreNosotros"
-                    className="hover:text-green-300 transition-colors"
+                    className="hover:text-verde transition-colors"
                   >
                     Sobre Nosotros
                   </a>
@@ -576,26 +587,17 @@ export default function Home() {
               <h4 className="font-bold text-lg mb-4">Ubicaciones</h4>
               <ul className="space-y-2">
                 <li>
-                  <a
-                    href="#"
-                    className="hover:text-green-300 transition-colors"
-                  >
+                  <a href="#" className="hover:text-verde transition-colors">
                     Planta de tratamiento
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="hover:text-green-300 transition-colors"
-                  >
+                  <a href="#" className="hover:text-verde transition-colors">
                     Galería Barrio Bolívar
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="hover:text-green-300 transition-colors"
-                  >
+                  <a href="#" className="hover:text-verde transition-colors">
                     Galería La Esmeralda
                   </a>
                 </li>
@@ -606,15 +608,13 @@ export default function Home() {
             <div>
               <h4 className="font-bold text-lg mb-4">Servicios</h4>
               <ul className="space-y-2">
-                <li className="hover:text-green-300 transition-colors">
+                <li className="hover:text-verde transition-colors">
                   Recolección
                 </li>
-                <li className="hover:text-green-300 transition-colors">
+                <li className="hover:text-verde transition-colors">
                   Tratamiento
                 </li>
-                <li className="hover:text-green-300 transition-colors">
-                  Venta
-                </li>
+                <li className="hover:text-verde transition-colors">Venta</li>
               </ul>
             </div>
 
@@ -666,7 +666,7 @@ export default function Home() {
             <a href="#">
               <img src="/Arogbl.png" alt="AROG Logo" className="h-16 w-auto" />
             </a>
-            <p className="mt-4 md:mt-0 text-sm text-green-200">
+            <p className="mt-4 md:mt-0 text-sm text-white">
               © Copyright 2024. Todos los derechos reservados.
             </p>
           </div>

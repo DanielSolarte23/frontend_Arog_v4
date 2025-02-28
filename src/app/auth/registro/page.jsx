@@ -6,9 +6,9 @@ function page() {
   const [showRequirements, setShowRequirements] = useState(false);
   return (
     <div className="h-full ">
-      <main className="h-full flex fondo-logo pr-14">
+      <main className="h-full flex fondo-logo">
         <div className="w-1/2 hidden md:block"></div>
-        <div className="md:w-1/2 h-full  md:mt-0 w-full flex  justify-start items-center">
+        <div className="md:w-1/2 h-full  md:mt-0 w-full flex  justify-start items-center pr-14">
           <div className="w-full md:h-[90%] h-full filter px-14 rounded-lg md:py-16 py-2  flex flex-col justify-center shadow-xl">
             <h2 className="text-3xl font-bold  md:mt-0">Registro</h2>
             <form className="grid grid-cols-1 md:gap-6 gap-2 md:mt-3 md:grid-cols-2">
@@ -16,7 +16,7 @@ function page() {
                 <input
                   type="text"
                   placeholder="Ingresa tus nombres"
-                  className="block h-full w-full px-4 py-2 mt-2 text-gray-700 placeholder:text-gray-300 placeholder:font-thin bg-white border-b-4 border-verde  rounded-lg  focus:outline-none text-xl pl-10"
+                  className="block h-full w-full px-4 py-2 mt-2 text-gray-700 placeholder:text-gray-300 placeholder:font-thin bg-white border-b-4 border-gris hover:border-verde  rounded-lg  focus:outline-none text-xl pl-10 focus:border-verde"
                 />
                 <i className="fa-solid fa-user absolute text-verde top-6 left-3 text-xl"></i>
               </div>
@@ -25,7 +25,7 @@ function page() {
                 <input
                   type="text"
                   placeholder="Ingresa tus apellidos"
-                  className="block h-full w-full px-4 py-2 mt-2 text-gray-700 placeholder:text-gray-300 placeholder:font-thin bg-white border-b-4 border-verde  rounded-lg  focus:outline-none text-xl pl-10"
+                  className="block h-full w-full px-4 py-2 mt-2 text-gray-700 placeholder:text-gray-300 placeholder:font-thin bg-white border-b-4 border-gris hover:border-verde focus:border-verde rounded-lg  focus:outline-none text-xl pl-10"
                 />
                 <i className="fa-solid fa-signature absolute text-verde top-6 left-3 text-xl"></i>
               </div>
@@ -34,7 +34,7 @@ function page() {
                 <input
                   type="text"
                   placeholder="Ingresa tu telefono"
-                  className="block h-full w-full px-4 py-2 mt-2 text-gray-700 placeholder:text-gray-300 placeholder:font-thin bg-white border-b-4 border-verde  rounded-lg  focus:outline-none text-xl pl-10"
+                  className="block h-full w-full px-4 py-2 mt-2 text-gray-700 placeholder:text-gray-300 placeholder:font-thin bg-white border-b-4 border-gris hover:border-verde focus:border-verde rounded-lg  focus:outline-none text-xl pl-10"
                 />
                 <i className="fa-solid fa-phone absolute text-verde top-6 left-3 text-xl"></i>
               </div>
@@ -43,7 +43,7 @@ function page() {
                 <input
                   type="text"
                   placeholder="Ingresa tu correo"
-                  className="block h-full w-full px-4 py-2 mt-2 text-gray-700 placeholder:text-gray-300 placeholder:font-thin bg-white border-b-4 border-verde  rounded-lg  focus:outline-none text-xl pl-10"
+                  className="block h-full w-full px-4 py-2 mt-2 text-gray-700 placeholder:text-gray-300 placeholder:font-thin bg-white border-b-4 border-gris hover:border-verde focus:border-verde rounded-lg  focus:outline-none text-xl pl-10"
                 />
                 <i className="fa-solid fa-envelope absolute text-verde top-6 left-3 text-xl"></i>
               </div>
@@ -52,7 +52,7 @@ function page() {
                 <input
                   type="text"
                   placeholder="Ingresa una contraseña"
-                  className="block h-full w-full px-4 py-2 mt-2 text-gray-700 placeholder:text-gray-300 placeholder:font-thin bg-white border-b-4 border-verde  rounded-lg  focus:outline-none text-xl pl-10"
+                  className="block h-full w-full px-4 py-2 mt-2 text-gray-700 placeholder:text-gray-300 placeholder:font-thin bg-white border-b-4 border-gris hover:border-verde focus:border-verde rounded-lg  focus:outline-none text-xl pl-10"
                   onFocus={() => setShowRequirements(true)}
                   onBlur={() => setShowRequirements(false)}
                 />
@@ -62,7 +62,7 @@ function page() {
                 <input
                   type="text"
                   placeholder="Confirma tu contraseña"
-                  className="block h-full w-full px-4 py-2 mt-2 text-gray-700 placeholder:text-gray-300 placeholder:font-thin bg-white border-b-4 border-verde  rounded-lg  focus:outline-none text-xl pl-10"
+                  className="block h-full w-full px-4 py-2 mt-2 text-gray-700 placeholder:text-gray-300 placeholder:font-thin bg-white border-b-4 border-gris hover:border-verde focus:border-verde rounded-lg  focus:outline-none text-xl pl-10"
                   onFocus={() => setShowRequirements(true)}
                   onBlur={() => setShowRequirements(false)}
                 />
@@ -79,7 +79,11 @@ function page() {
                 </p>
               </div>
             )}
-            <button className={`w-full px-6 py-2.5 h-14 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-verde-principal rounded-lg hover:bg-lime-600 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50 lg:text-lg ${showRequirements ? "mt-3" : "mt-10"}`}>
+            <button
+              className={`w-full px-6 py-2.5 h-14 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-verde-principal rounded-lg hover:bg-lime-600 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50 lg:text-lg ${
+                showRequirements ? "mt-3" : "mt-10"
+              }`}
+            >
               Registrarse
             </button>
 
@@ -105,8 +109,8 @@ function page() {
               {" "}
               Ya tienes una cuenta?{" "}
               <Link
-                href="login"
-                className="font-medium text-verde-principal hover:underline"
+                href="/auth/inicio"
+                className="text-verde-principal font-semibold"
               >
                 Inicia sesión
               </Link>
