@@ -6,7 +6,7 @@ function pageAdministrador() {
       <header className="backdrop-opacity-10 bg-white flex justify-between items-center drop-shadow-md border-2 border-gray-200 p-12 rounded-2xl m-6">
         <div className="flex items-center space-x-4">
           <div className="w-14 h-14 bg-lime-500 text-white flex items-center justify-center rounded-full">
-            <svg 
+            <svg
               className="w-8 h-8"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -126,7 +126,7 @@ function pageAdministrador() {
             </button>
           </div>
         </form>
-      </header>   
+      </header>
     </>
   );
 }
