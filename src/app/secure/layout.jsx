@@ -1,9 +1,11 @@
-import ProtectedRoute from "@/components/ProtectedRoute";
+// import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function SecureLayout({ children }) {
     return (
-        <ProtectedRoute>
+        // <ProtectedRoute>
+        <>
             {children}
-        </ProtectedRoute>
+        </>
+        // </ProtectedRoute>
     );
 }
