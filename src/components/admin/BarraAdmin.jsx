@@ -6,9 +6,9 @@ function BarraAdmin() {
   return (
     <div
       className={`sidebar shadow-xl h-full scrollbar bottom-0 xl:left-0 px-2 bg-white transition-all duration-700
-    md:w-1/5 overflow-y-auto text-center fixed py-4`}
+    md:w-1/5 overflow-y-auto text-center fixed py-4 border border-red-600 flex flex-col gap-4`}
     >
-      <div className="h-1/10 flex mx-5 items-center">
+      <div className="h-1/10 flex mx-5 items-center border border-green-500">
         <LogoArog className={`w-16 h-16`} />
       </div>
 
@@ -39,7 +39,7 @@ function BarraAdmin() {
         </Link>
       </nav>
       <hr className="bg-gris-oscuro" />
-      <nav className="grid grid-rows-3 h-3/10 gap-2">
+      <nav className="grid grid-rows-3 h-2/8 gap-2">
         <Link href="/" className="border rounded-lg">
           5
         </Link>
