@@ -46,13 +46,29 @@ html {
 
 .hoja-verde {
   position: relative;
-  background: linear-gradient(to right, white 30%, rgba(255, 255, 255, 0) 70%), 
+  background: linear-gradient(to right, white 30%, rgba(255, 255, 255, 0) 80%), 
               url(../../public/textura-hoja-verde.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 0px 0px 10px 10px;
 }
+
+.hoja-dos {
+  position: relative;
+  background: linear-gradient(to bottom, white 60%, rgba(255, 255, 255, 0) 100%), 
+              url(../../public/textura-hoja-verde.jpg);
+
+  /* background-image: url(../../public/textura-hoja-verde.jpg); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left;
+  backdrop-filter: blur(20px);
+
+}
+
+
+
 
 @media (max-width: 767px) {
   .hoja-verde {

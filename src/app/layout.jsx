@@ -1,6 +1,5 @@
-import BarraHeader from "../components/publicas/BarraHeader";
+import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
-// import {lexend} from 
 
 export const metadata = {
   title: "Arog App",
@@ -11,10 +10,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body className="h-screen">
-        <main className="h-full">
-          {children}
-        </main>
-
+        <AuthProvider>
+          <main className="h-full">
+            {children}
+          </main>
+        </AuthProvider>
       </body>
     </html>
   );

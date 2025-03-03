@@ -2,7 +2,7 @@ import React from 'react'
 
 function Rutas() {
   return (
-    <div className='bg-white w-full h-full border rounded-lg'></div>
+    <div className='bg-white w-full h-full border  rounded-lg'></div>
   )
 }
 
