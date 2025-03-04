@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useState, useEffect } from "react";
 
 const LogoArog = ({ className }) => (
@@ -30,9 +31,8 @@ export default function Home() {
     <main className="flex flex-col min-h-screen">
       {/* Header con animación en scroll */}
       <header
-        className={`w-full z-50 flex items-center px-4 md:px-8 justify-between fixed transition-all duration-300 ${
-          isScrolled ? "py-2 bg-white shadow-xl" : "py-4 bg-white/5"
-        }`}
+        className={`w-full z-50 flex items-center px-4 md:px-8 justify-between fixed transition-all duration-300 ${isScrolled ? "py-2 bg-white shadow-xl" : "py-4 bg-white/5"
+          }`}
       >
         {/* Logo y nombre */}
         <Link href="/" className="flex items-center">
@@ -47,19 +47,16 @@ export default function Home() {
         >
           <div className="w-6 flex flex-col gap-1">
             <span
-              className={`block h-0.5 w-full bg-gray-800 transition-transform ${
-                mobileMenuOpen ? "rotate-45 translate-y-1.5" : ""
-              }`}
+              className={`block h-0.5 w-full bg-gray-800 transition-transform ${mobileMenuOpen ? "rotate-45 translate-y-1.5" : ""
+                }`}
             ></span>
             <span
-              className={`block h-0.5 w-full bg-gray-800 transition-opacity ${
-                mobileMenuOpen ? "opacity-0" : ""
-              }`}
+              className={`block h-0.5 w-full bg-gray-800 transition-opacity ${mobileMenuOpen ? "opacity-0" : ""
+                }`}
             ></span>
             <span
-              className={`block h-0.5 w-full bg-gray-800 transition-transform ${
-                mobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
-              }`}
+              className={`block h-0.5 w-full bg-gray-800 transition-transform ${mobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+                }`}
             ></span>
           </div>
         </button>
@@ -69,11 +66,10 @@ export default function Home() {
           <ul className="flex items-center gap-8 font-medium">
             <li>
               <Link
-                className={` px-4 py-4 rounded-md   transition-colors text-xl ${
-                  isScrolled
+                className={` px-4 py-4 rounded-md   transition-colors text-xl ${isScrolled
                     ? "text-white bg-lime-600 hover:bg-lime-700"
                     : "bg-white text-verde hover:bg-lime-200"
-                }`}
+                  }`}
                 href="/auth/inicio"
               >
                 Iniciar sesión
@@ -81,11 +77,10 @@ export default function Home() {
             </li>
             <li>
               <Link
-                className={`px-4 py-4  rounded-md  hover:bg-lime-50 transition-colors text-xl border ${
-                  isScrolled
+                className={`px-4 py-4  rounded-md  hover:bg-lime-50 transition-colors text-xl border ${isScrolled
                     ? "border-lime-600 text-lime-600"
                     : " border-white text-white hover:text-verde"
-                }`}
+                  }`}
                 href="/auth/registro"
               >
                 Crear cuenta
@@ -96,9 +91,8 @@ export default function Home() {
 
         {/* Menú móvil - overlay */}
         <div
-          className={`fixed inset-0 bg-white z-40 transform transition-transform duration-300 ease-in-out ${
-            mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-          } md:hidden`}
+          className={`fixed inset-0 bg-white z-40 transform transition-transform duration-300 ease-in-out ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+            } md:hidden`}
         >
           <div className="flex flex-col items-center justify-center h-full gap-8">
             <nav className="flex flex-col items-center">
@@ -152,40 +146,40 @@ export default function Home() {
       >
         <div className="w-full mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center md:mt-20 xl:mt-0 xl:h-screen">
           <div className="w-full md:w-1/2 text-center md:text-left mb-10 md:mb-0">
-            <div className="relative z-10 pl-16">
-              <p className="text-2xl md:text-3xl font-medium text-verde">
+            <div className="relative z-10 pl-4 md:pl-16">
+              <p className="text-xl sm:text-2xl md:text-3xl font-medium text-verde">
                 Asociación de
               </p>
-              <p className="text-2xl md:text-3xl font-medium">
+              <p className="text-xl sm:text-2xl md:text-3xl font-medium">
                 Recicladores de oficio
               </p>
-              <h1 className="text-5xl md:text-7xl font-bold text-verde-dos mb-6">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-verde-dos mb-4 md:mb-6">
                 GOLEROS
               </h1>
-              <p className="text-gray-600 mb-8 max-w-md mx-auto md:mx-0">
+              <p className="text-gray-600 mb-6 md:mb-8 max-w-md mx-auto md:mx-0 text-sm sm:text-base">
                 Comprometidos con el medio ambiente y la economía circular para
                 un futuro sostenible.
               </p>
-              <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+              <div className="flex flex-wrap gap-3 md:gap-4 justify-center md:justify-start">
                 <a
                   href="#servicios"
-                  className="bg-lime-600 hover:bg-lime-700 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+                  className="bg-lime-600 hover:bg-lime-700 text-white font-medium py-2 sm:py-3 px-4 sm:px-6 rounded-lg transition-colors text-sm sm:text-base"
                 >
                   Nuestros servicios
                 </a>
                 <a
                   href="#SobreNosotros"
-                  className="border border-verde text-verde hover:bg-lime-50 font-medium py-3 px-6 rounded-lg transition-colors"
+                  className="border border-verde text-verde hover:bg-lime-50 font-medium py-2 sm:py-3 px-4 sm:px-6 rounded-lg transition-colors text-sm sm:text-base "
                 >
                   Conócenos
                 </a>
               </div>
             </div>
           </div>
-          <div className="w-full md:w-1/2 relative bg-transparent h-full">
-            <div className="relative h-80 md:h-[560px] xl:h-full overflow-hidden">
+          <div className="w-full md:w-1/2 relative bg-transparent h-full hidden lg:block">
+            <div className="relative h-64 sm:h-80 md:h-[560px] xl:h-full overflow-hidden">
               <img
-                className="hidden md:block absolute top-[53%]  -right-12 transform -translate-y-1/2 h-[40rem] xl:h-[58rem] z-10"
+                className="block md:block absolute top-[53%] -right-12 transform -translate-y-1/2 h-auto w-4/5 sm:w-auto sm:h-[30rem] md:h-[40rem] xl-plus:h-[58rem] z-10"
                 src="/telefono2.png"
                 alt="Aplicación AROG"
               />
@@ -193,21 +187,20 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Sección Servicios */}
       <section
         id="servicios"
-        className="py-20 bg-gray-50 h-screen flex justify-center"
+        className="py-20 bg-gray-50 xl-plus:h-screen flex justify-center"
       >
         <div className="container mx-auto px-4 md:px-8 flex flex-col justify-center">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 xl-plus:mb-16">
             <span className="inline-block px-3 py-1 bg-lime-100 text-verde-dos rounded-full text-sm font-medium mb-3">
               NUESTROS SERVICIOS
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold">
+            <h2 className="xl-plus:text-4xl md:text-4xl font-bold">
               Soluciones de reciclaje
             </h2>
-            <div className="w-24 h-1 bg-lime-500 mx-auto mt-6"></div>
+            <div className="w-24 h-1 bg-lime-500 mx-auto mt-2 xl-plus:mt-6"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -332,9 +325,9 @@ export default function Home() {
       </section>
 
       {/* Sección Sobre Nosotros */}
-      <section id="SobreNosotros" className="py-20 h-screen flex items-center">
-        <div className="container mx-auto px-4 md:px-8 flex flex-col justify-center mt-14">
-          <div className="text-center mb-16">
+      <section id="SobreNosotros" className="py-20 xl-plus:h-screen flex items-center">
+        <div className="container mx-auto px-4 md:px-8 flex flex-col justify-center mt-8 xl-plus:mt-14">
+          <div className="text-center mb-10 xl-plus:mb-16">
             <span className="inline-block px-3 py-1 bg-lime-100 text-verde-dos rounded-full text-sm font-medium mb-3">
               QUIÉNES SOMOS
             </span>

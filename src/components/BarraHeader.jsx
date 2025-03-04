@@ -1,85 +1,57 @@
-"use client";
-import "@fortawesome/fontawesome-free/css/all.min.css";
+'use client'
 import React, { useState } from "react";
+import LogoArog from "./publicas/LogoArog";
 
 function BarraHeader() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [modal, setModal] = useState([]);
 
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+  const handleToggleModal = () => {
+    setModal((prev) => !prev);
+};
 
   return (
-    <div
-      className={`h-full px-5 ${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
-      }`}
-    >
-      {/* Barra de Navegación */}
-      <nav
-        className={`flex items-center justify-between border-b h-full ${
-          darkMode ? "bg-gray-900" : "bg-white"
-        }`}
-      >
-        {/* Menú y Búsqueda */}
-        <div className="flex items-center gap-2">
-          <button className="px-2 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 border">
-            <i
-              className={`fa-solid fa-bars ${
-                darkMode ? "text-white" : "text-gray-500"
-              }`}
-            ></i>
-          </button>
-          <div className="relative">
+    <>
+      <div className={`flex items-center bg-white h-full w-full px-5`}>
+        <div className="flex gap-3 w-1/2 text-gray-300">
+          <div className="border rounded-lg p-2 flex justify-center items-center">
+            <i className="fa-solid fa-bars text-xl  "></i>
+          </div>
+
+          <div className="border relative rounded-lg w-full">
+            <i className="fa-solid fa-magnifying-glass absolute text-xl top-2 left-2"></i>
             <input
               type="text"
-              placeholder="Buscar..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={`border rounded pl-8 pr-4 py-1.5 focus:outline-none ${
-                darkMode
-                  ? "bg-gray-700 text-white border-gray-600"
-                  : "bg-white text-gray-600 border-gray-300"
-              }`}
+              className="w-full h-full focus:outline-none pl-8"
             />
-            <i
-              className={`fa-solid fa-magnifying-glass absolute left-3 top-2 ${
-                darkMode ? "text-gray-300" : "text-gray-500"
-              }`}
-            ></i>
           </div>
         </div>
-
-        {/* Íconos de acciones */}
-        <div className="flex items-center gap-4">
-          {/* Botón de modo oscuro */}
-          <button
-            onClick={toggleDarkMode}
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
-          >
-            <i
-              className={`fa-solid fa-moon ${darkMode ? "text-yellow-400" : "text-gray-400"}`}
-            ></i>
-          </button>
-
-          {/* Campana de notificaciones */}
-          <button className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-            {/* <FontAwesomeIcon icon={faBell} size="lg" className={darkMode ? "text-gray-300" : "text-gray-400"} /> */}
-          </button>
-
-          {/* Perfil */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white hover:bg-gray-200 dark:hover:bg-gray-700">
-              {/* <FontAwesomeIcon icon={faUser} size="lg" /> */}
+        <div className="w-1/2 flex justify-end gap-5 text-gray-300">
+          <div className="border rounded-full p-2 flex justify-center items-center">
+            <i className="fa-solid fa-moon text-xl  "></i>
+          </div>
+          <div className="border rounded-full p-2 flex justify-center items-center">
+            <i className="fa-solid fa-bell text-xl  "></i>
+          </div>
+          <div className="flex gap-2 items-center">
+            <div className="border rounded-full p-2 flex justify-center items-center bg-verde">
+              <i className="fa-solid fa-user text-xl  text-white"></i>
             </div>
-            <span
-              className={`text-sm ${darkMode ? "text-white" : "text-gray-700"}`}
-            >
-              Nombre ejemplo ▼
-            </span>
+            <span className="text-verde-dos">Nombre de usuario</span>
+            <div>
+              <i className="fa-solid fa-chevron-down text-verde-dos"></i>
+
+              {modal && (
+                <ul>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+              )}
+            </div>
           </div>
         </div>
-      </nav>
-    </div>
+      </div>
+    </>
   );
 }
 
