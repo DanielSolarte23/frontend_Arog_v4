@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-export default function Formulario() {
+export default function Insidencias() {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -27,10 +27,10 @@ export default function Formulario() {
             </svg>
           </button>
           <button
-            className="bg-lime-600 p-2 rounded-xl text-white flex items-center gap-2 hover:bg-lime-700 transition w-full md:w-auto justify-center"
+            className="bg-lime-600 p-2 rounded-xl text-white flex items-center gap-2 hover:bg-lime-700 transition w-full md:w-auto justify-center md:mr-7"
             onClick={() => setModalOpen(true)}
           >
-            <span className="font-medium">Nuevo registro</span>
+            <span className="font-medium">Nueva insidencia</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 448 512"
@@ -42,38 +42,36 @@ export default function Formulario() {
         </div>
       </nav>
 
-      <div className="overflow-x-auto">
-        <table className="text-sm text-left text-gray-500 border-2 border-gray-200 rounded-xl m-2 md:m-4 shadow-md">
+      <div className="overflow-x-auto ml-2">
+        <table className="text-sm text-left text-gray-500 border-2 border-gray-200 rounded-xl m-2 md:m-4 lg:m-6 shadow-md">
           <thead className="text-xs text-gray-700 uppercase bg-white border-2 border-gray-300">
             <tr>
-              <th className="px-3 py-2 md:px-4 md:py-3">Item</th>
-              <th className="px-3 py-2 md:px-4 md:py-3">Fecha</th>
-              <th className="px-3 py-2 md:px-4 md:py-3">Barrio/Vereda</th>
-              <th className="px-3 py-2 md:px-4 md:py-3">Operario</th>
-              <th className="px-3 py-2 md:px-4 md:py-3">N. ruta</th>
-              <th className="px-3 py-2 md:px-4 md:py-3">Inicio</th>
-              <th className="px-3 py-2 md:px-4 md:py-3">Fin</th>
-              <th className="px-3 py-2 md:px-4 md:py-3">Total</th>
-              <th className="px-3 py-2 md:px-4 md:py-3">Obs.</th>
+              <th className="px-4 py-2 md:px-6 md:py-3">Remitente</th>
+              <th className="px-4 py-2 md:px-6 md:py-3">Fecha</th>
+              <th className="px-4 py-2 md:px-6 md:py-3">Cedula</th>
+              <th className="px-4 py-2 md:px-6 md:py-3">Tipo de insidente</th>
+              <th className="px-4 py-2 md:px-6 md:py-3">Correo</th>
+              <th className="px-4 py-2 md:px-6 md:py-3">Telefono</th>
+              <th className="px-4 py-2 md:px-6 md:py-3">Descripcion</th>
+              <th className="px-4 py-2 md:px-6 md:py-3">Estado</th>
             </tr>
           </thead>
           <tbody>
             <tr className="bg-white border-b border-gray-200">
-              <td className="px-3 py-2 md:px-4 md:py-4">1</td>
-              <td className="px-3 py-2 md:px-4 md:py-4">01/01/2024</td>
-              <td className="px-3 py-2 md:px-4 md:py-4">Centro</td>
-              <td className="px-3 py-2 md:px-4 md:py-4">Pedro</td>
-              <td className="px-3 py-2 md:px-4 md:py-4">101</td>
-              <td className="px-3 py-2 md:px-4 md:py-4">08:00 AM</td>
-              <td className="px-3 py-2 md:px-4 md:py-4">10:30 AM</td>
-              <td className="px-3 py-2 md:px-4 md:py-4">15</td>
-              <td className="px-3 py-2 md:px-4 md:py-4">Sin obs.</td>
+              <td className="px-4 py-2 md:px-6 md:py-4">Estbxn</td>
+              <td className="px-4 py-2 md:px-6 md:py-4">01/01/2024</td>
+              <td className="px-4 py-2 md:px-6 md:py-4">43253256</td>
+              <td className="px-4 py-2 md:px-6 md:py-4">Novedad</td>
+              <td className="px-4 py-2 md:px-6 md:py-4">estebxn@gmail.com</td>
+              <td className="px-4 py-2 md:px-6 md:py-4">324535353</td>
+              <td className="px-4 py-2 md:px-6 md:py-4">Descripcion</td>
+              <td className="px-4 py-2 md:px-6 md:py-4">Visto</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <nav className="bg-white border-2 m-2 md:m-4 mb-4 rounded-md border-b-gray-300 flex flex-col md:flex-row items-center justify-between p-2 gap-4">
+      <nav className="bg-white border-2  m-2 md:m-4 lg:mx-8 mb-4 rounded-md border-b-gray-300 flex flex-col md:flex-row items-center justify-between p-2 gap-4">
         <button className="flex items-center gap-2 border-2 border-gray-400 px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition order-1 md:order-none w-full md:w-auto justify-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +87,7 @@ export default function Formulario() {
           <li>
             <a
               href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white"
+              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white     dark:text-gray-400  dark:hover:text-gray-600"
             >
               1
             </a>
@@ -97,7 +95,7 @@ export default function Formulario() {
           <li>
             <a
               href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white"
+              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white   dark:text-gray-400  dark:hover:text-gray-600"
             >
               2
             </a>
@@ -105,7 +103,8 @@ export default function Formulario() {
           <li>
             <a
               href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white"
+              aria-current="page"
+              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white   dark:text-gray-400  dark:hover:text-gray-600"
             >
               ...
             </a>
@@ -113,7 +112,7 @@ export default function Formulario() {
           <li>
             <a
               href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white"
+              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white   dark:text-gray-400  dark:hover:text-gray-600"
             >
               4
             </a>
@@ -121,7 +120,7 @@ export default function Formulario() {
           <li>
             <a
               href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white"
+              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white   dark:text-gray-400  dark:hover:text-gray-600"
             >
               5
             </a>
@@ -142,59 +141,65 @@ export default function Formulario() {
 
       {modalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
-          <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg w-full max-w-[500px] max-h-[90vh] overflow-y-auto">
+          <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg w-full max-w-[500px]">
             <h2 className="text-lg md:text-xl font-normal mb-4 md:mb-6">
-              Agregar nuevo registro
+              Agregar nueva incidencia
             </h2>
             <form>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-4">
-                <select className="border border-gray-300 rounded-lg p-2 text-sm md:text-base">
-                  <option>Item</option>
+                <select className="border border-gray-300 rounded-lg p-2">
+                  <option>Remitente</option>
                 </select>
                 <input
                   type="date"
-                  className="border border-gray-300 rounded-lg p-2 text-sm md:text-base"
+                  className="border border-gray-300 rounded-lg p-2"
                 />
-                <select className="border border-gray-300 rounded-lg p-2 text-sm md:text-base">
-                  <option>Operario</option>
+                <select className="border border-gray-300 rounded-lg p-2">
+                  <option>Cedula</option>
                 </select>
-                <select className="border border-gray-300 rounded-lg p-2 text-sm md:text-base">
-                  <option>N. ruta</option>
+                <select className="border border-gray-300 rounded-lg p-2">
+                  <option>Telefono</option>
                 </select>
                 <input
                   type="text"
-                  placeholder="Barrio o vereda"
-                  className="border border-gray-300 rounded-lg p-2 text-sm md:text-base"
+                  placeholder="Tipo de incidente"
+                  className="border border-gray-300 rounded-lg p-2"
                 />
                 <input
                   type="text"
-                  placeholder="Inicio de recorrido"
-                  className="border border-gray-300 rounded-lg p-2 text-sm md:text-base"
-                />
-                <input
-                  type="text"
-                  placeholder="Fin de recorrido"
-                  className="border border-gray-300 rounded-lg p-2 text-sm md:text-base"
+                  placeholder="Correo"
+                  className="border border-gray-300 rounded-lg p-2"
                 />
               </div>
               <textarea
-                placeholder="Observación"
-                className="w-full border border-gray-300 rounded-lg p-2 mb-4 text-sm md:text-base"
-                rows="3"
+                placeholder="Descripción"
+                className="w-full border border-gray-300 rounded-lg p-2 mb-4"
               ></textarea>
-              <div className="flex flex-col md:flex-row justify-end gap-2">
+
+              <div className="flex items-center gap-2 mb-4 bg-lime-600 hover:bg-lime-700 p-2 w-20 rounded-md">
+                <input
+                  type="checkbox"
+                  id="visto"
+                  className="w-5 h-5 cursor-pointer"
+                />
+                <label htmlFor="visto" className="text-white cursor-pointer">
+                  Visto
+                </label>
+              </div>
+
+              <div className="flex justify-end gap-2">
                 <button
                   type="button"
-                  className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 transition text-sm md:text-base w-full md:w-auto"
+                  className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 transition"
                   onClick={() => setModalOpen(false)}
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-lime-600 text-white rounded-md hover:bg-lime-700 transition text-sm md:text-base w-full md:w-auto"
+                  className="px-4 py-2 bg-lime-600 text-white rounded-md hover:bg-lime-700 transition"
                 >
-                  Crear Registro
+                  Crear Incidencia
                 </button>
               </div>
             </form>
