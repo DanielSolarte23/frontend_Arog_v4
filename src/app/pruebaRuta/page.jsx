@@ -1,23 +1,12 @@
-'use client'
-import { useRutas } from "@/context/RutasContext";
-import { useEffect } from "react";
-import React from "react";
+import RutaForm from '@/components/admin/FormRegistrarRuta'
+import React from 'react'
 
 function page() {
-  const {
-    rutas,
-    createRuta,
-    getRuta,
-    deleteRuta,
-    getRutas,
-    updateRuta,
-    deleteRutaRequest,
-    errors,
-  } = useRutas;
-
-  console.log({rutas});
-  
-  return <div>page</div>;
+  return (
+    <div>
+      <RutaForm/>
+    </div>
+  )
 }
 
-export default page;
+export default page
