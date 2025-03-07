@@ -4,9 +4,9 @@ export default function PageAdministrador() {
   return (
     <>
       {/* Primer Header */}
-      <header className="bg-white flex flex-col md:flex-row justify-between items-start md:items-center drop-shadow-md border-2 border-gray-200 p-4 md:p-8 rounded-2xl m-4 md:m-6">
+      <header className="bg-white flex flex-col md:flex-row  justify-between items-start md:items-center shadow-md border border-gray-200 p-4 md:p-8 rounded-lg">
         <div className="flex items-center space-x-4 w-full md:w-auto">
-          <div className="w-10 h-10 md:w-14 md:h-14 bg-lime-500 text-white flex items-center justify-center rounded-full">
+          <div className="w-10 h-10 md:w-14 md:h-14 bg-verde text-white flex items-center justify-center rounded-full">
             <svg
               className="w-6 h-6 md:w-8 md:h-8"
               xmlns="http://www.w3.org/2000/svg"
@@ -27,14 +27,14 @@ export default function PageAdministrador() {
             <p className="font-medium text-base md:text-lg">Nombre usuario</p>
             <a
               href="mailto:usuario@ejemplo.com"
-              className="text-blue-500 text-sm md:text-base hover:underline"
+              className="text- text-sm md:text-base hover:underline"
             >
               usuario@ejemplo.com
             </a>
           </div>
         </div>
 
-        <button className="mt-4 md:mt-0 border-2 border-gray-300 px-4 py-2 rounded-lg flex items-center hover:bg-gray-100 w-full md:w-auto justify-center">
+        <button className="mt-4 md:mt-0 border border-gray-300 px-4 py-2 rounded-lg flex items-center hover:bg-gray-100 w-full md:w-auto justify-center">
           <svg
             className="w-4 h-4 md:w-5 md:h-5 text-gray-600 mr-2"
             xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ export default function PageAdministrador() {
       </header>
 
       {/* Segundo Header - Formulario */}
-      <header className="bg-white drop-shadow-md mt-6 md:mt-12 p-4 md:p-8 lg:p-14 m-4 md:m-6 border-2 border-gray-200 rounded-2xl">
+      <header className="bg-white drop-shadow-md md:mt-5 p-4 md:p-8 lg:p-5 border border-gray-200 rounded-lg">
         <form className="p-2 md:p-6 lg:p-10">
           <h2 className="text-lg md:text-xl font-semibold mb-4">
             Datos personales
@@ -71,7 +71,7 @@ export default function PageAdministrador() {
               <input
                 type="text"
                 id="nombre"
-                className="mt-1 border-0 border-b-2 border-green-600 w-full focus:outline-none focus:ring-0 py-1 md:py-2"
+                className="mt-1 border-0 border-b-2 border-verde px-4 rounded-md w-full focus:outline-none focus:ring-0 py-1 md:py-2"
               />
             </div>
 
@@ -85,7 +85,7 @@ export default function PageAdministrador() {
               <input
                 type="text"
                 id="apellido"
-                className="mt-1 border-0 border-b-2 border-green-600 w-full focus:outline-none focus:ring-0 py-1 md:py-2"
+                className="mt-1 border-0 border-b-2 border-verde px-4 rounded-md w-full focus:outline-none focus:ring-0 py-1 md:py-2"
               />
             </div>
 
@@ -99,7 +99,7 @@ export default function PageAdministrador() {
               <input
                 type="text"
                 id="telefono"
-                className="mt-1 border-0 border-b-2 border-green-600 w-full focus:outline-none focus:ring-0 py-1 md:py-2"
+                className="mt-1 border-0 border-b-2 border-verde px-4 rounded-md w-full focus:outline-none focus:ring-0 py-1 md:py-2"
               />
             </div>
 
@@ -113,13 +113,13 @@ export default function PageAdministrador() {
               <input
                 type="text"
                 id="direccion"
-                className="mt-1 border-0 border-b-2 border-green-600 w-full focus:outline-none focus:ring-0 py-1 md:py-2"
+                className="mt-1 border-0 border-b-2 border-verde px-4 rounded-md w-full focus:outline-none focus:ring-0 py-1 md:py-2"
               />
             </div>
           </div>
 
           <div className="flex justify-end mt-4 md:mt-6">
-            <button className="border-2 border-gray-300 px-3 py-1.5 md:px-4 md:py-2 rounded-lg flex items-center gap-2 w-full md:w-auto justify-center">
+            <button className="border border-gray-300 px-3 py-1.5 md:px-4 md:py-2 rounded-lg flex items-center gap-2 w-full md:w-auto justify-center">
               <svg
                 className="w-4 h-4 text-gray-600"
                 xmlns="http://www.w3.org/2000/svg"

@@ -5,29 +5,29 @@ export default function Insidencias() {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <div className="relative overflow-x-auto border-2 border-gray-300 shadow-lg mx-2 md:m-4 lg:m-8 rounded-lg">
-      <nav className="bg-white border-2 border-b-gray-300 flex flex-col md:flex-row items-center justify-between p-2 gap-4">
+    <div className="relative overflow-x-auto  h-full border-gray-200 rounded-lg">
+      <nav className="bg-white border-b border-b-gray-200 flex flex-col md:flex-row items-center justify-between py-2 px-10 gap-4 h-1/10">
         <div className="relative w-full md:w-auto">
           <input
             type="search"
-            className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white"
+            className="block w-full placeholder:font-extralight text-lg text-gray-900 border border-gray-200 rounded-lg bg-white px-4 py-2"
             placeholder="Buscar registros..."
             required
           />
         </div>
         <div className="flex items-center gap-2 w-full md:w-auto justify-end">
-          <button className="flex items-center gap-2 border-2 border-gray-400 px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition w-full md:w-auto justify-center">
+          <button className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition w-full md:w-auto justify-center">
             <span className="text-gray-700 font-medium">Filtrar Por</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
-              className="w-5 h-5 fill-gray-600"
+              className="w-5 h-5 fill-gray-400"
             >
               <path d="M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" />
             </svg>
           </button>
           <button
-            className="bg-lime-600 p-2 rounded-xl text-white flex items-center gap-2 hover:bg-lime-700 transition w-full md:w-auto justify-center md:mr-7"
+            className="bg-lime-600 p-2 rounded-lg text-white flex items-center gap-2 hover:bg-lime-700 transition w-full md:w-auto justify-center md:mr-7"
             onClick={() => setModalOpen(true)}
           >
             <span className="font-medium">Nueva insidencia</span>
@@ -42,21 +42,21 @@ export default function Insidencias() {
         </div>
       </nav>
 
-      <div className="overflow-x-auto ml-2">
-        <table className="text-sm text-left text-gray-500 border-2 border-gray-200 rounded-xl m-2 md:m-4 lg:m-6 shadow-md">
-          <thead className="text-xs text-gray-700 uppercase bg-white border-2 border-gray-300">
+      <div className="overflow-x-auto h-8/10 w-full p-10">
+        <table className="text-sm text-left text-gray-500 border-gray-200 rounded-lg w-full border ">
+          <thead className="text-xs text-gray-700 uppercase bg-white border-b border-gray-200 rounded-lg">
             <tr>
-              <th className="px-4 py-2 md:px-6 md:py-3">Remitente</th>
-              <th className="px-4 py-2 md:px-6 md:py-3">Fecha</th>
-              <th className="px-4 py-2 md:px-6 md:py-3">Cedula</th>
-              <th className="px-4 py-2 md:px-6 md:py-3">Tipo de insidente</th>
-              <th className="px-4 py-2 md:px-6 md:py-3">Correo</th>
-              <th className="px-4 py-2 md:px-6 md:py-3">Telefono</th>
-              <th className="px-4 py-2 md:px-6 md:py-3">Descripcion</th>
-              <th className="px-4 py-2 md:px-6 md:py-3">Estado</th>
+              <th className="px-4 py-3 md:px-6 md:py-4">Remitente</th>
+              <th className="px-4 py-3 md:px-6 md:py-4">Fecha</th>
+              <th className="px-4 py-3 md:px-6 md:py-4">Cedula</th>
+              <th className="px-4 py-3 md:px-6 md:py-4">Tipo de insidente</th>
+              <th className="px-4 py-3 md:px-6 md:py-4">Correo</th>
+              <th className="px-4 py-3 md:px-6 md:py-4">Telefono</th>
+              <th className="px-4 py-3 md:px-6 md:py-4">Descripcion</th>
+              <th className="px-4 py-3 md:px-6 md:py-4">Estado</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="rounded-lg">
             <tr className="bg-white border-b border-gray-200">
               <td className="px-4 py-2 md:px-6 md:py-4">Estbxn</td>
               <td className="px-4 py-2 md:px-6 md:py-4">01/01/2024</td>
@@ -71,12 +71,12 @@ export default function Insidencias() {
         </table>
       </div>
 
-      <nav className="bg-white border-2  m-2 md:m-4 lg:mx-8 mb-4 rounded-md border-b-gray-300 flex flex-col md:flex-row items-center justify-between p-2 gap-4">
-        <button className="flex items-center gap-2 border-2 border-gray-400 px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition order-1 md:order-none w-full md:w-auto justify-center">
+      <nav className="bg-white border-t rounded-b-md h-1/10 flex flex-col md:flex-row items-center justify-between p-2 gap-4">
+        <button className="flex items-center gap-2 border px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition order-1 md:order-none w-full md:w-auto justify-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
-            className="w-5 h-5 fill-gray-600"
+            className="w-5 h-5 fill-gray-400"
           >
             <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
           </svg>
@@ -127,12 +127,12 @@ export default function Insidencias() {
           </li>
         </ul>
 
-        <button className="flex items-center gap-2 border-2 border-gray-400 px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition order-2 md:order-none w-full md:w-auto justify-center">
+        <button className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition order-2 md:order-none w-full md:w-auto justify-center">
           <span className="text-gray-700 font-medium">Siguiente</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
-            className="w-5 h-5 fill-gray-600"
+            className="w-5 h-5 fill-gray-400"
           >
             <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
           </svg>

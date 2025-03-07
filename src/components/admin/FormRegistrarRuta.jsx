@@ -43,8 +43,8 @@ const RutaForm = () => {
             idUbicacion: parseInt(punto.idUbicacion),
             orden: index + 1,
           })),
-          formularios: data.formularios.map(id => parseInt(id)), // Parsear IDs de formularios
-          tareas: data.tareas.map(id => parseInt(id)), // Parsear IDs de tareas
+          // formularios: data.formularios.map(id => parseInt(id)), // Parsear IDs de formularios
+          // tareas: data.tareas.map(id => parseInt(id)), // Parsear IDs de tareas
         }),
       });
 
@@ -82,10 +82,11 @@ const RutaForm = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 rounded-xl shadow-lg mt-10">
+    <div className="fixed inset-0 bg-opacity-50 bg-black z-50 flex justify-center items-center overflow-scroll py-5">
+      <div className=" max-w-xl mx-auto p-6 rounded-xl shadow-lg bg-white h-6/8 ">
       <h2 className="text-2xl font-bold mb-4 text-center">Crear Nueva Ruta</h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className=" space-y-2">
         <input className="w-full p-2 border rounded" type="text" {...register("nombre")} placeholder="Nombre de la Ruta" required />
 
         <input className="w-full p-2 border rounded" type="color" {...register("color")} />
@@ -129,10 +130,7 @@ const RutaForm = () => {
 
         <h3 className="text-lg font-semibold">Formularios:</h3>
         <input className="w-full p-2 border rounded" type="text" {...register("formularios")} placeholder="IDs de formularios (separados por comas)" />
-
-        <h3 className="text-lg font-semibold">Tareas:</h3>
-        <input className="w-full p-2 border rounded" type="text" {...register("tareas")} placeholder="IDs de tareas (separados por comas)" />
-
+        
         <button
           type="submit"
           disabled={isLoading}
@@ -141,6 +139,7 @@ const RutaForm = () => {
           {isLoading ? "Enviando..." : "Guardar Ruta"}
         </button>
       </form>
+    </div>
     </div>
   );
 };

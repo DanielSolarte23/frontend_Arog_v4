@@ -1,21 +1,21 @@
 "use client";
 import { useState } from "react";
 
-export default function Galeria() {
+export default function GaleriaC() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalCard, setModalCard] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
 
   return (
     <>
-      <header className="m-4 md:m-16 shadow-md p-4 md:p-14 border-2 border-gray-200">
-        <div>
-          <nav className="p-2 md:p-4 border-b-gray-200 border-2 flex items-center w-full flex-wrap gap-2">
+      <header className="border bg-white border-gray-200 rounded-lg h-full">
+        <div className="h-full">
+          <nav className="p-2 md:p-4 rounded-t-lg border-b border-gray-200 flex items-center w-full flex-wrap gap-2 h-1/10">
             <h3 className="text-lg md:text-xl font-medium text-black">
               Galeria
             </h3>
             <button
-              className="ml-auto bg-lime-600 p-2 rounded-xl text-white flex items-center gap-2 hover:bg-lime-700 transition flex-shrink-0"
+              className="ml-auto bg-lime-600 p-2 rounded-lg text-white flex items-center gap-2 hover:bg-lime-700 transition flex-shrink-0"
               onClick={() => setModalOpen(true)}
             >
               <span className="font-medium text-sm md:text-base">
@@ -30,54 +30,55 @@ export default function Galeria() {
               </svg>
             </button>
           </nav>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-4 m-2 md:m-4">
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                onClick={() => setModalCard(true)}
-                className="cursor-pointer"
-              >
-                <img
-                  src="https://i.pinimg.com/736x/9b/a7/86/9ba78601689a1d13d292eb4d961dda89.jpg"
-                  alt=""
-                  className="w-full h-auto rounded-lg object-cover aspect-square"
-                />
-              </div>
-            ))}
-
-            <div className="flex flex-col md:flex-row justify-between w-full gap-4 col-span-2 sm:col-span-3">
-              <button className="flex items-center justify-center gap-2 border-2 border-gray-400 px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition w-full md:w-auto">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 448 512"
-                  className="w-4 h-4 md:w-5 md:h-5 fill-gray-600"
+          <div className="h-8/10 w-full flex justify-center items-center px-5 ">
+            <div className="grid grid-rows-2 grid-cols-2 sm:grid-cols-3 gap-2 md:gap-4 p-4 border rounded-md">
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  onClick={() => setModalCard(true)}
+                  className="cursor-pointer"
                 >
-                  <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
-                </svg>
-                <span className="text-sm md:text-base text-gray-700 font-medium">
-                  Anterior
-                </span>
-              </button>
-
-              <button className="flex items-center justify-center gap-2 border-2 border-gray-400 px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition w-full md:w-auto">
-                <span className="text-sm md:text-base text-gray-700 font-medium">
-                  Siguiente
-                </span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 448 512"
-                  className="w-4 h-4 md:w-5 md:h-5 fill-gray-600"
-                >
-                  <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
-                </svg>
-              </button>
+                  <img
+                    src="https://i.pinimg.com/736x/9b/a7/86/9ba78601689a1d13d292eb4d961dda89.jpg"
+                    alt=""
+                    className="rounded-lg object-contain"
+                  />
+                </div>
+              ))}
             </div>
+          </div>
+          <div className="flex flex-col md:flex-row justify-between w-full gap-4 col-span-2 sm:col-span-3 border-t h-1/10 py-3 px-4">
+            <button className="flex items-center justify-center gap-2 border border-gray-200 px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition w-full md:w-auto">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+                className="w-4 h-4 md:w-5 md:h-5 fill-gray-600"
+              >
+                <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+              </svg>
+              <span className="text-sm md:text-base text-gray-700 font-medium">
+                Anterior
+              </span>
+            </button>
+
+            <button className="flex items-center justify-center gap-2 border border-gray-200 px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition w-full md:w-auto">
+              <span className="text-sm md:text-base text-gray-700 font-medium">
+                Siguiente
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+                className="w-4 h-4 md:w-5 md:h-5 fill-gray-600"
+              >
+                <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
+              </svg>
+            </button>
           </div>
         </div>
       </header>
 
       {modalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[500px] relative">
             <button
               onClick={() => setModalOpen(false)}
@@ -115,7 +116,7 @@ export default function Galeria() {
       )}
 
       {modalCard && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+        <div className="fixed  inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[500px] relative">
             <div className="max-h-[80vh] overflow-auto">
               <img
@@ -169,7 +170,7 @@ export default function Galeria() {
       )}
 
       {modalDelete && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[500px] relative">
             <button
               onClick={() => setModalDelete(false)}

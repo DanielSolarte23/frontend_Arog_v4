@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faFilter, faArrowLeft, faArrowAltCircleRight, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-const Usuario = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+const Usuario = ({modalOpen}) => {
+  // const [modalOpen, setModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [personmodal, setpersonmodal] = useState (false)
 
@@ -22,33 +22,16 @@ const Usuario = () => {
   };
 
   return (
-    <div className=" border w-11/12 m-8 ml-20 rounded-lg border-gray-400">
-      <div className="flex  border-gray-400 p-4 border-b">
-        <div className="relative w-full max-w-sm">
-          <input
-            type="text"
-            placeholder="Buscar usuarios"
-            className="w-full px-4 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <FontAwesomeIcon icon={faSearch} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-        </div>
-        <div className="flex ml-auto">
-          <button className="border border-gray-400 rounded px-4 py-2 flex items-center gap-2">
-            Filtrar por <FontAwesomeIcon icon={faFilter} />
-          </button>
-          <button className="ml-4 border bg-green-600 text-white rounded-lg px-4 py-2" onClick={() => setModalOpen(true)}>
-            Agregar usuario
-          </button>
-        </div>
-      </div>
-      <br />
-      <table className="w-11/12 text-sm text-left text-gray-500 dark:text-gray-400 m-8 ml-20 border rounded-xl">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b border-gray-400">
+    <div className=" border rounded-lg border-gray-200 h-full p-1">
+
+      <table className="w-full h-full text-sm text-left text-gray-500">
+        <thead className="text-xs text-gray-700 uppercase  
+        border-b border-gray-200">
           <tr>
-            <th className="px-6 py-3">Usuario</th>
-            <th className="px-6 py-3">Documento de identidad</th>
-            <th className="px-6 py-3">Correo electrónico</th>
-            <th className="px-6 py-3">Teléfono</th>
+            <th className="px-6 py-5">Usuario</th>
+            <th className="px-6 py-5">Documento de identidad</th>
+            <th className="px-6 py-5">Correo electrónico</th>
+            <th className="px-6 py-5">Teléfono</th>
           </tr>
         </thead>
         <tbody>
@@ -56,9 +39,9 @@ const Usuario = () => {
             <tr
               key={index}
               onClick={() => handleRowClick(user)}
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+              className="bg-white border-b  border-gray-200 hover:bg-gray-50"
             >
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                 Ana Maria
               </th>
               <td className="px-6 py-4">24801203</td>
@@ -69,7 +52,7 @@ const Usuario = () => {
         </tbody>
       </table>
       {modalOpen && (
-        <div className="w-full h-full fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 ">
+        <div className="w-full h-full fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50 ">
           <div className=" w-6/12  bg-white m-10 border-1 rounded-lg">
           <h1 className="m-4 text-2xl">Añadir un nuevo usuario</h1>
             <div className="flex">

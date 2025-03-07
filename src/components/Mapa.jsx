@@ -65,7 +65,7 @@ const MapaRutas = ({ rutaSeleccionada }) => {
 
     return (
         <MapContainer 
-            className="border rounded-lg" 
+            className="border rounded-lg z-30" 
             center={[2.441, -76.606]} 
             zoom={14} 
             style={{ height: "100%", width: "100%" }}
