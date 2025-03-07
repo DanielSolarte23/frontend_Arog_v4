@@ -13,6 +13,8 @@ const RutaForm = () => {
       usuarioAsignadoId: "null",
       puntos: [{ idUbicacion: "", orden: "" }],
       idVehiculo: "",
+      formularios: [], // Agregar campo formularios
+      tareas: [], // Agregar campo tareas
     },
   });
 
@@ -41,6 +43,8 @@ const RutaForm = () => {
             idUbicacion: parseInt(punto.idUbicacion),
             orden: index + 1,
           })),
+          formularios: data.formularios.map(id => parseInt(id)), // Parsear IDs de formularios
+          tareas: data.tareas.map(id => parseInt(id)), // Parsear IDs de tareas
         }),
       });
 
@@ -122,6 +126,12 @@ const RutaForm = () => {
 
         <h3 className="text-lg font-semibold">Asignar Vehículo:</h3>
         <input className="w-full p-2 border rounded" type="number" {...register("idVehiculo")} placeholder="ID Vehículo" required />
+
+        <h3 className="text-lg font-semibold">Formularios:</h3>
+        <input className="w-full p-2 border rounded" type="text" {...register("formularios")} placeholder="IDs de formularios (separados por comas)" />
+
+        <h3 className="text-lg font-semibold">Tareas:</h3>
+        <input className="w-full p-2 border rounded" type="text" {...register("tareas")} placeholder="IDs de tareas (separados por comas)" />
 
         <button
           type="submit"
