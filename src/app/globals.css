@@ -7,3 +7,7 @@ body {
   color: black;
   background: white;
 }
+
+.highlight {
+  background-color: #76ec99; /* Puedes elegir el color que desees */
+}

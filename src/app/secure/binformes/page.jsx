@@ -69,7 +69,7 @@ export default function Insidencias() {
                   <td className="px-6 py-4">{dato.tamaño}</td>
                   <td className="px-6 py-4">{dato.dirigidoA}</td>
                   <td>
-                    <FontAwesomeIcon icon={faDownload} className="h-5 w-5 px-6 py-6" />
+                    <FontAwesomeIcon icon={faDownload} className="h-5 w-5 px-6 py-3" />
                   </td>
                 </tr>
               ))}
