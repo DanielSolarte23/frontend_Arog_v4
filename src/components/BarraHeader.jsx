@@ -21,7 +21,7 @@ function BarraHeader() {
             <i className="fa-solid fa-magnifying-glass absolute text-xl top-2 left-2"></i>
             <input
               type="text"
-              className="w-full h-full focus:outline-none pl-8"
+              className="w-full h-full focus:outline-none pl-8 rounded-lg"
             />
           </div>
         </div>
