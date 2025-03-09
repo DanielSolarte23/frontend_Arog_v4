@@ -3,10 +3,8 @@ import React, { useEffect, useState } from "react";
 import TablaRutas from '@/components/admin/TablaRutas';
 import MapaRutas from '@/components/Mapa';
 
-// Mock data - replace with actual data source
 const rutasData = {
     rutas: [
-        // Your routes data here
     ]
 };
 
@@ -15,7 +13,6 @@ function AppRutas() {
     const [coordenadas, setCoordenadas] = useState([]);
 
     useEffect(() => {
-        // Simulating data fetch
         setTimeout(() => {
             setRutas(rutasData.rutas);
         }, 1000);
