@@ -1,6 +1,9 @@
 import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 import { RutasProvider } from "@/context/RutasContext";
+import { VehiculoProvider } from "@/context/VehiculoContext";
+import { UsuarioProvider } from "@/context/UsuarioContext";
+import { UbicacionProvider } from "@/context/UbicacionContext";
 
 export const metadata = {
   title: "Arog App",
@@ -13,7 +16,13 @@ export default function RootLayout({ children }) {
       <body className="h-screen">
         <AuthProvider>
           <RutasProvider>
-            <main className="h-full">{children}</main>
+            <VehiculoProvider>
+              <UsuarioProvider>
+                <UbicacionProvider>
+                  <main className="h-full">{children}</main>
+                </UbicacionProvider>
+              </UsuarioProvider>
+            </VehiculoProvider>
           </RutasProvider>
         </AuthProvider>
       </body>
