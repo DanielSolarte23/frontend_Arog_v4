@@ -2,8 +2,86 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
 
-body {
-  color: black;
-  background: white;
+html {
+  /* desliza cuando hago click en los links del menu */
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Lexend", sans-serif;
+}
+
+/* Aplica estilos personalizados a la barra de desplazamiento */
+
+/* Aplica estilos personalizados a la barra de desplazamiento en Safari y Chrome */
+.scrollbar::-webkit-scrollbar {
+  width: 10px;
+  /* Ancho de la barra de desplazamiento */
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  /* Color de la pista */
+  border-radius: 30px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* Color del pulgar */
+  border-radius: 30px;
+  /* Bordes redondeados del pulgar */
+  border: 2px solid #f1f1f1;
+  /* Espacio alrededor del pulgar */
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  /* Color del pulgar al pasar el ratón */
+}
+
+.hoja-verde {
+  position: relative;
+  background: linear-gradient(to right, white 30%, rgba(255, 255, 255, 0) 80%), 
+              url(../../public/textura-hoja-verde.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.hoja-dos {
+  position: relative;
+  background: linear-gradient(to bottom, white 60%, rgba(255, 255, 255, 0) 100%), 
+              url(../../public/textura-hoja-verde.jpg);
+
+  /* background-image: url(../../public/textura-hoja-verde.jpg); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left;
+  backdrop-filter: blur(20px);
+
+}
+
+
+
+
+@media (max-width: 767px) {
+  .hoja-verde {
+    background: white !important;
+  }
+}
+
+.fondo-logo {
+  background-image: url(../../public/FondoLog-Reg.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.filter {
+  backdrop-filter: blur(20px);
 }

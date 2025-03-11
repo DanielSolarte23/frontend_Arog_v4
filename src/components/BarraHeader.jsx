@@ -1,68 +1,57 @@
-"use client";
-
+'use client'
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faSearch, faMoon, faSun, faBell, faUser } from "@fortawesome/free-solid-svg-icons";
+import LogoArog from "./publicas/LogoArog";
 
 function BarraHeader() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [modal, setModal] = useState([]);
 
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+  const handleToggleModal = () => {
+    setModal((prev) => !prev);
+};
 
   return (
-    <div className={darkMode ? "bg-gray-900 text-white min-h-screen" : "bg-white text-gray-900 min-h-screen"}>
-      {/* Barra de Navegación */}
-      <nav className={`p-3 flex items-center justify-between shadow-md border-b ${darkMode ? "bg-gray-100" : "bg-white"}`}>
-        {/* Menú y Búsqueda */}
-        <div className="flex items-center gap-2">
-          <button className="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
-            <FontAwesomeIcon icon={faBars} size="lg" className={darkMode ? "text-white" : "text-gray-500"} />
-          </button>
-          <div className="relative">
+    <>
+      <div className={`flex items-center bg-white h-full w-full px-5`}>
+        <div className="flex gap-3 w-1/2 text-gray-300">
+          <div className="border rounded-lg p-2 flex justify-center items-center">
+            <i className="fa-solid fa-bars text-xl  "></i>
+          </div>
+
+          <div className="border relative rounded-lg w-full">
+            <i className="fa-solid fa-magnifying-glass absolute text-xl top-2 left-2"></i>
             <input
               type="text"
-              placeholder="Buscar..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={`border rounded pl-8 pr-4 py-1.5 focus:outline-none ${
-                darkMode ? "bg-gray-700 text-white border-gray-600" : "bg-white text-gray-600 border-gray-300"
-              }`}
-            />
-            <FontAwesomeIcon
-              icon={faSearch}
-              className={`absolute left-3 top-2 ${darkMode ? "text-gray-300" : "text-gray-500"}`}
+              className="w-full h-full focus:outline-none pl-8 rounded-lg"
             />
           </div>
         </div>
-
-        {/* Íconos de acciones */}
-        <div className="flex items-center gap-4">
-          {/* Botón de modo oscuro */}
-          <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-            <FontAwesomeIcon icon={darkMode ? faSun : faMoon} size="lg" className={darkMode ? "text-yellow-400" : "text-gray-400"} />
-          </button>
-
-          {/* Campana de notificaciones */}
-          <button className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-            <FontAwesomeIcon icon={faBell} size="lg" className={darkMode ? "text-gray-300" : "text-gray-400"} />
-          </button>
-
-          {/* Perfil */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white hover:bg-gray-200 dark:hover:bg-gray-700">
-              <FontAwesomeIcon icon={faUser} size="lg" />
+        <div className="w-1/2 flex justify-end gap-5 text-gray-300">
+          <div className="border rounded-full p-2 flex justify-center items-center">
+            <i className="fa-solid fa-moon text-xl  "></i>
+          </div>
+          <div className="border rounded-full p-2 flex justify-center items-center">
+            <i className="fa-solid fa-bell text-xl  "></i>
+          </div>
+          <div className="flex gap-2 items-center">
+            <div className="border rounded-full p-2 flex justify-center items-center bg-verde">
+              <i className="fa-solid fa-user text-xl  text-white"></i>
             </div>
-            <span className={`text-sm ${darkMode ? "text-white" : "text-gray-700"}`}>Nombre ejemplo ▼</span>
+            <span className="text-verde-dos">Nombre de usuario</span>
+            <div>
+              <i className="fa-solid fa-chevron-down text-verde-dos"></i>
+
+              {modal && (
+                <ul>
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                </ul>
+              )}
+            </div>
           </div>
         </div>
-      </nav>
-
-      {/* Contenido de la página */}
-      <div className="p-6">
-        <h1 className="text-2xl font-bold">{searchTerm ? `Resultados para: "${searchTerm}"` : "BarraHeader"}</h1>
       </div>
-    </div>
+    </>
   );
 }
 
