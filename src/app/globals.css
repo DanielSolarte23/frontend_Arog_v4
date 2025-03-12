@@ -75,12 +75,12 @@ html {
     background: white !important;
   }
 }
-
+/* 
 .fondo-logo {
   background-image: url(../../public/FondoLog-Reg.png);
   background-size: contain;
   background-repeat: no-repeat;
-}
+} */
 
 .filter {
   backdrop-filter: blur(20px);

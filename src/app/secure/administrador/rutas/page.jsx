@@ -108,7 +108,7 @@ function AppRutas() {
           <MapaRutas rutaSeleccionada={{ waypoints: coordenadas }} />
         </div>
       </div>
-      <div className="w-full h-3/10 p-1">
+      <div className="w-full h-3/10 p-1 border">
         <TimelineExample datos={grafico} />
       </div>
     </div>

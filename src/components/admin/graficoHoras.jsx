@@ -74,21 +74,21 @@ const TimelineBar = ({
   }
 
   return (
-    <div className="w-full flex items-stretch border border-gray-200 rounded-md overflow-hidden mb-3">
+    <div className="w-full flex items-stretch border 2xl:items-center 2xl:h-8/10 border-gray-200 rounded-md overflow-hidden mb-3">
       <div className={`w-2 bg-${barColor}`}></div>
 
       <div className="flex-1 p-2 ">
         <div className="flex w-full items-center gap-5">
           <div className="flex flex-col text-left w-2/10">
-            <div className="text-sm font-medium text-gray-700">{id}</div>
-            <div className="text-sm text-gray-700">{title}</div>
-            <div className="text-xs text-gray-500">{subtitle}</div>
+            <div className="text-sm 2xl:text-lg font-medium text-gray-700">{id}</div>
+            <div className="text-sm 2xl:text-lg text-gray-700">{title}</div>
+            <div className="text-xs 2xl:text-sm text-gray-500">{subtitle}</div>
           </div>
 
           <div className="h-full relative w-8/10 pr-5 flex items-center">
-            <div className="h-8 bg-gray-100 rounded-md w-full mb-4"></div>
+            <div className="h-8 2xl:h-12 bg-gray-100 rounded-md w-full mb-4"></div>
             <div
-              className={`absolute -top-[0.10rem] h-9 bg-${barColor} rounded-md flex justify-center items-center text-white text-xs`}
+              className={`absolute -top-[0.10rem] h-9 2xl:h-14 2xl:text-lg bg-${barColor} rounded-md flex justify-center items-center text-white text-xs`}
               style={{
                 left: `${barStartPercent}%`,
                 width: `${Math.max(barWidthPercent, 5)}%`, // Asegurar un ancho mínimo visible
@@ -184,7 +184,7 @@ const TimelineExample = ({ datos = [] }) => {
   // Si no hay datos, mostrar un ejemplo
   if (!datos || datos.length === 0) {
     return (
-      <div className="p-4 border rounded-lg">
+      <div className="p-4 border rounded-lg 2xl:h-full">
         <div className="text-gray-500 text-sm mb-4">Selecciona una ruta para ver sus horarios</div>
         <TimelineBar
           id="Ejemplo"
@@ -202,7 +202,7 @@ const TimelineExample = ({ datos = [] }) => {
   }
 
   return (
-    <div className="p-4 border rounded-lg">
+    <div className="p-4 border rounded-lg 2xl:h-full">
       <h2 className="text-lg font-medium mb-3">Duracion Ruta</h2>
       {datos.map((item, index) => {
         // Formatear horarios para mostrar en el subtítulo

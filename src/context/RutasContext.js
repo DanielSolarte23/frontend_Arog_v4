@@ -37,7 +37,7 @@ export function RutasProvider({ children }) {
     try {
       const res = await getRutasRequest();
       setRutas(res.data); // En lugar de hacer res.json()
-      console.log("Datos recibidos:", res.data);
+      // console.log("Datos recibidos:", res.data);
     } catch (error) {
       handleError(error, "Error al cargar rutas");
       console.log(error);
@@ -94,9 +94,9 @@ export function RutasProvider({ children }) {
     getRutas();
   }, [])
   
-  useEffect(() => {
-    console.log("Rutas actualizadas:", rutas);
-  }, [rutas]); // Se ejecutará cada vez que `rutas` cambie
+  // useEffect(() => {
+  //   console.log("Rutas actualizadas:", rutas);
+  // }, [rutas]); // Se ejecutará cada vez que `rutas` cambie
   
 
   return (

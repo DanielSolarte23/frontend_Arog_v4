@@ -3,9 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faPen } from '@fortawesome/free-solid-svg-icons';
 import { useRutas } from '@/context/RutasContext';
+import { useUbicacion } from '@/context/UbicacionContext';
+import { useVehiculo } from '@/context/VehiculoContext';
+import { useUsuario } from '@/context/UsuarioContext';
 
 function TablaRutas({ onUbicacionClick, onHorasClick }) {
     const { rutas, actualizarRuta } = useRutas();
+    const { ubicaciones, getUbicaciones } = useUbicacion();
+    const {vehiculos, getVehiculos } = useVehiculo();
+    const { usuarios, getUsuarios } = useUsuario();
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
     const totalPages = Math.ceil(rutas.length / itemsPerPage);
@@ -24,22 +30,14 @@ function TablaRutas({ onUbicacionClick, onHorasClick }) {
         puntos: []
     });
     const [isLoading, setIsLoading] = useState(false);
-    const [usuarios, setUsuarios] = useState([]);
-    const [ubicaciones, setUbicaciones] = useState([]);
+    // const [usuarios, setUsuarios] = useState([]);
+    // const [ubicaciones, setUbicaciones] = useState([]);
 
     // Cargar usuarios y ubicaciones al montar el componente
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch usuarios
-                const responseUsuarios = await fetch('/api/usuarios');
-                const dataUsuarios = await responseUsuarios.json();
-                setUsuarios(dataUsuarios);
-                
-                // Fetch ubicaciones
-                const responseUbicaciones = await fetch('/api/ubicaciones');
-                const dataUbicaciones = await responseUbicaciones.json();
-                setUbicaciones(dataUbicaciones);
+              
             } catch (error) {
                 console.error("Error fetching data:", error);
             }

@@ -22,12 +22,12 @@ const RoutingMachine = ({ waypoints }) => {
             routingControlRef.current = null;
         }
 
-        // Custom marker icon
         const customIcon = L.icon({
-            iconUrl: "https://static.vecteezy.com/system/resources/thumbnails/024/831/288/small/3d-render-red-pin-map-location-pointer-icon-png.png",
-            iconSize: [30, 40],
-            iconAnchor: [15, 40]
-        });
+            iconUrl: "/ubicacion.png", 
+            iconSize: [40, 50],
+            iconAnchor: [25, 50],
+          });
+          
 
         // Create routing control
         const routingControl = L.Routing.control({
