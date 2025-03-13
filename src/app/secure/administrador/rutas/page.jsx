@@ -104,46 +104,46 @@ function AppRutas() {
 
       {modalUbicacionOpen && (
         <UbicacionModal isOpen={modalUbicacionOpen} onClose={() => setModalUbicacionOpen(false)} />)}
-      <div className="h-1/10 w-full justify-between flex items-center px-2 border-b">
-        <ul className="h-full flex items-center gap-1">
-          <li>
-            <button className="px-5 py-3 border border-gray-200 rounded-s-lg text-verde-dos hover:bg-verde hover:text-white duration-500"
+      <div className="h-auto w-full justify-between flex flex-col sm:flex-row items-start sm:items-center px-2 2xl:px-4 border-b py-2">
+        <ul className="w-full sm:w-auto h-full flex flex-col sm:flex-row items-stretch sm:items-center gap-2 2xl:gap-2 mb-2 sm:mb-0">
+          <li className="w-full sm:w-auto">
+            <button className="w-full sm:w-auto px-5 py-3 2xl:py-4 2xl:px-6 border border-gray-200 rounded-lg sm:rounded-s-lg sm:rounded-e-none text-verde-dos hover:bg-verde hover:text-white duration-500"
               onClick={() => openModal("create")}>
               Crear Ruta
             </button>
           </li>
-          <li>
-            <button className="px-5 py-3 border border-gray-200  text-verde-dos hover:bg-verde hover:text-white duration-500"
+          <li className="w-full sm:w-auto">
+            <button className="w-full sm:w-auto px-5 py-3 2xl:py-4 2xl:px-6 border border-gray-200 rounded-lg sm:rounded-none text-verde-dos hover:bg-verde hover:text-white duration-500"
               onClick={() => setModalVehiculoOpen(true)}
             >
               Agregar Vehiculo
             </button>
           </li>
-          <li>
-            <button className="px-5 py-3 border border-gray-200  rounded-r-lg text-verde-dos hover:bg-verde hover:text-white duration-500"
+          <li className="w-full sm:w-auto">
+            <button className="w-full sm:w-auto px-5 py-3 2xl:py-4 2xl:px-6 border border-gray-200 rounded-lg sm:rounded-e-lg sm:rounded-s-none text-verde-dos hover:bg-verde hover:text-white duration-500"
               onClick={() => setModalUbicacionOpen(true)}
             >
               Agregar Ubicacion
             </button>
           </li>
         </ul>
-        <button className="px-5 py-3 border border-gray-200 rounded-md text-black">
+        <button className=" hidden w-full sm:w-auto px-5 py-3 2xl:py-4 2xl:px-6 border border-gray-200 rounded-md text-black">
           Filtrar
         </button>
       </div>
-      <div className="h-6/10 w-full flex">
-        <div className="w-1/2 h-full p-1">
+      <div className="h-auto sm:h-6/10 w-full flex flex-col sm:flex-row">
+        <div className="w-full sm:w-1/2 h-full p-1 2xl:p-2 mb-2 sm:mb-0">
           <TablaRutas
             openModal={openModal}
             onUbicacionClick={handleCoordenadas}
             onHorasClick={handleHoras}
           />
         </div>
-        <div className="w-1/2 h-full p-1">
+        <div className="w-full sm:w-1/2 h-96 sm:h-full p-1 2xl:p-2">
           <MapaRutas rutaSeleccionada={{ waypoints: coordenadas }} />
         </div>
       </div>
-      <div className="w-full h-3/10 p-1 border">
+      <div className="w-full h-auto sm:h-3/10 p-1 2xl:p-2">
         <TimelineExample datos={grafico} />
       </div>
     </div>

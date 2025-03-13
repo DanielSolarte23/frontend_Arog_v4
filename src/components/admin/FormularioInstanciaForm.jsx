@@ -32,7 +32,7 @@ export default function FormularioInstanciaForm({ tiposFormulario }) {
 
   return (
     <div className="mt-6 p-4 border rounded-md">
-      <h2 className="text-xl font-semibold">Crear Formulario</h2>
+      <h2 className="text-xl font-semibold">Llenar Formulario</h2>
       <select
         className="border p-2 w-full mt-2 rounded-md"
         onChange={(e) =>
@@ -51,7 +51,7 @@ export default function FormularioInstanciaForm({ tiposFormulario }) {
         tipoSeleccionado.campos.map((campo) => (
           <input
             key={campo.id}
-            type="text"
+            type={{ 'Texto': 'text', 'numero': 'number', 'fecha_hora': 'datetime-local' }[campo.tipo]}
             placeholder={campo.nombre}
             className="border p-2 w-full mt-2 rounded-md"
             onChange={(e) => manejarCambio(campo.id, e.target.value)}
@@ -61,6 +61,7 @@ export default function FormularioInstanciaForm({ tiposFormulario }) {
       <button onClick={enviarFormulario} className="bg-verde text-white px-3 py-1 mt-2 rounded-md">
         Guardar
       </button>
+      
     </div>
   );
 }

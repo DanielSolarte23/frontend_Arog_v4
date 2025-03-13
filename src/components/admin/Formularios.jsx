@@ -30,7 +30,7 @@ export default function FormularioDinamico() {
           onClick={() => setMostrarFormularioInstancia(!mostrarFormularioInstancia)}
           className="bg-verde text-white px-4 py-2 rounded-md"
         >
-          Crear Formulario
+          LLenar Formulario
         </button>
       </div>
 

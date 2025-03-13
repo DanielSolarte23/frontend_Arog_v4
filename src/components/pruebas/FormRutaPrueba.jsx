@@ -7,11 +7,13 @@ import { useVehiculo } from "@/context/VehiculoContext";
 import { useUbicacion } from "@/context/UbicacionContext";
 import { useUsuario } from "@/context/UsuarioContext";
 import { useRutas } from "@/context/RutasContext";
+import { useFormularioTipo } from "@/context/FormularioTipoContext";
 
 const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => {
     const { vehiculos, getVehiculos } = useVehiculo();
     const { ubicaciones, getUbicaciones } = useUbicacion();
     const { usuarios, getUsuarios } = useUsuario();
+    const { formularioTipo, getFormulariosTipo } = useFormularioTipo();
     const { getRutas, createRuta, updateRuta } = useRutas();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -36,6 +38,7 @@ const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => 
         getVehiculos();
         getUbicaciones();
         getUsuarios();
+        getFormulariosTipo();
     }, []);
 
     useEffect(() => {
@@ -210,7 +213,7 @@ const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => 
                     <div className="flex justify-between mt-6">
                         <button
                             onClick={() => openEditModal(selectedRuta)}
-                            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-all duration-200 shadow-md"
+                            className="bg-verde text-white px-4 py-2 rounded-lg hover:bg-lime-600 transition-all duration-200 shadow-md"
                         >
                             Editar
                         </button>
@@ -284,7 +287,6 @@ const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => 
                             ))}
                         </select>
                     </div>
-
                     <div>
                         <label className="block text-gray-700 font-medium">Tipo de Formulario:</label>
                         <select
@@ -292,9 +294,11 @@ const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => 
                             className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="">Seleccione el tipo de formulario</option>
-                            <option value="1">Tipo 1</option>
-                            <option value="2">Tipo 2</option>
-                            <option value="3">Tipo 3</option>
+                            {formularioTipo.map((tipo) => (
+                                <option key={tipo.id} value={tipo.id}>
+                                    {tipo.nombre}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
@@ -333,7 +337,7 @@ const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => 
                             onClick={() => append({ idUbicacion: "", orden: fields.length + 1 })}
                             className="bg-verde-dos text-white px-4 py-2 rounded-md hover:bg-zinc-900 w-full mt-2 duration-700"
                         >
-                            Agregar Punto <i class="fa-solid fa-plus"></i>
+                            Agregar Punto <i className="fa-solid fa-plus"></i>
                         </button>
                     </div>
 
