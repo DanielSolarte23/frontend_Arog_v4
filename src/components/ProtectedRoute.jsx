@@ -7,7 +7,7 @@ import LoadingScreen from '@/components/LoadingScreen'; // Deberás crear este c
 
 export const ProtectedRoute = ({ 
   children, 
-  rolesPermitidos = [], // Array vacío permite a cualquier usuario autenticado
+  rolesPermitidos = ["administrador"], // Array vacío permite a cualquier usuario autenticado
   redirectUrl = '/auth/inicio'
 }) => {
   const { isAuthenticated, loading, usuario } = useAuth();
