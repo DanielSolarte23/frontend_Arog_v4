@@ -1,26 +1,35 @@
-import { useContext } from "react";
-// import { CrudContext } from "../context/CrudContext";
+"use client";
+
+import { useVehiculo } from "@/context/VehiculoContext";
+import { useState } from "react";
 
 const Tabla = ({ openModal }) => {
-    // const { data, setSelectedItem } = useContext(CrudContext);
+    const { vehiculos } = useVehiculo();
+    const [selectedVehiculo, setSelectedVehiculo] = useState(null);
+
+    const handleDetails = (vehiculo) => {
+        setSelectedVehiculo(vehiculo);
+        openModal("details", vehiculo); // Pasa el vehículo al modal
+    };
 
     return (
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Placa</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {data.map((item) => (
+                {vehiculos.map((item) => (
                     <tr key={item.id}>
-                        <td>{item.id}</td>
-                        <td>{item.nombre}</td>
+                        <td>{item.marca}</td>
+                        <td>{item.modelo}</td>
+                        <td>{item.placa}</td>
                         <td>
-                            <button onClick={() => { setSelectedItem(item); openModal("details"); }}>Detalles</button>
-                            <button onClick={() => { setSelectedItem(item); openModal("edit"); }}>Editar</button>
+                            <button onClick={() => handleDetails(item)}>Detalles</button>
                         </td>
                     </tr>
                 ))}

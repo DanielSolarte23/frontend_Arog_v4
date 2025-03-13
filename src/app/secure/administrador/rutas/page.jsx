@@ -1,21 +1,63 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import TablaRutas from "@/components/admin/TablaRutas";
+import TablaRutas from "@/components/pruebas/TablaRutasPrueba";
 import MapaRutas from "@/components/Mapa";
-import HorasTimeline from "@/components/GraficaHoras";
-import RutaForm from "@/components/admin/FormRegistrarRuta";
+import RutaForm from "@/components/pruebas/FormRutaPrueba";
 import TimelineExample from "@/components/admin/graficoHoras";
+import { useRutas } from "@/context/RutasContext";
+import VehiculoModal from "@/components/admin/CrearVehiculo";
+import UbicacionModal from "@/components/admin/FormUbicaciones";
 
 const rutasData = {
   rutas: []
 };
 
 function AppRutas() {
+
+  const { } = useRutas();
   const [rutas, setRutas] = useState([]);
   const [coordenadas, setCoordenadas] = useState([]);
   const [grafico, setGrafico] = useState([]);
-  const [modalRutas, setModalRutas] = useState(false);
-  const [modalAdd, setModalAdd] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState("create");
+  const [selectedRuta, setSelectedRuta] = useState(null);
+  const [modalVehiculoOpen, setModalVehiculoOpen] = useState(false);
+  const [modalUbicacionOpen, setModalUbicacionOpen] = useState(false);
+
+
+  const openModal = (mode, ruta = null) => {
+    setModalMode(mode);
+
+    if (ruta && mode === "edit") {
+
+      const transformedRuta = {
+        ...ruta,
+        usuarioAsignadoId: ruta.usuarioAsignado?.id,
+        idVehiculo: ruta.vehiculosAsignados?.length > 0 ?
+          ruta.vehiculosAsignados[0].vehiculo.id : null,
+        // Transform puntosRuta to puntos if needed
+        puntos: ruta.puntosRuta ? ruta.puntosRuta.map((punto, index) => ({
+          idUbicacion: punto.ubicacion?.id,
+          orden: punto.orden || index + 1,
+          ubicacionNombre: punto.ubicacion?.nombre
+        })) : ruta.puntos
+      };
+      setSelectedRuta(transformedRuta);
+    } else {
+      setSelectedRuta(ruta);
+    }
+
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedRuta(null);
+  };
+
+  const openEditModal = (ruta) => {
+    openModal("edit", ruta);
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -50,49 +92,41 @@ function AppRutas() {
 
   return (
     <div className="bg-white w-full h-full border rounded-lg">
-      {modalRutas && <RutaForm modalRutas={modalRutas} setModalRutas={setModalRutas} />}
+      {modalOpen && (<RutaForm
+        isOpen={modalOpen}
+        closeModal={closeModal}
+        mode={modalMode}
+        selectedRuta={selectedRuta}
+        openEditModal={openEditModal}
+      />)}
+      {modalVehiculoOpen && (
+        <VehiculoModal isOpen={modalVehiculoOpen} onClose={() => setModalVehiculoOpen(false)} />)}
+
+      {modalUbicacionOpen && (
+        <UbicacionModal isOpen={modalUbicacionOpen} onClose={() => setModalUbicacionOpen(false)} />)}
       <div className="h-1/10 w-full justify-between flex items-center px-2 border-b">
-        <div className=" h-full rounded-t-md flex items-center gap-3 p-2 w-1/2">
-          <div className="h-full w-1/2">
-            <button onClick={() => {
-              setModalAdd(true);
-            }} className=" max-h-full px-3 py-2 text-xl flex justify-center items-center border border-gray-200 rounded-md text-white bg-verde">
-              +
+        <ul className="h-full flex items-center gap-1">
+          <li>
+            <button className="px-5 py-3 border border-gray-200 rounded-s-lg text-verde-dos hover:bg-verde hover:text-white duration-500"
+              onClick={() => openModal("create")}>
+              Crear Ruta
             </button>
-            {modalAdd && (
-              <div
-                className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 flex-col"
-                onClick={() => setModalAdd(false)} // Cierra al hacer clic fuera
-              >
-                <div
-                  className="bg-white p-2 rounded-lg border flex flex-col"
-                  onClick={(e) => e.stopPropagation()} // Evita cerrar al hacer clic dentro
-                >
-                  <button
-                    className="px-5 py-3 duration-500 bg-white rounded-md text-verde-dos text-left hover:bg-verde-principal hover:text-white"
-                    onClick={() => {
-                      setModalRutas(true);
-                      setModalAdd(false);
-                    }}
-                  >
-                    + Añadir nueva ruta
-                  </button>
-                  <hr />
-                  <button className="px-5 py-3 duration-500 rounded-md text-black text-left hover:bg-verde-principal hover:text-white">
-                    + Registrar una nueva ubicación
-                  </button>
-                  <hr />
-                  <button className="px-5 py-3 duration-500 rounded-md text-black text-left hover:bg-verde-principal hover:text-white">
-                    + Registrar un nuevo vehículo
-                  </button>
-                </div>
-              </div>
-            )}
-
-          </div>
-
-
-        </div>
+          </li>
+          <li>
+            <button className="px-5 py-3 border border-gray-200  text-verde-dos hover:bg-verde hover:text-white duration-500"
+              onClick={() => setModalVehiculoOpen(true)}
+            >
+              Agregar Vehiculo
+            </button>
+          </li>
+          <li>
+            <button className="px-5 py-3 border border-gray-200  rounded-r-lg text-verde-dos hover:bg-verde hover:text-white duration-500"
+              onClick={() => setModalUbicacionOpen(true)}
+            >
+              Agregar Ubicacion
+            </button>
+          </li>
+        </ul>
         <button className="px-5 py-3 border border-gray-200 rounded-md text-black">
           Filtrar
         </button>
@@ -100,6 +134,7 @@ function AppRutas() {
       <div className="h-6/10 w-full flex">
         <div className="w-1/2 h-full p-1">
           <TablaRutas
+            openModal={openModal}
             onUbicacionClick={handleCoordenadas}
             onHorasClick={handleHoras}
           />

@@ -1,8 +1,9 @@
+import FormularioDinamico from '@/components/admin/Formularios'
 import React from 'react'
 
 function Registros() {
   return (
-    <div>Registros</div>
+    <div><FormularioDinamico/></div>
   )
 }
 

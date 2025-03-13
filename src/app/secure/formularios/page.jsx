@@ -188,13 +188,13 @@ export default function Formulario() {
                   className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 transition text-sm md:text-base w-full md:w-auto"
                   onClick={() => setModalOpen(false)}
                 >
-                  Cancelar
+                  <span className="font-medium">Cancelar</span>
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-2 bg-lime-600 text-white rounded-md hover:bg-lime-700 transition text-sm md:text-base w-full md:w-auto"
                 >
-                  Crear Registro
+                  <span className="font-medium">Crear Registro</span>
                 </button>
               </div>
             </form>

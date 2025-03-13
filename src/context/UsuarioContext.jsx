@@ -37,7 +37,7 @@ export function UsuarioProvider({ children }) {
     try {
       const res = await getUsuariosRequest();
       setUsuarios(res.data);
-      console.log("Datos recibidos:", res.data);
+      console.log("Datos recibidos de usuario:", res.data);
     } catch (error) {
       handleError(error, "Error al cargar usuarios");
       console.log(error);

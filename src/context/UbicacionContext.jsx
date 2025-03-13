@@ -37,7 +37,7 @@ export function UbicacionProvider({ children }) {
     try {
       const res = await getUbicacionesRequest();
       setUbicaciones(res.data);
-      console.log("Datos recibidos:", res.data);
+      console.log("Datos recibidos de vehiculo:", res.data);
     } catch (error) {
       handleError(error, "Error al cargar ubicaciones");
       console.log(error);
@@ -90,13 +90,13 @@ export function UbicacionProvider({ children }) {
     }
   };
 
-  useEffect(() => {
-    getUbicaciones();
-  }, [])
+  // useEffect(() => {
+  //   getUbicaciones();
+  // }, [])
   
-  useEffect(() => {
-    console.log("Ubications:", ubicaciones);
-  }, [ubicaciones]);
+  // useEffect(() => {
+  //   console.log("Ubications:", ubicaciones);
+  // }, [ubicaciones]);
   
 
   return (

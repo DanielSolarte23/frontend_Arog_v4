@@ -49,19 +49,20 @@ export default function BarraLateral() {
         { icon: "fa-circle-exclamation", text: "Registro incidencias", href: "/secure/administrador/incidentes", pathname: "/secure/administrador/incidentes" },
         { icon: "fa-image", text: "Registro fotográfico", href: "/secure/administrador/galeria", pathname: "/secure/administrador/galeria" },
         { icon: "fa-circle-question", text: "Encuestas", href: "/secure/administrador/encuestas", pathname: "/secure/administrador/encuestas" },
+        { icon: "fa-file-lines", text: "Formatos", href: "/secure/administrador/registros", pathname: "/secure/administrador/registros" },
     ];
 
     const subMenus = {
-        formatos: {
-            icon: "fa-file-lines",
-            text: "Formatos de registro",
-            href: "/secure/administrador/registros",
-            pathname: "/secure/administrador/registros",
-            items: [
-                { text: "Registro de recolección en fuentes", href: "/secure/administrador/recoleccion-fuentes", pathname: "/secure/administrador/recoleccion-fuentes" },
-                { text: "Formato registro operativo en ruta", href: "/secure/administrador/registro-operativo-ruta", pathname: "/secure/administrador/registro-operativo-ruta" }
-            ]
-        },
+        // formatos: {
+        //     icon: "fa-file-lines",
+        //     text: "Formatos de registro",
+        //     href: "/secure/administrador/registros",
+        //     pathname: "/secure/administrador/registros",
+        //     items: [
+        //         { text: "Registro de recolección en fuentes", href: "/secure/administrador/recoleccion-fuentes", pathname: "/secure/administrador/recoleccion-fuentes" },
+        //         { text: "Formato registro operativo en ruta", href: "/secure/administrador/registro-operativo-ruta", pathname: "/secure/administrador/registro-operativo-ruta" }
+        //     ]
+        // },
         estadisticas: {
             icon: "fa-chart-simple",
             text: "Estadísticas y métricas",
