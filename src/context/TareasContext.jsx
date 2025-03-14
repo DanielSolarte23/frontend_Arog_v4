@@ -3,11 +3,14 @@
 import { useState, useContext, createContext, useEffect } from "react";
 
 import {
+  createTareaRequest,
+  createTareaFormularioRequest,
   getTareasRequest,
   getTareaRequest,
+  getTareaUsuarioRequest,
   updateTareaRequest,
-  deleteTareaRequest,
-  createTareaRequest,
+  updateEstadoRequest,
+  deleteTareaRequest
 } from "../api/tareas";
 
 const TareaContext = createContext();
@@ -45,11 +48,13 @@ export function TareaProvider({ children }) {
       setLoading(false);
     }
   };
+
+
   
 
-  const createTarea = async (ruta) => {
+  const createTarea = async (tarea) => {
     try {
-      const res = await createTareaRequest(ruta);
+      const res = await createTareaRequest(tarea);
       setTareas((prev) => [...prev, res.data]);
     } catch (error) {
       console.log(error);
@@ -57,17 +62,30 @@ export function TareaProvider({ children }) {
     }
   };
 
+  const createTareaForm = async (tarea) {
+    try {
+      const res = await createTareaFormularioRequest(tarea);
+      setTareas(() => [...prev, res.data]);
+    } catch (error) {
+      console.log(error);
+      handleError(error, "Error al crear la tarea");
+    } 
+  }
+
   const deleteTarea = async (id) => {
     try {
       const res = await deleteTareaRequest(id);
       if (res.status === 204) {
-        setTareas((prev) => prev.filter((ruta) => ruta._id !== id));
+        setTareas((prev) => prev.filter((tarea) => tarea._id !== id));
       }
     } catch (error) {
       handleError(error, "Error al eliminar tarea");
       console.log(error);
     }
   };
+
+  
+
 
   const getTarea = async (id) => {
     try {
@@ -78,17 +96,29 @@ export function TareaProvider({ children }) {
     }
   };
 
-  const updateTarea = async (id, ruta) => {
+  const updateTarea = async (id, tarea) => {
     try {
-      await updateTareaRequest(id, ruta);
+      await updateTareaRequest(id, tarea);
       setTareas((prev) =>
-        prev.map((item) => (item._id === id ? { ...item, ...ruta } : item))
+        prev.map((item) => (item._id === id ? { ...item, ...tarea } : item))
       );
     } catch (error) {
       handleError(error, "Error al actualizar la tarea");
       console.log(error);
     }
   };
+
+  const updateEstado = async(id, estado) => {
+    try {
+      await updateEstadoRequest(id, estado);
+      setTareas((prev) => 
+      prev.map((item) => (item.id === id ? {...item, ...estado} : item)));
+    } catch (error) {
+      handleError(error, "Error al actualizar estado");
+      console.log(error);
+      
+    }
+  }
 
   useEffect(() => {
     getTareas();

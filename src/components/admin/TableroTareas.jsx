@@ -1,108 +1,43 @@
 "use client";
 import { useTarea } from "@/context/TareasContext";
 import { useState, useEffect } from "react";
+import Cardtarea from "./CardTarea";
 
 export default function TableroTareas() {
-  const {tareas, getTareas} = useTarea();
+  const {
+    tareas,
+    createTarea,
+    getTarea,
+    deleteTarea,
+    getTareas,
+    updateTarea,
+  } = useTarea();
 
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     getTareas();
-    console.log("estas son las tareas", tareas)
-  }, [])
+  }, []);
 
   const [nuevaTarea, setNuevaTarea] = useState({
     titulo: "",
     descripcion: "",
     fechaLimite: "",
-    prioridad: "",
+    prioridad: "media",
     asignadoId: "",
     creadorId: "",
     estado: "por_hacer",
     archivada: false
   });
 
-  const [tareass, setTareass] = useState({
-    por_hacer: [],
-    en_progreso: [],
-    completado: []
-  });
-
   const [draggedTask, setDraggedTask] = useState(null);
 
-  const tareasPorEstado = tareas.reduce((acc, tarea) => {
-    acc[tarea.estado] = acc[tarea.estado] || [];
-    acc[tarea.estado].push(tarea);
-    return acc;
-  }, {});
-
-  useEffect(() =>{
-    console.log("tareas dividas por estado", tareasPorEstado);
-  }, []);
-
-  useEffect(() => {
-    const tareasIniciales = {
-      por_hacer: [
-        {
-          id: "1",
-          titulo: "Planificar rutas de recolección",
-          descripcion: "Diseñar rutas eficientes para la recolección de residuos en la zona norte",
-          fechaVencimiento: "2025-03-20",
-          etiquetas: "Planificación",
-          asignado: "Carlos Méndez",
-          estado: "por_hacer",
-          comentarios: 2
-        },
-        {
-          id: "2",
-          titulo: "Revisar equipos de seguridad",
-          descripcion: "Verificar que todos los equipos de seguridad estén en buen estado y listos para usar",
-          fechaVencimiento: "2025-03-17",
-          etiquetas: "Seguridad",
-          asignado: "Ana López",
-          estado: "por_hacer",
-          comentarios: 0
-        }
-      ],
-      en_progreso: [
-        {
-          id: "3",
-          titulo: "Mantenimiento de camiones",
-          descripcion: "Realizar el mantenimiento preventivo de la flota de camiones recolectores",
-          fechaVencimiento: "2025-03-18",
-          etiquetas: "Mantenimiento",
-          asignado: "Luis Torres",
-          estado: "en_progreso",
-          comentarios: 3
-        }
-      ],
-      completado: [
-        {
-          id: "4",
-          titulo: "Realizar la ruta Aida Lucia",
-          descripcion: "Realizar la ruta establecida desde AROG hasta Aida Lucia recojiendo los residuos producidos por los ciudadanos",
-          fechaVencimiento: "2025-03-12",
-          etiquetas: "Rutas",
-          asignado: "Miguel Sánchez",
-          estado: "completado",
-          comentarios: 1
-        },
-        {
-          id: "5",
-          titulo: "Realizar la ruta Aida Lucia",
-          descripcion: "Realizar la ruta establecida desde AROG hasta Aida Lucia recojiendo los residuos producidos por los ciudadanos",
-          fechaVencimiento: "2025-03-12",
-          etiquetas: "Rutas",
-          asignado: "Miguel Sánchez",
-          estado: "completado",
-          comentarios: 1
-        }
-      ]
-    };
-    
-    setTareass(tareasIniciales);
-  }, []);
+  // Agrupar tareas por estado
+  const tareasPorEstado = {
+    por_hacer: tareas.filter(tarea => tarea.estado === "por_hacer"),
+    en_progreso: tareas.filter(tarea => tarea.estado === "en_progreso"),
+    completado: tareas.filter(tarea => tarea.estado === "completado")
+  };
 
   // Manejar cambios en el formulario de nueva tarea
   const handleInputChange = (e) => {
@@ -111,33 +46,30 @@ export default function TableroTareas() {
   };
 
   // Crear nueva tarea
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const nuevaTareaCompleta = {
-      ...nuevaTarea,
-      id: Date.now().toString(),
-      estado: "por_hacer",
-      comentarios: 0
-    };
-    
-    setTareass({
-      ...tareass,
-      por_hacer: [...tareass.por_hacer, nuevaTareaCompleta]
-    });
-    
-    setNuevaTarea({
-      id: "",
-      titulo: "",
-      descripcion: "",
-      fechaVencimiento: "",
-      etiquetas: "",
-      asignado: "",
-      estado: "por_hacer",
-      comentarios: 0
-    });
-    
-    setModalOpen(false);
+    try {
+      await createTarea(nuevaTarea);
+      
+      // Reiniciar el formulario
+      setNuevaTarea({
+        titulo: "",
+        descripcion: "",
+        fechaLimite: "",
+        prioridad: "media",
+        asignadoId: "",
+        creadorId: "",
+        estado: "por_hacer",
+        archivada: false
+      });
+      
+      // Cerrar el modal y refrescar las tareas
+      setModalOpen(false);
+      getTareas();
+    } catch (error) {
+      console.error("Error al crear tarea:", error);
+    }
   };
 
   // Funciones para drag and drop
@@ -149,83 +81,34 @@ export default function TableroTareas() {
     e.preventDefault();
   };
 
-  const handleDrop = (columnaDestino) => {
+  const handleDrop = async (columnaDestino) => {
     if (!draggedTask) return;
     
     // Si la tarea ya está en esta columna, no hacer nada
     if (draggedTask.estado === columnaDestino) return;
     
-    // Eliminar la tarea de su columna actual
-    const columnaActual = draggedTask.estado;
-    const nuevasTareas = { ...tareass };
-    
-    nuevasTareas[columnaActual] = nuevasTareas[columnaActual].filter(
-      tarea => tarea.id !== draggedTask.id
-    );
-    
-    // Actualizar el estado de la tarea
-    const tareaActualizada = { ...draggedTask, estado: columnaDestino };
-    
-    // Agregar la tarea a la nueva columna
-    nuevasTareas[columnaDestino] = [...nuevasTareas[columnaDestino], tareaActualizada];
-    
-    // Actualizar el estado
-    setTareass(nuevasTareas);
-    
-    // En un ambiente real, aquí se enviaría la actualización al backend
-    console.log(`Tarea ${tareaActualizada.id} movida a ${columnaDestino}`);
-    
-    // Limpiar el estado de arrastre
-    setDraggedTask(null);
+    try {
+      // Actualizar el estado de la tarea usando el contexto
+      const tareaActualizada = { ...draggedTask, estado: columnaDestino };
+      await updateTarea(tareaActualizada.id, tareaActualizada);
+      
+      // Refrescar las tareas después de la actualización
+      getTareas();
+      
+      // Limpiar el estado de arrastre
+      setDraggedTask(null);
+    } catch (error) {
+      console.error(`Error al actualizar tarea ${draggedTask.id}:`, error);
+    }
   };
 
   // Renderizar una tarjeta de tarea
   const renderTarea = (tarea) => (
-    <div
-      key={tarea.id}
-      className="block mb-3 p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 transition cursor-pointer"
-      draggable
-      onDragStart={() => handleDragStart(tarea)}
-    >
-      <h5 className="mb-2 text-lg font-semibold text-black">{tarea.titulo}</h5>
-      <p className="text-gray-700">{tarea.descripcion}</p>
-      <div className="flex justify-between mt-4">
-        <div className="flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
-            className="fill-gray-400 w-4 h-4"
-          >
-            <path d="M96 32l0 32L48 64C21.5 64 0 85.5 0 112l0 48 448 0 0-48c0-26.5-21.5-48-48-48l-48 0 0-32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 32L160 64l0-32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192L0 192 0 464c0 26.5 21.5 48 48 48l352 0c26.5 0 48-21.5 48-48l0-272z" />
-          </svg>
-          <span className="text-sm ml-2 text-gray-400">
-            {new Date(tarea.fechaVencimiento).toLocaleDateString('es-ES', { weekday: 'long' })}
-          </span>
-        </div>
-
-        <div className="flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            className="fill-gray-400 w-4 h-4"
-          >
-            <path d="M64 0C28.7 0 0 28.7 0 64L0 352c0 35.3 28.7 64 64 64l96 0 0 80c0 6.1 3.4 11.6 8.8 14.3s11.9 2.1 16.8-1.5L309.3 416 448 416c35.3 0 64-28.7 64-64l0-288c0-35.3-28.7-64-64-64L64 0z" />
-          </svg>
-          <span className="text-sm ml-2 text-gray-400">{tarea.comentarios}</span>
-        </div>
-
-        <div className="flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            className="fill-gray-400 w-5 h-5"
-          >
-            <path d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z" />
-          </svg>
-          <span className="text-sm ml-2 text-gray-400">{tarea.asignado.split(' ')[0]}</span>
-        </div>
-      </div>
-    </div>
+    <Cardtarea 
+      key={tarea.id} 
+      tarea={tarea} 
+      handleDragStart={handleDragStart}
+    />
   );
 
   return (
@@ -235,19 +118,19 @@ export default function TableroTareas() {
           <div className="flex space-x-2 bg-gray-100 p-2 rounded-lg">
             <div className="bg-white px-4 py-2 rounded-md font-medium shadow flex items-center gap-1">
               Todas las tareas
-
               <span className="text-gray-500 text-sm">({tareas.length})</span>
             </div>
             <div className="bg-gray-200 px-4 py-2 rounded-md font-medium">
               Por hacer
-
-              {/* <span className="text-gray-500 text-sm">({tareas.estado === "pendiente".length})</span> */}
+              <span className="text-gray-500 text-sm">({tareasPorEstado.por_hacer.length})</span>
             </div>
             <div className="bg-gray-200 px-4 py-2 rounded-md font-medium">
               En progreso
+              <span className="text-gray-500 text-sm">({tareasPorEstado.en_progreso.length})</span>
             </div>
             <div className="bg-gray-200 px-4 py-2 rounded-md font-medium">
               Completado
+              <span className="text-gray-500 text-sm">({tareasPorEstado.completado.length})</span>
             </div>
           </div>
 
@@ -287,10 +170,10 @@ export default function TableroTareas() {
             onDrop={() => handleDrop("por_hacer")}
           >
             <h3 className="text-black text-xl font-semibold mb-4 ml-1">
-              Por hacer <span className="text-gray-500 text-sm">({tareass.por_hacer.length})</span>
+              Por hacer <span className="text-gray-500 text-sm">({tareasPorEstado.por_hacer.length})</span>
             </h3>
             
-            {tareass.por_hacer.map(tarea => renderTarea(tarea))}
+            {tareasPorEstado.por_hacer.map(tarea => renderTarea(tarea))}
           </div>
           
           {/* Columna En progreso */}
@@ -300,10 +183,10 @@ export default function TableroTareas() {
             onDrop={() => handleDrop("en_progreso")}
           >
             <h3 className="text-black text-xl font-semibold mb-4 ml-1">
-              En progreso <span className="text-gray-500 text-sm">({tareass.en_progreso.length})</span>
+              En progreso <span className="text-gray-500 text-sm">({tareasPorEstado.en_progreso.length})</span>
             </h3>
             
-            {tareass.en_progreso.map(tarea => renderTarea(tarea))}
+            {tareasPorEstado.en_progreso.map(tarea => renderTarea(tarea))}
           </div>
           
           {/* Columna Completado */}
@@ -313,10 +196,10 @@ export default function TableroTareas() {
             onDrop={() => handleDrop("completado")}
           >
             <h3 className="text-black text-xl font-semibold mb-4 ml-1">
-              Completado <span className="text-gray-500 text-sm">({tareass.completado.length})</span>
+              Completado <span className="text-gray-500 text-sm">({tareasPorEstado.completado.length})</span>
             </h3>
             
-            {tareass.completado.map(tarea => renderTarea(tarea))}
+            {tareasPorEstado.completado.map(tarea => renderTarea(tarea))}
           </div>
         </div>
       </div>
@@ -327,31 +210,48 @@ export default function TableroTareas() {
             <h2 className="text-lg md:text-xl font-normal mb-4 md:mb-6">
               Añadir una nueva tarea
             </h2>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-4">
                 <input
                   type="text"
+                  name="titulo"
+                  value={nuevaTarea.titulo}
+                  onChange={handleInputChange}
                   placeholder="Titulo de la tarea"
                   className="border border-gray-300 rounded-lg p-2 text-sm md:text-base"
+                  required
                 />
                 <input
-                  type="text"
+                  type="date"
+                  name="fechaLimite"
+                  value={nuevaTarea.fechaLimite}
+                  onChange={handleInputChange}
                   placeholder="Fecha de vencimiento"
                   className="border border-gray-300 rounded-lg p-2 text-sm md:text-base"
                 />
-                <input
-                  type="text"
-                  placeholder="Etiquetas"
+                <select
+                  name="prioridad"
+                  value={nuevaTarea.prioridad}
+                  onChange={handleInputChange}
                   className="border border-gray-300 rounded-lg p-2 text-sm md:text-base"
-                />
-
+                >
+                  <option value="baja">Baja</option>
+                  <option value="media">Media</option>
+                  <option value="alta">Alta</option>
+                </select>
                 <input
                   type="text"
-                  placeholder="Asignado"
+                  name="asignadoId"
+                  value={nuevaTarea.asignadoId}
+                  onChange={handleInputChange}
+                  placeholder="Asignado a"
                   className="border border-gray-300 rounded-lg p-2 text-sm md:text-base"
                 />
               </div>
               <textarea
+                name="descripcion"
+                value={nuevaTarea.descripcion}
+                onChange={handleInputChange}
                 placeholder="Descripcion"
                 className="w-full border border-gray-300 rounded-lg p-2 mb-4 text-sm md:text-base"
                 rows="3"
@@ -366,7 +266,7 @@ export default function TableroTareas() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-lime-600 text-white rounded-md hover:bg-lime-700 transition  text-sm md:text-base w-full md:w-auto"
+                  className="px-4 py-2 bg-lime-600 text-white rounded-md hover:bg-lime-700 transition text-sm md:text-base w-full md:w-auto"
                 >
                   <span className="font-medium">Crear tarea</span>
                 </button>
