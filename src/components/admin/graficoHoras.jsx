@@ -74,7 +74,7 @@ const TimelineBar = ({
   }
 
   return (
-    <div className="w-full flex items-stretch border 2xl:items-center 2xl:h-8/10 border-gray-200 rounded-md overflow-hidden mb-3">
+    <div className="w-full flex items-stretch border 2xl:items-center 2xl:h-8/10 border-gray-200 rounded-md overflow-hidden mb-0 2xl:mb-3">
       <div className={`w-2 bg-${barColor}`}></div>
 
       <div className="flex-1 p-2 ">
@@ -185,7 +185,7 @@ const TimelineExample = ({ datos = [] }) => {
   if (!datos || datos.length === 0) {
     return (
       <div className="p-4 border rounded-lg 2xl:h-full">
-        <div className="text-gray-500 text-sm mb-4">Selecciona una ruta para ver sus horarios</div>
+        <div className="text-gray-500 text-sm mb-1 2xl:mb-4">Selecciona una ruta para ver sus horarios</div>
         <TimelineBar
           id="Ejemplo"
           title="Ruta ejemplo"
@@ -202,8 +202,8 @@ const TimelineExample = ({ datos = [] }) => {
   }
 
   return (
-    <div className="p-4 border rounded-lg 2xl:h-full">
-      <h2 className="text-lg font-medium mb-3">Duracion Ruta</h2>
+    <div className="2xl:p-4 p-2 border rounded-lg h-full 2xl:h-full">
+      <h2 className="text-lg font-medium mb-1 2xl:mb-3">Duracion Ruta</h2>
       {datos.map((item, index) => {
         // Formatear horarios para mostrar en el subtítulo
         const horaInicioStr = formatHora(item.horaInicio);

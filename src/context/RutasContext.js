@@ -49,19 +49,21 @@ export function RutasProvider({ children }) {
 
   const createRuta = async (ruta) => {
     try {
-      const res = await createRutaRequest(ruta);
-      setRutas((prev) => [...prev, res.data]);
+        const res = await createRutaRequest(ruta);
+        setRutas((prev) => [...prev, res.data]);
+        return res.data;
     } catch (error) {
-      console.log(error);
-      handleError(error, "Error al crear ruta");
+        console.log(error);
+        handleError(error, "Error al crear ruta");
+        return null; // o lanza un error para manejarlo en el componente
     }
-  };
+};
 
   const deleteRuta = async (id) => {
     try {
       const res = await deleteRutaRequest(id);
       if (res.status === 204) {
-        setRutas((prev) => prev.filter((ruta) => ruta._id !== id));
+        setRutas((prev) => prev.filter((ruta) => ruta.id !== id));
       }
     } catch (error) {
       handleError(error, "Error al eliminar ruta");
@@ -82,7 +84,7 @@ export function RutasProvider({ children }) {
     try {
       await updateRutaRequest(id, ruta);
       setRutas((prev) =>
-        prev.map((item) => (item._id === id ? { ...item, ...ruta } : item))
+        prev.map((item) => (item.id === id ? { ...item, ...ruta } : item))
       );
     } catch (error) {
       handleError(error, "Error al actualizar ruta");
