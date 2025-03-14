@@ -60,7 +60,7 @@ function TablaRutas({ onUbicacionClick, onHorasClick, openModal }) {
                         {/* <th className="p-4 w-12">
                             <input type="checkbox" className="w-4 h-4 bg-gray-100 border-gray-300 rounded-sm" />
                         </th> */}
-                        <th className="border px-4 2xl:pl-4 2xl:px-0 py-2 2xl:py-4 w-1/4 text-left">Nombre de ruta</th>
+                        <th className="px-4 2xl:pl-4 2xl:px-0 py-2 2xl:py-4 w-1/4 text-left">Nombre de ruta</th>
                         <th className="px-4 2xl:px-0 py-3 2xl:py-2 w-1/4 text-left">Funcionario</th>
                         <th className="px-4 2xl:px-0 py-3 2xl:py-2 w-1/4 text-left">Vehículo</th>
                         <th className="px-4 2xl:px-0 py-3 2xl:py-2 w-1/4">Fecha y Hora de inicio</th>
