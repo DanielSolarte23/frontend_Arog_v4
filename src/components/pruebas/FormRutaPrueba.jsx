@@ -8,6 +8,7 @@ import { useUbicacion } from "@/context/UbicacionContext";
 import { useUsuario } from "@/context/UsuarioContext";
 import { useRutas } from "@/context/RutasContext";
 import { useFormularioTipo } from "@/context/FormularioTipoContext";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => {
     const { vehiculos, getVehiculos } = useVehiculo();
@@ -290,7 +291,7 @@ const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => 
                     <div>
                         <label className="block text-gray-700 font-medium">Tipo de Formulario:</label>
                         <select
-                            {...register("formularioTipoId", { required: true })}
+                            {...register("formularioTipoId", { required: false })}
                             className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="">Seleccione el tipo de formulario</option>
