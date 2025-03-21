@@ -1,9 +1,12 @@
-import React from 'react'
+import Encuentas from "@/components/admin/Encuentas";
+import React from "react";
 
-function Encuestas() {
+function EncuestasPage() {
   return (
-    <div>Encuestas</div>
-  )
+    <>
+      <Encuentas />
+    </>
+  );
 }
 
-export default Encuestas
+export default EncuestasPage;

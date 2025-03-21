@@ -57,8 +57,6 @@ const RutaForm = ({ modalRutas, setModalRutas }) => {
             idUbicacion: parseInt(punto.idUbicacion),
             orden: index + 1,
           })),
-          // formularios: data.formularios.map(id => parseInt(id)), // Parsear IDs de formularios
-          // tareas: data.tareas.map(id => parseInt(id)), // Parsear IDs de tareas
         }),
       });
 

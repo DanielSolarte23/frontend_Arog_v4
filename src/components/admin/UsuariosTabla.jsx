@@ -197,53 +197,70 @@ export default function UsuariosTabla() {
       </nav>
 
       {modalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50">
           <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg w-full max-w-[500px]">
             <h2 className="text-lg md:text-xl font-normal mb-4 md:mb-6">
-              Agregar nueva incidencia
+              Agregar nuevo Usuario
             </h2>
             <form>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-4">
-                <select className="border border-gray-300 rounded-lg p-2">
-                  <option>Remitente</option>
-                </select>
-                <input
-                  type="date"
-                  className="border border-gray-300 rounded-lg p-2"
-                />
-                <select className="border border-gray-300 rounded-lg p-2">
-                  <option>Cedula</option>
-                </select>
-                <select className="border border-gray-300 rounded-lg p-2">
-                  <option>Telefono</option>
-                </select>
-                <input
-                  type="text"
-                  placeholder="Tipo de incidente"
-                  className="border border-gray-300 rounded-lg p-2"
-                />
-                <input
-                  type="text"
-                  placeholder="Correo"
-                  className="border border-gray-300 rounded-lg p-2"
-                />
+                <div>
+                  <label className="text-gray-500 ml-1" htmlFor="nombre">
+                    Nombres
+                  </label>
+                  <input
+                    type="text"
+                    name="nombre"
+                    className="border border-gray-300 rounded-lg p-2"
+                    placeholder="Ingresa el nombre"
+                  />
+                </div>
+                <div>
+                  <label className="text-gray-500 ml-1" htmlFor="apellidos">
+                    Apellidos
+                  </label>
+                  <input
+                    type="text"
+                    name="apellidos"
+                    className="border border-gray-300 rounded-lg p-2"
+                    placeholder="Ingresa los apellidos"
+                  />
+                </div>
+                <div>
+                  <label className="text-gray-500 ml-1" htmlFor="email">
+                    Correo electronico
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="border border-gray-300 rounded-lg p-2"
+                    placeholder="Ingresa el correo"
+                  />
+                </div>
+                <div>
+                  <label className="text-gray-500 ml-1" htmlFor="contraseña">
+                    Contraseña
+                  </label>
+                  <input
+                    type="password"
+                    name="contraseña"
+                    className="border border-gray-300 rounded-lg p-2"
+                    placeholder="Ingresa la contraseña"
+                  />
+                </div>
+                <div>
+                  <label className="text-gray-500 ml-1" htmlFor="telefono">
+                    Telefono
+                  </label>
+                  <input
+                    type="text"
+                    name="telefono"
+                    className="border border-gray-300 rounded-lg p-2"
+                    placeholder="Ingresa el correo"
+                  />
+                </div>
               </div>
-              <textarea
-                placeholder="Descripción"
-                className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              ></textarea>
-
-              <div className="flex items-center gap-2 mb-4 bg-lime-600 hover:bg-lime-700 p-2 w-20 rounded-md">
-                <input
-                  type="checkbox"
-                  id="visto"
-                  className="w-5 h-5 cursor-pointer"
-                />
-                <label htmlFor="visto" className="text-white cursor-pointer">
-                  Visto
-                </label>
-              </div>
-
+              
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
