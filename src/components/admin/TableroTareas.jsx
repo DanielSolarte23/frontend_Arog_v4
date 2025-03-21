@@ -3,6 +3,7 @@ import { useTarea } from "@/context/TareasContext";
 import { useState, useEffect } from "react";
 import Cardtarea from "./CardTarea";
 import Link from "next/link";
+import { useUsuario } from "@/context/UsuarioContext";
 
 export default function TableroTareas() {
   const {
@@ -12,8 +13,10 @@ export default function TableroTareas() {
     deleteTarea,
     getTareas,
     updateTarea,
-    updateEstado
+    updateEstado,
   } = useTarea();
+
+  const { usuarios, getUsuarios } = useUsuario();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [detalleModalOpen, setDetalleModalOpen] = useState(false);
@@ -22,6 +25,7 @@ export default function TableroTareas() {
 
   useEffect(() => {
     getTareas();
+    getUsuarios();
   }, []);
 
   const initialTareaState = {
@@ -32,7 +36,7 @@ export default function TableroTareas() {
     asignadoId: "",
     creadorId: 1,
     estado: "por_hacer",
-    archivada: false
+    archivada: false,
   };
 
   const [nuevaTarea, setNuevaTarea] = useState(initialTareaState);
@@ -41,9 +45,15 @@ export default function TableroTareas() {
 
   // Agrupar tareas por estado
   const tareasPorEstado = {
-    por_hacer: tareas.filter(tarea => tarea.estado === "por_hacer" && !tarea.archivada),
-    en_progreso: tareas.filter(tarea => tarea.estado === "en_progreso" && !tarea.archivada),
-    completada: tareas.filter(tarea => tarea.estado === "completada" && !tarea.archivada)
+    por_hacer: tareas.filter(
+      (tarea) => tarea.estado === "por_hacer" && !tarea.archivada
+    ),
+    en_progreso: tareas.filter(
+      (tarea) => tarea.estado === "en_progreso" && !tarea.archivada
+    ),
+    completada: tareas.filter(
+      (tarea) => tarea.estado === "completada" && !tarea.archivada
+    ),
   };
 
   // Manejar cambios en el formulario de nueva tarea
@@ -93,7 +103,7 @@ export default function TableroTareas() {
   // Archivar tarea
   const archivarTarea = async (id) => {
     try {
-      const tarea = tareas.find(t => t.id === id);
+      const tarea = tareas.find((t) => t.id === id);
       await updateTarea(id, { ...tarea, archivada: true });
       setDetalleModalOpen(false);
       getTareas();
@@ -128,7 +138,10 @@ export default function TableroTareas() {
       // Limpiar el estado de arrastre
       setDraggedTask(null);
     } catch (error) {
-      console.error(`Error al actualizar estado de tarea ${draggedTask.id}:`, error);
+      console.error(
+        `Error al actualizar estado de tarea ${draggedTask.id}:`,
+        error
+      );
     }
   };
 
@@ -150,19 +163,27 @@ export default function TableroTareas() {
           <div className="flex space-x-2 bg-gray-100 p-2 rounded-lg">
             <div className="bg-white px-4 py-2 rounded-md font-medium shadow flex items-center gap-1">
               Todas las tareas
-              <span className="text-gray-500 text-sm">({tareas.filter(t => !t.archivada).length})</span>
+              <span className="text-gray-500 text-sm">
+                ({tareas.filter((t) => !t.archivada).length})
+              </span>
             </div>
             <div className="bg-gray-200 px-4 py-2 rounded-md font-medium">
               Por hacer
-              <span className="text-gray-500 text-sm">({tareasPorEstado.por_hacer.length})</span>
+              <span className="text-gray-500 text-sm">
+                ({tareasPorEstado.por_hacer.length})
+              </span>
             </div>
             <div className="bg-gray-200 px-4 py-2 rounded-md font-medium">
               En progreso
-              <span className="text-gray-500 text-sm">({tareasPorEstado.en_progreso.length})</span>
+              <span className="text-gray-500 text-sm">
+                ({tareasPorEstado.en_progreso.length})
+              </span>
             </div>
             <div className="bg-gray-200 px-4 py-2 rounded-md font-medium">
               Completado
-              <span className="text-gray-500 text-sm">({tareasPorEstado.completada.length})</span>
+              <span className="text-gray-500 text-sm">
+                ({tareasPorEstado.completada.length})
+              </span>
             </div>
           </div>
 
@@ -201,10 +222,13 @@ export default function TableroTareas() {
             onDrop={() => handleDrop("por_hacer")}
           >
             <h3 className="text-black text-xl font-semibold mb-4 px-5 pb-2 pt-4 sticky top-0 bg-white">
-              Por hacer <span className="text-gray-500 text-sm">({tareasPorEstado.por_hacer.length})</span>
+              Por hacer{" "}
+              <span className="text-gray-500 text-sm">
+                ({tareasPorEstado.por_hacer.length})
+              </span>
             </h3>
             <div className="px-4">
-              {tareasPorEstado.por_hacer.map(tarea => renderTarea(tarea))}
+              {tareasPorEstado.por_hacer.map((tarea) => renderTarea(tarea))}
             </div>
           </div>
 
@@ -215,10 +239,13 @@ export default function TableroTareas() {
             onDrop={() => handleDrop("en_progreso")}
           >
             <h3 className="text-black text-xl font-semibold mb-4 px-5 pb-2 pt-4 sticky top-0 bg-white">
-              En progreso <span className="text-gray-500 text-sm">({tareasPorEstado.en_progreso.length})</span>
+              En progreso{" "}
+              <span className="text-gray-500 text-sm">
+                ({tareasPorEstado.en_progreso.length})
+              </span>
             </h3>
             <div className="px-4">
-              {tareasPorEstado.en_progreso.map(tarea => renderTarea(tarea))}
+              {tareasPorEstado.en_progreso.map((tarea) => renderTarea(tarea))}
             </div>
           </div>
 
@@ -229,11 +256,14 @@ export default function TableroTareas() {
             onDrop={() => handleDrop("completada")}
           >
             <h3 className="text-black text-xl font-semibold mb-4 px-5 pb-2 pt-4 sticky top-0 bg-white">
-              Completado <span className="text-gray-500 text-sm">({tareasPorEstado.completada.length})</span>
+              Completado{" "}
+              <span className="text-gray-500 text-sm">
+                ({tareasPorEstado.completada.length})
+              </span>
             </h3>
 
             <div className="px-4">
-              {tareasPorEstado.completada.map(tarea => renderTarea(tarea))}
+              {tareasPorEstado.completada.map((tarea) => renderTarea(tarea))}
             </div>
           </div>
         </div>
@@ -275,14 +305,19 @@ export default function TableroTareas() {
                   <option value="media">Media</option>
                   <option value="alta">Alta</option>
                 </select>
-                <input
-                  type="text"
+                <select
                   name="asignadoId"
                   value={nuevaTarea.asignadoId}
                   onChange={handleInputChange}
-                  placeholder="Asignado a"
                   className="border border-gray-300 rounded-lg p-2 text-sm md:text-base"
-                />
+                >
+                  <option value="">Seleccione el usuario</option>
+                  {usuarios.map((usuario) => (
+                    <option key={usuario.id} value={usuario.id}>
+                      {usuario.nombres} {usuario.apellidos}
+                    </option>
+                  ))}
+                </select>
               </div>
               <textarea
                 name="descripcion"
@@ -308,7 +343,9 @@ export default function TableroTareas() {
                   type="submit"
                   className="px-4 py-2 bg-lime-600 text-white rounded-md hover:bg-lime-700 transition text-sm md:text-base w-full md:w-auto"
                 >
-                  <span className="font-medium">{modoEdicion ? "Guardar cambios" : "Crear tarea"}</span>
+                  <span className="font-medium">
+                    {modoEdicion ? "Guardar cambios" : "Crear tarea"}
+                  </span>
                 </button>
               </div>
             </form>
@@ -325,36 +362,50 @@ export default function TableroTareas() {
             </h2>
 
             <div className="flex flex-wrap gap-2 mb-4">
-              <span className={`px-2 py-1 rounded-md text-sm ${tareaSeleccionada.prioridad === "alta" ? "bg-red-100 text-red-800" :
-                tareaSeleccionada.prioridad === "media" ? "bg-yellow-100 text-yellow-800" :
-                  "bg-green-100 text-green-800"
-                }`}>
+              <span
+                className={`px-2 py-1 rounded-md text-sm ${
+                  tareaSeleccionada.prioridad === "alta"
+                    ? "bg-red-100 text-red-800"
+                    : tareaSeleccionada.prioridad === "media"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-green-100 text-green-800"
+                }`}
+              >
                 Prioridad: {tareaSeleccionada.prioridad}
               </span>
 
-              <span className={`px-2 py-1 rounded-md text-sm ${tareaSeleccionada.estado === "por_hacer" ? "bg-gray-100 text-gray-800" :
-                tareaSeleccionada.estado === "en_progreso" ? "bg-blue-100 text-blue-800" :
-                  "bg-green-100 text-green-800"
-                }`}>
+              <span
+                className={`px-2 py-1 rounded-md text-sm ${
+                  tareaSeleccionada.estado === "por_hacer"
+                    ? "bg-gray-100 text-gray-800"
+                    : tareaSeleccionada.estado === "en_progreso"
+                    ? "bg-blue-100 text-blue-800"
+                    : "bg-green-100 text-green-800"
+                }`}
+              >
                 Estado: {tareaSeleccionada.estado.replace("_", " ")}
               </span>
 
               {tareaSeleccionada.fechaLimite && (
                 <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded-md text-sm">
-                  Fecha límite: {new Date(tareaSeleccionada.fechaLimite).toLocaleDateString()}
+                  Fecha límite:{" "}
+                  {new Date(tareaSeleccionada.fechaLimite).toLocaleDateString()}
                 </span>
               )}
 
               {tareaSeleccionada.asignadoId && (
                 <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-md text-sm">
-                  Asignado a: {tareaSeleccionada.asignado?.nombres || "sin asignar"}
+                  Asignado a:{" "}
+                  {tareaSeleccionada.asignado?.nombres || "sin asignar"}
                 </span>
               )}
             </div>
 
             <div className="mb-6">
               <h3 className="text-md font-medium mb-2">Descripción:</h3>
-              <p className="text-gray-700 whitespace-pre-wrap">{tareaSeleccionada.descripcion || "Sin descripción"}</p>
+              <p className="text-gray-700 whitespace-pre-wrap">
+                {tareaSeleccionada.descripcion || "Sin descripción"}
+              </p>
             </div>
 
             <div className="flex flex-col md:flex-row justify-end gap-2">
