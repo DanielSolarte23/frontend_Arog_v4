@@ -10,7 +10,8 @@ import {
   getTareaUsuarioRequest,
   updateTareaRequest,
   updateEstadoRequest,
-  deleteTareaRequest
+  deleteTareaRequest,
+  getTareaArchivoRequest,
 } from "../api/tareas";
 
 const TareaContext = createContext();
@@ -27,6 +28,7 @@ export const useTarea = () => {
 
 export function TareaProvider({ children }) {
   const [tareas, setTareas] = useState([]);
+  const [tareasArchivo, setTareasArchivo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
 
@@ -49,8 +51,20 @@ export function TareaProvider({ children }) {
     }
   };
 
+  const getTareasArchivo = async () => {
+    setLoading(true);
+    try {
+      const res = await getTareaArchivoRequest();
+      setTareasArchivo(res.data);
+      console.log("Datos recibidos de tareas:", res.data);
+    } catch (error) {
+      handleError(error, "Error al cargar tareas");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  
 
   const createTarea = async (tarea) => {
     try {
@@ -62,7 +76,7 @@ export function TareaProvider({ children }) {
     }
   };
 
-  const createTareaForm = async (tarea) {
+  const createTareaForm = async (tarea) => {
     try {
       const res = await createTareaFormularioRequest(tarea);
       setTareas(() => [...prev, res.data]);
@@ -108,15 +122,15 @@ export function TareaProvider({ children }) {
     }
   };
 
-  const updateEstado = async(id, estado) => {
+  const updateEstado = async (id, estado) => {
     try {
       await updateEstadoRequest(id, estado);
       setTareas((prev) => 
-      prev.map((item) => (item.id === id ? {...item, ...estado} : item)));
+        prev.map((item) => (item.id === id ? {...item, estado: estado} : item))
+      );
     } catch (error) {
       handleError(error, "Error al actualizar estado");
       console.log(error);
-      
     }
   }
 
@@ -139,6 +153,9 @@ export function TareaProvider({ children }) {
         getTareas,
         updateTarea,
         deleteTareaRequest,
+        updateEstado,
+        getTareasArchivo,
+        tareasArchivo,
         errors,
       }}
     >

@@ -2,6 +2,7 @@
 import { useTarea } from "@/context/TareasContext";
 import { useState, useEffect } from "react";
 import Cardtarea from "./CardTarea";
+import Link from "next/link";
 
 export default function TableroTareas() {
   const {
@@ -11,32 +12,38 @@ export default function TableroTareas() {
     deleteTarea,
     getTareas,
     updateTarea,
+    updateEstado
   } = useTarea();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [detalleModalOpen, setDetalleModalOpen] = useState(false);
+  const [tareaSeleccionada, setTareaSeleccionada] = useState(null);
+  const [modoEdicion, setModoEdicion] = useState(false);
 
   useEffect(() => {
     getTareas();
   }, []);
 
-  const [nuevaTarea, setNuevaTarea] = useState({
+  const initialTareaState = {
     titulo: "",
     descripcion: "",
     fechaLimite: "",
     prioridad: "media",
     asignadoId: "",
-    creadorId: "",
+    creadorId: 1,
     estado: "por_hacer",
     archivada: false
-  });
+  };
+
+  const [nuevaTarea, setNuevaTarea] = useState(initialTareaState);
 
   const [draggedTask, setDraggedTask] = useState(null);
 
   // Agrupar tareas por estado
   const tareasPorEstado = {
-    por_hacer: tareas.filter(tarea => tarea.estado === "por_hacer"),
-    en_progreso: tareas.filter(tarea => tarea.estado === "en_progreso"),
-    completado: tareas.filter(tarea => tarea.estado === "completado")
+    por_hacer: tareas.filter(tarea => tarea.estado === "por_hacer" && !tarea.archivada),
+    en_progreso: tareas.filter(tarea => tarea.estado === "en_progreso" && !tarea.archivada),
+    completada: tareas.filter(tarea => tarea.estado === "completada" && !tarea.archivada)
   };
 
   // Manejar cambios en el formulario de nueva tarea
@@ -45,30 +52,53 @@ export default function TableroTareas() {
     setNuevaTarea({ ...nuevaTarea, [name]: value });
   };
 
-  // Crear nueva tarea
+  // Crear nueva tarea o actualizar existente
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      await createTarea(nuevaTarea);
-      
+      if (modoEdicion) {
+        await updateTarea(nuevaTarea.id, nuevaTarea);
+      } else {
+        await createTarea(nuevaTarea);
+      }
+
       // Reiniciar el formulario
-      setNuevaTarea({
-        titulo: "",
-        descripcion: "",
-        fechaLimite: "",
-        prioridad: "media",
-        asignadoId: "",
-        creadorId: "",
-        estado: "por_hacer",
-        archivada: false
-      });
-      
+      setNuevaTarea(initialTareaState);
+
       // Cerrar el modal y refrescar las tareas
       setModalOpen(false);
+      setModoEdicion(false);
       getTareas();
     } catch (error) {
-      console.error("Error al crear tarea:", error);
+      console.error("Error al crear/actualizar tarea:", error);
+    }
+  };
+
+  // Abrir modal de detalles de tarea
+  const abrirDetalles = (tarea) => {
+    setTareaSeleccionada(tarea);
+    setDetalleModalOpen(true);
+  };
+
+  // Abrir modal de edición de tarea
+  const abrirEdicion = (tarea) => {
+    setTareaSeleccionada(tarea);
+    setNuevaTarea({ ...tarea });
+    setModoEdicion(true);
+    setDetalleModalOpen(false);
+    setModalOpen(true);
+  };
+
+  // Archivar tarea
+  const archivarTarea = async (id) => {
+    try {
+      const tarea = tareas.find(t => t.id === id);
+      await updateTarea(id, { ...tarea, archivada: true });
+      setDetalleModalOpen(false);
+      getTareas();
+    } catch (error) {
+      console.error("Error al archivar tarea:", error);
     }
   };
 
@@ -83,42 +113,44 @@ export default function TableroTareas() {
 
   const handleDrop = async (columnaDestino) => {
     if (!draggedTask) return;
-    
+
     // Si la tarea ya está en esta columna, no hacer nada
     if (draggedTask.estado === columnaDestino) return;
-    
+
     try {
-      // Actualizar el estado de la tarea usando el contexto
-      const tareaActualizada = { ...draggedTask, estado: columnaDestino };
-      await updateTarea(tareaActualizada.id, tareaActualizada);
-      
+      // Usar updateEstado en lugar de updateTarea
+      // Pasamos el ID de la tarea y el nuevo estado (columnaDestino)
+      await updateEstado(draggedTask.id, columnaDestino);
+
       // Refrescar las tareas después de la actualización
       getTareas();
-      
+
       // Limpiar el estado de arrastre
       setDraggedTask(null);
     } catch (error) {
-      console.error(`Error al actualizar tarea ${draggedTask.id}:`, error);
+      console.error(`Error al actualizar estado de tarea ${draggedTask.id}:`, error);
     }
   };
 
   // Renderizar una tarjeta de tarea
   const renderTarea = (tarea) => (
-    <Cardtarea 
-      key={tarea.id} 
-      tarea={tarea} 
-      handleDragStart={handleDragStart}
-    />
+    <div onClick={() => abrirDetalles(tarea)} key={tarea.id}>
+      <Cardtarea
+        key={tarea.id}
+        tarea={tarea}
+        handleDragStart={handleDragStart}
+      />
+    </div>
   );
 
   return (
     <div className="h-full">
       <div className="border h-full border-gray-300 shadow-lg rounded-lg overflow-hidden bg-white">
-        <nav className="bg-white border-b border-gray-200 flex flex-col md:flex-row items-center justify-between p-4 gap-4">
+        <nav className="bg-white border-b h-[15%] xl-plus:h-1/10 border-gray-200 flex flex-col md:flex-row items-center justify-between p-4 gap-4">
           <div className="flex space-x-2 bg-gray-100 p-2 rounded-lg">
             <div className="bg-white px-4 py-2 rounded-md font-medium shadow flex items-center gap-1">
               Todas las tareas
-              <span className="text-gray-500 text-sm">({tareas.length})</span>
+              <span className="text-gray-500 text-sm">({tareas.filter(t => !t.archivada).length})</span>
             </div>
             <div className="bg-gray-200 px-4 py-2 rounded-md font-medium">
               Por hacer
@@ -130,25 +162,24 @@ export default function TableroTareas() {
             </div>
             <div className="bg-gray-200 px-4 py-2 rounded-md font-medium">
               Completado
-              <span className="text-gray-500 text-sm">({tareasPorEstado.completado.length})</span>
+              <span className="text-gray-500 text-sm">({tareasPorEstado.completada.length})</span>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
             <button className="flex items-center gap-2 border border-gray-400 px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition">
-              <span className="text-gray-700 font-medium">Filtrar Por</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-                className="w-5 h-5 fill-gray-600"
-              >
-                <path d="M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" />
-              </svg>
+              <Link href="/secure/administrador/tareas/archivo">
+                <span className="text-gray-700 font-medium">Archivo</span>
+              </Link>
             </button>
 
             <button
               className="bg-lime-600 px-4 py-2 rounded-lg text-white flex items-center gap-2 hover:bg-lime-700 transition"
-              onClick={() => setModalOpen(true)}
+              onClick={() => {
+                setModoEdicion(false);
+                setNuevaTarea(initialTareaState);
+                setModalOpen(true);
+              }}
             >
               <span className="font-medium">Agregar tarea</span>
               <svg
@@ -162,53 +193,58 @@ export default function TableroTareas() {
           </div>
         </nav>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 h-[85%] xl-plus:h-9/10 ">
           {/* Columna Por hacer */}
-          <div 
-            className="bg-white border border-gray-300 rounded-lg p-4 min-h-[200px] overflow-y-auto"
+          <div
+            className="bg-white border border-gray-300 rounded-lg  min-h-[200px] max-h-full overflow-y-auto scroll-custom"
             onDragOver={handleDragOver}
             onDrop={() => handleDrop("por_hacer")}
           >
-            <h3 className="text-black text-xl font-semibold mb-4 ml-1">
+            <h3 className="text-black text-xl font-semibold mb-4 px-5 pb-2 pt-4 sticky top-0 bg-white">
               Por hacer <span className="text-gray-500 text-sm">({tareasPorEstado.por_hacer.length})</span>
             </h3>
-            
-            {tareasPorEstado.por_hacer.map(tarea => renderTarea(tarea))}
+            <div className="px-4">
+              {tareasPorEstado.por_hacer.map(tarea => renderTarea(tarea))}
+            </div>
           </div>
-          
+
           {/* Columna En progreso */}
-          <div 
-            className="bg-white border border-gray-300 rounded-lg p-4 min-h-[200px]"
+          <div
+            className="bg-white border border-gray-300 rounded-lg  min-h-[200px] max-h-full overflow-y-auto scroll-custom"
             onDragOver={handleDragOver}
             onDrop={() => handleDrop("en_progreso")}
           >
-            <h3 className="text-black text-xl font-semibold mb-4 ml-1">
+            <h3 className="text-black text-xl font-semibold mb-4 px-5 pb-2 pt-4 sticky top-0 bg-white">
               En progreso <span className="text-gray-500 text-sm">({tareasPorEstado.en_progreso.length})</span>
             </h3>
-            
-            {tareasPorEstado.en_progreso.map(tarea => renderTarea(tarea))}
+            <div className="px-4">
+              {tareasPorEstado.en_progreso.map(tarea => renderTarea(tarea))}
+            </div>
           </div>
-          
+
           {/* Columna Completado */}
-          <div 
-            className="bg-white border border-gray-300 rounded-lg p-4 min-h-[200px]"
+          <div
+            className="bg-white border border-gray-300 rounded-lg min-h-[200px] max-h-full overflow-y-auto scroll-custom"
             onDragOver={handleDragOver}
-            onDrop={() => handleDrop("completado")}
+            onDrop={() => handleDrop("completada")}
           >
-            <h3 className="text-black text-xl font-semibold mb-4 ml-1">
-              Completado <span className="text-gray-500 text-sm">({tareasPorEstado.completado.length})</span>
+            <h3 className="text-black text-xl font-semibold mb-4 px-5 pb-2 pt-4 sticky top-0 bg-white">
+              Completado <span className="text-gray-500 text-sm">({tareasPorEstado.completada.length})</span>
             </h3>
-            
-            {tareasPorEstado.completado.map(tarea => renderTarea(tarea))}
+
+            <div className="px-4">
+              {tareasPorEstado.completada.map(tarea => renderTarea(tarea))}
+            </div>
           </div>
         </div>
       </div>
 
+      {/* Modal de agregar/editar tarea */}
       {modalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50">
           <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg w-full max-w-[500px] max-h-[90vh] overflow-y-auto">
             <h2 className="text-lg md:text-xl font-normal mb-4 md:mb-6">
-              Añadir una nueva tarea
+              {modoEdicion ? "Editar tarea" : "Añadir una nueva tarea"}
             </h2>
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-4">
@@ -260,7 +296,11 @@ export default function TableroTareas() {
                 <button
                   type="button"
                   className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 transition text-sm md:text-base w-full md:w-auto"
-                  onClick={() => setModalOpen(false)}
+                  onClick={() => {
+                    setModalOpen(false);
+                    setModoEdicion(false);
+                    setNuevaTarea(initialTareaState);
+                  }}
                 >
                   <span className="font-medium">Cancelar</span>
                 </button>
@@ -268,10 +308,78 @@ export default function TableroTareas() {
                   type="submit"
                   className="px-4 py-2 bg-lime-600 text-white rounded-md hover:bg-lime-700 transition text-sm md:text-base w-full md:w-auto"
                 >
-                  <span className="font-medium">Crear tarea</span>
+                  <span className="font-medium">{modoEdicion ? "Guardar cambios" : "Crear tarea"}</span>
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de detalles de tarea */}
+      {detalleModalOpen && tareaSeleccionada && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50">
+          <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg w-full max-w-[500px] max-h-[90vh] overflow-y-auto">
+            <h2 className="text-lg md:text-xl font-semibold mb-2">
+              {tareaSeleccionada.titulo}
+            </h2>
+
+            <div className="flex flex-wrap gap-2 mb-4">
+              <span className={`px-2 py-1 rounded-md text-sm ${tareaSeleccionada.prioridad === "alta" ? "bg-red-100 text-red-800" :
+                tareaSeleccionada.prioridad === "media" ? "bg-yellow-100 text-yellow-800" :
+                  "bg-green-100 text-green-800"
+                }`}>
+                Prioridad: {tareaSeleccionada.prioridad}
+              </span>
+
+              <span className={`px-2 py-1 rounded-md text-sm ${tareaSeleccionada.estado === "por_hacer" ? "bg-gray-100 text-gray-800" :
+                tareaSeleccionada.estado === "en_progreso" ? "bg-blue-100 text-blue-800" :
+                  "bg-green-100 text-green-800"
+                }`}>
+                Estado: {tareaSeleccionada.estado.replace("_", " ")}
+              </span>
+
+              {tareaSeleccionada.fechaLimite && (
+                <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded-md text-sm">
+                  Fecha límite: {new Date(tareaSeleccionada.fechaLimite).toLocaleDateString()}
+                </span>
+              )}
+
+              {tareaSeleccionada.asignadoId && (
+                <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-md text-sm">
+                  Asignado a: {tareaSeleccionada.asignado?.nombres || "sin asignar"}
+                </span>
+              )}
+            </div>
+
+            <div className="mb-6">
+              <h3 className="text-md font-medium mb-2">Descripción:</h3>
+              <p className="text-gray-700 whitespace-pre-wrap">{tareaSeleccionada.descripcion || "Sin descripción"}</p>
+            </div>
+
+            <div className="flex flex-col md:flex-row justify-end gap-2">
+              <button
+                type="button"
+                className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-300 transition text-sm md:text-base w-full md:w-auto"
+                onClick={() => setDetalleModalOpen(false)}
+              >
+                <span className="font-medium">Cerrar</span>
+              </button>
+              <button
+                type="button"
+                className="px-4 py-2 bg-verde-dos text-white rounded-md transition text-sm md:text-base w-full md:w-auto"
+                onClick={() => archivarTarea(tareaSeleccionada.id)}
+              >
+                <span className="font-medium">Archivar</span>
+              </button>
+              <button
+                type="button"
+                className="px-4 py-2 bg-lime-600 text-white rounded-md hover:bg-lime-700 transition text-sm md:text-base w-full md:w-auto"
+                onClick={() => abrirEdicion(tareaSeleccionada)}
+              >
+                <span className="font-medium">Editar</span>
+              </button>
+            </div>
           </div>
         </div>
       )}

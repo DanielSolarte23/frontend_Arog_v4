@@ -68,33 +68,35 @@ function TablaRutas({ onUbicacionClick, onHorasClick, openModal }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentRutas.map((ruta) => (
-                        <tr key={ruta.id} className="bg-white border-b hover:bg-gray-50 cursor-pointer"
-                            onClick={() => handleRowClick(ruta)}>
-                            {/* <td className="w-12 px-4 py-2">
-                                <input type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
-                            </td> */}
-                            <td className="px-6 py-2 2xl:py-4 font-medium text-gray-900 text-left">{ruta.nombre}</td>
-                            <td className="px-6 2xl:px-0 py-2 2xl:py-4 text-left">{ruta.usuarioAsignado.nombres} {ruta.usuarioAsignado.apellidos}</td>
-                            <td className="px-6 2xl:px-0 py-2 2xl:py-4 text-left">
-                                {ruta.vehiculosAsignados && ruta.vehiculosAsignados.length > 0 && ruta.vehiculosAsignados[0].vehiculo
-                                    ? ruta.vehiculosAsignados[0].vehiculo.placa
-                                    : 'N/A'}
-                            </td>
-                            <td className="py-2 2xl:py-4 font-medium text-gray-900 text-">
-                                {new Intl.DateTimeFormat("es-CO", {
-                                    dateStyle: "medium",
-                                    timeStyle: "short"
-                                }).format(new Date(ruta.horaInicio))}
-                            </td>
+                    {currentRutas
+                        .filter(ruta => ruta.id !== undefined && ruta.id !== null)  // Filtra elementos sin ID
+                        .map((ruta, index) => (
+                            <tr
+                                key={ruta.id || `fallback-key-${index}`}  // Usa `ruta.id`, si no existe usa un índice único
+                                className="bg-white border-b hover:bg-gray-50 cursor-pointer"
+                                onClick={() => handleRowClick(ruta)}
+                            >
+                                <td className="px-6 py-2 2xl:py-4 font-medium text-gray-900 text-left">{ruta.nombre}</td>
+                                <td className="px-6 2xl:px-0 py-2 2xl:py-4 text-left">{ruta.usuarioAsignado.nombres} {ruta.usuarioAsignado.apellidos}</td>
+                                <td className="px-6 2xl:px-0 py-2 2xl:py-4 text-left">
+                                    {ruta.vehiculosAsignados && ruta.vehiculosAsignados.length > 0 && ruta.vehiculosAsignados[0].vehiculo
+                                        ? ruta.vehiculosAsignados[0].vehiculo.placa
+                                        : 'N/A'}
+                                </td>
+                                <td className="py-2 2xl:py-4 font-medium text-gray-900 text-">
+                                    {new Intl.DateTimeFormat("es-CO", {
+                                        dateStyle: "medium",
+                                        timeStyle: "short"
+                                    }).format(new Date(ruta.horaInicio))}
+                                </td>
 
-                            <td className="py-2 2xl:py-4 2xl:pr-5 text-center 2xl:text-center">
-                                <i className='fa-solid fa-eye h-5 w-5 cursor-pointer'
-                                    onClick={() => handleDetails(ruta)}
-                                ></i>
-                            </td>
-                        </tr>
-                    ))}
+                                <td className="py-2 2xl:py-4 2xl:pr-5 text-center 2xl:text-center">
+                                    <i className='fa-solid fa-eye h-5 w-5 cursor-pointer'
+                                        onClick={() => handleDetails(ruta)}
+                                    ></i>
+                                </td>
+                            </tr>
+                        ))}
                 </tbody>
             </table>
             <nav className="flex items-center justify-between p-2 border-t">

@@ -10,13 +10,14 @@ import { useRutas } from "@/context/RutasContext";
 import { useFormularioTipo } from "@/context/FormularioTipoContext";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 
-const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => {
+const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal, showNotification }) => {
     const { vehiculos, getVehiculos } = useVehiculo();
     const { ubicaciones, getUbicaciones } = useUbicacion();
     const { usuarios, getUsuarios } = useUsuario();
     const { formularioTipo, getFormulariosTipo } = useFormularioTipo();
     const { getRutas, createRuta, updateRuta } = useRutas();
     const [isLoading, setIsLoading] = useState(false);
+ 
 
     const { register, handleSubmit, setValue, reset, control } = useForm({
         defaultValues: {
@@ -41,6 +42,8 @@ const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => 
         getUsuarios();
         getFormulariosTipo();
     }, []);
+
+
 
     useEffect(() => {
         if (mode === "edit" && selectedRuta) {
@@ -92,60 +95,27 @@ const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => 
         }
     }, [mode, selectedRuta, setValue, reset]);
 
-    const onSubmit = async (data) => {
-        setIsLoading(true);
+const onSubmit = async (data) => {
+    setIsLoading(true);
 
-        try {
-            const formattedData = {
-                id: data.id,
-                nombre: data.nombre,
-                horaInicio: data.horaInicio,
-                horaFin: data.horaFin,
-                usuarioAsignadoId: data.usuarioAsignadoId ? parseInt(data.usuarioAsignadoId) : null,
-                idVehiculo: data.idVehiculo ? parseInt(data.idVehiculo) : null,
-                puntos: data.puntos.map((punto, index) => ({
-                    idUbicacion: parseInt(punto.idUbicacion),
-                    orden: index + 1,
-                })),
-                formularioTipoId: parseInt(data.formularioTipoId),
-            };
+    try {
+        const formattedData = {
+            id: data.id,
+            nombre: data.nombre,
+            horaInicio: data.horaInicio,
+            horaFin: data.horaFin,
+            usuarioAsignadoId: data.usuarioAsignadoId ? parseInt(data.usuarioAsignadoId) : null,
+            idVehiculo: data.idVehiculo ? parseInt(data.idVehiculo) : null,
+            puntos: data.puntos.map((punto, index) => ({
+                idUbicacion: parseInt(punto.idUbicacion),
+                orden: index + 1,
+            })),
+            formularioTipoId: parseInt(data.formularioTipoId),
+        };
 
-            if (mode === "create") {
-                const rutaData = await createRuta(formattedData);
-                if (rutaData) {
-                    try {
-                        const vehiculoResponse = await fetch(
-                            "http://localhost:3002/api/rutas/asignar-vehiculo",
-                            {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                    idRuta: rutaData.id,
-                                    idVehiculo: parseInt(data.idVehiculo),
-                                }),
-                            }
-                        );
-                        const vehiculoData = await vehiculoResponse.json();
-                        if (!vehiculoResponse.ok) {
-                            throw new Error(
-                                vehiculoData.message || "Error al asignar el vehículo"
-                            );
-                        }
-                        alert("Vehículo asignado a la ruta correctamente");
-                        getVehiculos();
-                    } catch (error) {
-                        alert(error.message);
-                    }
-                } else {
-                    alert("error al crear la ruta");
-                }
-            } else if (mode === "edit") {
-                if (!selectedRuta || typeof selectedRuta.id !== 'number') {
-                    console.error("Error: selectedRuta.id no es un número válido.");
-                    return;
-                }
-                await updateRuta(selectedRuta.id, formattedData);
-                alert("Ruta actualizada correctamente");
+        if (mode === "create") {
+            const rutaData = await createRuta(formattedData);
+            if (rutaData) {
                 try {
                     const vehiculoResponse = await fetch(
                         "http://localhost:3002/api/rutas/asignar-vehiculo",
@@ -153,7 +123,7 @@ const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => 
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
-                                idRuta: selectedRuta.id,
+                                idRuta: rutaData.id,
                                 idVehiculo: parseInt(data.idVehiculo),
                             }),
                         }
@@ -164,19 +134,56 @@ const RutaForm = ({ isOpen, closeModal, mode, selectedRuta, openEditModal }) => 
                             vehiculoData.message || "Error al asignar el vehículo"
                         );
                     }
+                    showNotification("Vehículo asignado a la ruta correctamente");
+                    closeModal();
                     getVehiculos();
                 } catch (error) {
-                    alert(error.message);
+                    showNotification(error.message, "error");
                 }
+            } else {
+                showNotification("Error al crear la ruta", "error");
             }
-            setIsLoading(false);
-            getRutas();
+        } else if (mode === "edit") {
+            if (!selectedRuta || typeof selectedRuta.id !== 'number') {
+                console.error("Error: selectedRuta.id no es un número válido.");
+                showNotification("ID de ruta no válido", "error");
+                setIsLoading(false);
+                return;
+            }
+            await updateRuta(selectedRuta.id, formattedData);
+            showNotification("Ruta actualizada correctamente");
             closeModal();
-        } catch (error) {
-            alert(error.message || "Error al procesar la ruta");
-            setIsLoading(false);
+            try {
+                const vehiculoResponse = await fetch(
+                    "http://localhost:3002/api/rutas/asignar-vehiculo",
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            idRuta: selectedRuta.id,
+                            idVehiculo: parseInt(data.idVehiculo),
+                        }),
+                    }
+                );
+                const vehiculoData = await vehiculoResponse.json();
+                if (!vehiculoResponse.ok) {
+                    throw new Error(
+                        vehiculoData.message || "Error al asignar el vehículo"
+                    );
+                }
+                getVehiculos();
+            } catch (error) {
+                showNotification(error.message, "error");
+            }
         }
-    };
+        setIsLoading(false);
+        getRutas();
+        closeModal();   
+    } catch (error) {
+        showNotification(error.message || "Error al procesar la ruta", "error");
+        setIsLoading(false);
+    }
+};
 
     if (!isOpen) return null;
 

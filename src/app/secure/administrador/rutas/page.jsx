@@ -7,6 +7,7 @@ import TimelineExample from "@/components/admin/graficoHoras";
 import { useRutas } from "@/context/RutasContext";
 import VehiculoModal from "@/components/admin/CrearVehiculo";
 import UbicacionModal from "@/components/admin/FormUbicaciones";
+import NotificationModal from "@/components/pruebas/NotificationModal";
 
 const rutasData = {
   rutas: []
@@ -24,6 +25,30 @@ function AppRutas() {
   const [modalVehiculoOpen, setModalVehiculoOpen] = useState(false);
   const [modalUbicacionOpen, setModalUbicacionOpen] = useState(false);
 
+  const [notification, setNotification] = useState({
+    message: "",
+    isVisible: false,
+    type: "success" // puede ser "success", "error", "info"
+  });
+
+  // Función para mostrar notificaciones
+  const showNotification = (message, type = "success") => {
+    setNotification({
+      message,
+      isVisible: true,
+      type
+    });
+
+    // Ocultar la notificación después de 5000ms
+    setTimeout(() => {
+      setNotification(prev => ({ ...prev, isVisible: false }));
+    }, 5000);
+  };
+
+  // Función para cerrar notificación manualmente
+  const closeNotification = () => {
+    setNotification(prev => ({ ...prev, isVisible: false }));
+  };
 
   const openModal = (mode, ruta = null) => {
     setModalMode(mode);
@@ -98,12 +123,20 @@ function AppRutas() {
         mode={modalMode}
         selectedRuta={selectedRuta}
         openEditModal={openEditModal}
+        showNotification={showNotification}
       />)}
       {modalVehiculoOpen && (
         <VehiculoModal isOpen={modalVehiculoOpen} onClose={() => setModalVehiculoOpen(false)} />)}
 
       {modalUbicacionOpen && (
         <UbicacionModal isOpen={modalUbicacionOpen} onClose={() => setModalUbicacionOpen(false)} />)}
+
+      <NotificationModal
+        message={notification.message}
+        isVisible={notification.isVisible}
+        type={notification.type}
+        onClose={closeNotification}
+      />
       <div className="h-auto w-full justify-between flex flex-col sm:flex-row items-start sm:items-center px-2 2xl:px-4 border-b py-2">
         <ul className="w-full sm:w-auto h-full flex flex-col sm:flex-row items-stretch sm:items-center gap-2 2xl:gap-2 mb-2 sm:mb-0">
           <li className="w-full sm:w-auto">

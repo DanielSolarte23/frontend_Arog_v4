@@ -32,7 +32,8 @@ const Cardtarea = ({tarea, handleDragStart}) => (
           <span className="text-sm ml-2 text-gray-400">{tarea.prioridad}</span>
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center gap-2 text-gray-400">
+          {tarea.asignado.nombres}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"

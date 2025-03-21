@@ -6,7 +6,7 @@ export default function Insidencias() {
 
   return (
     <div className="relative overflow-x-auto  h-full border-gray-200 rounded-lg">
-      <nav className="bg-white border-b border-b-gray-200 flex flex-col md:flex-row items-center justify-between py-2 px-10 gap-4 h-1/10">
+      <nav className="bg-white border-b border-b-gray-200 flex flex-col md:flex-row items-center justify-between py-2 px-4 gap-4 h-1/10">
         <div className="relative w-full md:w-auto">
           <input
             type="search"
@@ -15,7 +15,7 @@ export default function Insidencias() {
             required
           />
         </div>
-        <div className="flex items-center gap-2 w-full md:w-auto justify-end">
+        <div className="flex items-center gap-2 md:w-auto">
           <button className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition w-full md:w-auto justify-center">
             <span className="text-gray-700 font-medium">Filtrar Por</span>
             <svg
@@ -27,7 +27,7 @@ export default function Insidencias() {
             </svg>
           </button>
           <button
-            className="bg-lime-600 p-2 rounded-lg text-white flex items-center gap-2 hover:bg-lime-700 transition w-full md:w-auto justify-center md:mr-7"
+            className="bg-lime-600 p-2 rounded-lg text-white flex items-center gap-2 hover:bg-lime-700 transition w-full md:w-auto justify-center"
             onClick={() => setModalOpen(true)}
           >
             <span className="font-medium">Nueva insidencia</span>
