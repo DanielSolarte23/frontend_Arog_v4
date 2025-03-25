@@ -1,42 +1,283 @@
 "use client";
 import { useUsuario } from "@/context/UsuarioContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import LoadingScreen from "../LoadingScreen";
+import NotificationModal from "../pruebas/NotificationModal";
+import RegistroUsuarioForm from "./RegistroUsuarioForm";
+import Paginacion from "./Paginacion";
 
 export default function UsuariosTabla() {
-  const { usuarios, getUsuarios, updateUsuario, deleteUsuario, getUsuario } =
+  const { usuarios, getUsuarios, updateUsuario, deleteUsuario, getUsuario, createUsuario, error, loading } =
     useUsuario();
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [nuevoUsuario, setNuevoUsuario] = useState({
+    nombres: "",
+    apellidos: "",
+    correoElectronico: "",
+    telefono: "",
+    direccion: "",
+    rol: "",
+    contraseña: "",
+  });
+  const [notification, setNotification] = useState({
+    message: "",
+    isVisible: false,
+    type: "success"
+  });
+
+  useEffect(() => {
+    const updateItemsPerPage = () => {
+      if (window.innerWidth >= 1536) { // 2xl en Tailwind (1536px)
+        setItemsPerPage(10);
+      } else if (window.innerWidth >= 640) { // sm en Tailwind (640px)
+        setItemsPerPage(5);
+      } else {
+        setItemsPerPage(3); // Opcional para pantallas más pequeñas
+      }
+    };
+
+    updateItemsPerPage(); // Llamar una vez para establecer el valor inicial
+    window.addEventListener("resize", updateItemsPerPage);
+
+    return () => window.removeEventListener("resize", updateItemsPerPage);
+  }, []);
+
+  // Función para mostrar notificaciones
+  const showNotification = (message, type = "success") => {
+    setNotification({
+      message,
+      isVisible: true,
+      type
+    });
+
+    // Ocultar la notificación después de 5000ms
+    setTimeout(() => {
+      setNotification(prev => ({ ...prev, isVisible: false }));
+    }, 5000);
+  };
+
+  // Función para cerrar notificación manualmente
+  const closeNotification = () => {
+    setNotification(prev => ({ ...prev, isVisible: false }));
+  };
 
   useEffect(() => {
     getUsuarios();
   }, []);
 
-  const [modalOpen, setModalOpen] = useState(false);
+  // Helper function to safely convert a value to lowercase
+  const safeToLowerCase = (value) => {
+    return value ? value.toLowerCase() : "";
+  };
+
+  const filterUsuarios = useMemo(() => {
+    if (!searchQuery) return usuarios || [];
+    if (!usuarios) return [];
+
+    const lowercaseQuery = searchQuery.toLowerCase();
+    return usuarios.filter((usuario) => {
+      if (!usuario) return false;
+
+      return (
+        safeToLowerCase(usuario.nombres).includes(lowercaseQuery) ||
+        safeToLowerCase(usuario.apellidos).includes(lowercaseQuery) ||
+        safeToLowerCase(usuario.correoElectronico).includes(lowercaseQuery) ||
+        safeToLowerCase(usuario.telefono).includes(lowercaseQuery) ||
+        safeToLowerCase(usuario.direccion).includes(lowercaseQuery) ||
+        safeToLowerCase(usuario.rol).includes(lowercaseQuery)
+      );
+    });
+  }, [searchQuery, usuarios]);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filterUsuarios.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Calcular total de páginas
+  const totalPages = Math.ceil(filterUsuarios.length / itemsPerPage);
+
+  // Ajustar la página actual si el número total de páginas cambia
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages > 0 ? totalPages : 1);
+    }
+  }, [totalPages, currentPage]);
+
+  // Función para cambiar de página
+  const paginate = (pageNumber) => {
+    if (pageNumber > 0 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  // Obtener los números de página con lógica adaptable
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxPages = 5; // Máximo de páginas a mostrar
+
+    if (totalPages <= maxPages) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) pages.push(i);
+        pages.push("...");
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push("...");
+        for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        pages.push("...");
+        pages.push(currentPage - 1);
+        pages.push(currentPage);
+        pages.push(currentPage + 1);
+        pages.push("...");
+        pages.push(totalPages);
+      }
+    }
+    return pages;
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNuevoUsuario(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const abrirModal = (usuario) => {
+    if (usuario) {
+      setUsuarioSeleccionado(usuario);
+      setNuevoUsuario({
+        nombres: usuario.nombres || "",
+        apellidos: usuario.apellidos || "",
+        correoElectronico: usuario.correoElectronico || "",
+        telefono: usuario.telefono || "",
+        direccion: usuario.direccion || "",
+        rol: usuario.rol || "",
+        contraseña: "", 
+      });
+      console.log(usuario);
+    } else {
+      setUsuarioSeleccionado(null);
+      setNuevoUsuario({
+        nombres: "",
+        apellidos: "",
+        correoElectronico: "",
+        telefono: "",
+        direccion: "",
+        rol: "",
+        contraseña: "",
+      });
+    }
+    setModalOpen(true);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const datosParaEnviar = {
+      nombres: nuevoUsuario.nombres,
+      apellidos: nuevoUsuario.apellidos,
+      correoElectronico: nuevoUsuario.correoElectronico,
+      telefono: nuevoUsuario.telefono,
+      direccion: nuevoUsuario.direccion,
+      rol: nuevoUsuario.rol
+    };
+
+
+    if (nuevoUsuario.contraseña) {
+      datosParaEnviar.contraseña = nuevoUsuario.contraseña;
+    }
+
+    try {
+      console.log("Datos a enviar:", datosParaEnviar);
+      const resultado = usuarioSeleccionado
+        ? await updateUsuario(usuarioSeleccionado.id, datosParaEnviar)
+        : await createUsuario(datosParaEnviar);
+
+      if (resultado && (resultado.success || resultado.status === 200 || resultado.status === 201)) {
+        setModalOpen(false);
+        setUsuarioSeleccionado(null);
+        setNuevoUsuario({
+          nombres: "",
+          apellidos: "",
+          correoElectronico: "",
+          telefono: "",
+          direccion: "",
+          rol: "",
+          contraseña: "",
+        });
+        showNotification("Usuario guardado exitosamente");
+        console.log("Resultado de la API:", resultado);
+        getUsuarios();
+      } else {
+        console.log("Resultado de la API:", resultado);
+        console.log("Error al enviar datos");
+        showNotification("Error al guardar usuario", "error");
+      }
+    } catch (error) {
+      console.log(error);
+      showNotification("Error al guardar usuario", "error");
+    }
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setUsuarioSeleccionado(null);
+    setNuevoUsuario({
+      nombres: "",
+      apellidos: "",
+      correoElectronico: "",
+      telefono: "",
+      direccion: "",
+      rol: "",
+      contraseña: "",
+    });
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1);
+  };
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
-    <div className="relative overflow-x-auto bg-white  h-full border-gray-200 rounded-lg">
-      <nav className="bg-white border-b border-b-gray-200 flex flex-col md:flex-row items-center justify-between py-2 px-4 gap-4 h-1/10">
-        <div className="relative w-full md:w-auto">
+    <div className="relative overflow-x-auto bg-white h-full border-gray-200 rounded-lg">
+      {notification.isVisible && (
+        <NotificationModal
+          message={notification.message}
+          isVisible={notification.isVisible}
+          type={notification.type}
+          onClose={closeNotification}
+        />
+      )}
+
+      <nav className="bg-white border-b border-b-gray-200 flex flex-col md:flex-row items-center justify-between py-2 px-4 gap-4 h-[15%] xl-plus:h-1/10">
+        <div className="relative w-full md:w-1/3 flex items-center">
+          <i className="fa-solid left-3 text-zinc-400 absolute fa-magnifying-glass"></i>
           <input
-            type="search"
-            className="block w-full placeholder:font-extralight text-lg text-gray-900 border border-gray-200 rounded-lg bg-white px-4 py-2"
+            type="text"
             placeholder="Buscar..."
-            required
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="px-3 pl-10 py-2 border border-zinc-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-rojo"
           />
         </div>
         <div className="flex items-center gap-2 md:w-auto">
-          {/* <button className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition w-full md:w-auto justify-center">
-            <span className="text-gray-700 font-medium">Filtrar Por</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-              className="w-5 h-5 fill-gray-400"
-            >
-              <path d="M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" />
-            </svg>
-          </button> */}
           <button
             className="bg-lime-600 p-2 rounded-lg text-white flex items-center gap-2 hover:bg-lime-700 transition w-full md:w-auto justify-center"
-            onClick={() => setModalOpen(true)}
+            onClick={() => abrirModal(null)}
           >
             <span className="font-medium">Registrar Usuario</span>
             <svg
@@ -50,7 +291,7 @@ export default function UsuariosTabla() {
         </div>
       </nav>
 
-      <div className="overflow-x-auto h-8/10 w-full p-10">
+      <div className="overflow-x-auto h-[70%] xl-plus:h-8/10 w-full p-6 xl-plus:p-10">
         <div className="overflow-hidden rounded-lg border border-gray-200">
           <table className="text-sm text-left text-gray-500 w-full">
             {/* Encabezado */}
@@ -62,223 +303,53 @@ export default function UsuariosTabla() {
                 </th>
                 <th className="px-4 py-3 md:px-6 md:py-4">Telefono</th>
                 <th className="px-4 py-3 md:px-6 md:py-4">Direccion</th>
-                <th className="px-4 py-3 md:px-6 md:py-4">rol</th>
+                <th className="px-4 py-3 md:px-6 md:py-4">Rol</th>
+                <th className="px-4 py-3 md:px-6 md:py-4">Accion</th>
               </tr>
             </thead>
 
             {/* Cuerpo */}
             <tbody className="bg-white divide-y divide-gray-200">
-              {usuarios.map((usuario) => (
+              {currentItems.map((usuario) => (
                 <tr
                   className="bg-white border-b border-gray-200"
                   key={usuario.id}
                 >
                   <td className="px-4 py-2 md:px-6 md:py-4">
-                    {usuario.nombres} {usuario.apellidos}
+                    {usuario.nombres || ""} {usuario.apellidos || ""}
                   </td>
                   <td className="px-4 py-2 md:px-6 md:py-4">
-                    {usuario.correoElectronico}
+                    {usuario.correoElectronico || ""}
                   </td>
                   <td className="px-4 py-2 md:px-6 md:py-4">
-                    {usuario.telefono}
+                    {usuario.telefono || ""}
                   </td>
                   <td className="px-4 py-2 md:px-6 md:py-4">
-                    {`${usuario.direccion || "sin asignar"}`}{" "}
+                    {usuario.direccion || "Sin asignar"}
                   </td>
-                  <td className="px-4 py-2 md:px-6 md:py-4">{usuario.rol}</td>
+                  <td className="px-4 py-2 md:px-6 md:py-4">{usuario.rol || ""}</td>
+                  <td className="px-4 py-1 text-center">
+                    <button
+                      onClick={() => abrirModal(usuario)}
+                      className="font-bold py-1 px-3 rounded"
+                      aria-label="Editar Usuario"
+                    >
+                      <i className="fa-solid fa-pen"></i>
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
-      {/* <div className="overflow-x-auto h-8/10 w-full p-10 rounded-lg">
-        <table className="text-sm text-left text-gray-500 border-gray-200  w-full border ">
-          <thead className="text-xs text-gray-700 uppercase bg-white border-b border-gray-200 ">
-            <tr>
-              <th className="px-4 py-3 md:px-6 md:py-4">Nombres</th>
-              <th className="px-4 py-3 md:px-6 md:py-4">Correo electronico</th>
-              <th className="px-4 py-3 md:px-6 md:py-4">Telefono</th>
-              <th className="px-4 py-3 md:px-6 md:py-4">Direccion</th>
-              <th className="px-4 py-3 md:px-6 md:py-4">rol</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {usuarios.map((usuario) => (
-              <tr
-                className="bg-white border-b border-gray-200"
-                key={usuario.id}
-              >
-                <td className="px-4 py-2 md:px-6 md:py-4">
-                  {usuario.nombres} {usuario.apellidos}
-                </td>
-                <td className="px-4 py-2 md:px-6 md:py-4">
-                  {usuario.correoElectronico}
-                </td>
-                <td className="px-4 py-2 md:px-6 md:py-4">
-                  {usuario.telefono}
-                </td>
-                <td className="px-4 py-2 md:px-6 md:py-4">
-                  {`${usuario.direccion || "sin asignar"}`}{" "}
-                </td>
-                <td className="px-4 py-2 md:px-6 md:py-4">{usuario.rol}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div> */}
 
-      <nav className="bg-white border-t rounded-b-md h-1/10 flex flex-col md:flex-row items-center justify-between p-2 gap-4">
-        <button className="flex items-center gap-2 border px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition order-1 md:order-none w-full md:w-auto justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
-            className="w-5 h-5 fill-gray-400"
-          >
-            <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
-          </svg>
-          <span className="text-gray-700 font-medium">Anterior</span>
-        </button>
-
-        <ul className="flex items-center -space-x-px h-8 text-sm flex-wrap justify-center order-3 md:order-none">
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white     dark:text-gray-400  dark:hover:text-gray-600"
-            >
-              1
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white   dark:text-gray-400  dark:hover:text-gray-600"
-            >
-              2
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              aria-current="page"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white   dark:text-gray-400  dark:hover:text-gray-600"
-            >
-              ...
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white   dark:text-gray-400  dark:hover:text-gray-600"
-            >
-              4
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white   dark:text-gray-400  dark:hover:text-gray-600"
-            >
-              5
-            </a>
-          </li>
-        </ul>
-
-        <button className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition order-2 md:order-none w-full md:w-auto justify-center">
-          <span className="text-gray-700 font-medium">Siguiente</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
-            className="w-5 h-5 fill-gray-400"
-          >
-            <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
-          </svg>
-        </button>
-      </nav>
+      <div className="bg-white border-t rounded-b-md h-[15%] xl-plus:h-1/10 flex flex-col md:flex-row items-center justify-center p-2 gap-4 px-4">
+        <Paginacion currentPage={currentPage} totalPages={totalPages} paginate={paginate} getPageNumbers={getPageNumbers} />
+      </div>
 
       {modalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50">
-          <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg w-full max-w-[500px]">
-            <h2 className="text-lg md:text-xl font-normal mb-4 md:mb-6">
-              Agregar nuevo Usuario
-            </h2>
-            <form>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-4">
-                <div>
-                  <label className="text-gray-500 ml-1" htmlFor="nombre">
-                    Nombres
-                  </label>
-                  <input
-                    type="text"
-                    name="nombre"
-                    className="border border-gray-300 rounded-lg p-2"
-                    placeholder="Ingresa el nombre"
-                  />
-                </div>
-                <div>
-                  <label className="text-gray-500 ml-1" htmlFor="apellidos">
-                    Apellidos
-                  </label>
-                  <input
-                    type="text"
-                    name="apellidos"
-                    className="border border-gray-300 rounded-lg p-2"
-                    placeholder="Ingresa los apellidos"
-                  />
-                </div>
-                <div>
-                  <label className="text-gray-500 ml-1" htmlFor="email">
-                    Correo electronico
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    className="border border-gray-300 rounded-lg p-2"
-                    placeholder="Ingresa el correo"
-                  />
-                </div>
-                <div>
-                  <label className="text-gray-500 ml-1" htmlFor="contraseña">
-                    Contraseña
-                  </label>
-                  <input
-                    type="password"
-                    name="contraseña"
-                    className="border border-gray-300 rounded-lg p-2"
-                    placeholder="Ingresa la contraseña"
-                  />
-                </div>
-                <div>
-                  <label className="text-gray-500 ml-1" htmlFor="telefono">
-                    Telefono
-                  </label>
-                  <input
-                    type="text"
-                    name="telefono"
-                    className="border border-gray-300 rounded-lg p-2"
-                    placeholder="Ingresa el correo"
-                  />
-                </div>
-              </div>
-              
-              <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 transition"
-                  onClick={() => setModalOpen(false)}
-                >
-                  <span className="font-medium">Cancelar</span>
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-lime-600 text-white rounded-md hover:bg-lime-700 transition text-sm md:text-base w-full md:w-auto"
-                >
-                  <span className="font-medium">Crear Incidencia</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <RegistroUsuarioForm handleCloseModal={handleCloseModal} usuarioSeleccionado={usuarioSeleccionado} handleSubmit={handleSubmit} handleInputChange={handleInputChange} nuevoUsuario={nuevoUsuario} />
       )}
     </div>
   );

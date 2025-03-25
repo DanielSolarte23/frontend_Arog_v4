@@ -5,6 +5,8 @@ import { VehiculoProvider } from "@/context/VehiculoContext";
 import { UsuarioProvider } from "@/context/UsuarioContext";
 import { UbicacionProvider } from "@/context/UbicacionContext";
 import { FormularioTipoProvider } from "@/context/FormularioTipoContext";
+import { PagoProvider } from "@/context/PagosContext";
+import { ClienteProvider } from "@/context/ClienteContext";
 
 export const metadata = {
   title: "Arog App",
@@ -21,7 +23,11 @@ export default function RootLayout({ children }) {
               <UsuarioProvider>
                 <UbicacionProvider>
                   <FormularioTipoProvider>
-                    <main className="h-full">{children}</main>
+                    <PagoProvider>
+                      <ClienteProvider>
+                        <main className="h-full">{children}</main>
+                      </ClienteProvider>
+                    </PagoProvider>
                   </FormularioTipoProvider>
                 </UbicacionProvider>
               </UsuarioProvider>

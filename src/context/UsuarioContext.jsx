@@ -45,15 +45,25 @@ export function UsuarioProvider({ children }) {
       setLoading(false);
     }
   };
-  
 
-  const createUsuario = async (ruta) => {
+
+  const createUsuario = async (usuario) => {
     try {
-      const res = await createUsuarioRequest(ruta);
+      const res = await createUsuarioRequest(usuario);
       setUsuarios((prev) => [...prev, res.data]);
+      return {
+        success: true,
+        data: res.data,
+        status: res.status
+      };
     } catch (error) {
       console.log(error);
       handleError(error, "Error al crear usuario");
+      return {
+        success: false,
+        error: error.message,
+        status: error.response?.status
+      };
     }
   };
 
@@ -61,7 +71,7 @@ export function UsuarioProvider({ children }) {
     try {
       const res = await deleteUsuarioRequest(id);
       if (res.status === 204) {
-        setUsuarios((prev) => prev.filter((ruta) => ruta._id !== id));
+        setUsuarios((prev) => prev.filter((usuario) => usuario.id !== id));
       }
     } catch (error) {
       handleError(error, "Error al eliminar usuario");
@@ -78,26 +88,28 @@ export function UsuarioProvider({ children }) {
     }
   };
 
-  const updateUsuario = async (id, ruta) => {
+  const updateUsuario = async (id, usuario) => {
     try {
-      await updateUsuarioRequest(id, ruta);
+      const res = await updateUsuarioRequest(id, usuario);
       setUsuarios((prev) =>
-        prev.map((item) => (item._id === id ? { ...item, ...ruta } : item))
+        prev.map((item) => (item.id === id ? { ...item, ...usuario } : item))
       );
+      return {
+        success: true,
+        data: res.data,
+        status: res.status
+      };
     } catch (error) {
       handleError(error, "Error al actualizar el ususario");
+      return {
+        success: false,
+        error: error.message,
+        status: error.response?.status
+      };
       console.log(error);
     }
   };
 
-//   useEffect(() => {
-//     getUsuarios();
-//   }, [])
-  
-//   useEffect(() => {
-//     console.log("Usuarios:", usuarios);
-//   }, [usuarios]);
-  
 
   return (
     <UsuarioContext.Provider
@@ -109,6 +121,7 @@ export function UsuarioProvider({ children }) {
         getUsuarios,
         updateUsuario,
         deleteUsuarioRequest,
+        loading,
         errors,
       }}
     >

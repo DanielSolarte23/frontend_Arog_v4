@@ -7,7 +7,7 @@ const NotificationModal = ({ message, isVisible, type, onClose }) => {
       const timer = setTimeout(() => {
         onClose();
       }, 5000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [isVisible, onClose]);
@@ -21,17 +21,18 @@ const NotificationModal = ({ message, isVisible, type, onClose }) => {
       case 'info':
         return 'bg-blue-500';
       case 'success':
+        return 'bg-verde';
       default:
         return 'bg-verde';
     }
   };
 
   return (
-    <div 
+    <div
       className={`fixed top-0 left-1/4 w-1/2 h-10 flex items-center justify-between px-4 text-white ${getBgColor()} transform transition-transform duration-300 rounded-b-lg ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
     >
       <p>{message}</p>
-      <button 
+      <button
         onClick={onClose}
         className="ml-2 text-white hover:text-gray-200"
       >
