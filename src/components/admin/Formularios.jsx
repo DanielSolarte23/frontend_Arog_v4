@@ -1,19 +1,23 @@
-'use client'
+"use client";
 import { useState, useEffect } from "react";
 import FormularioTipoForm from "./FormularioTipoForm";
 import FormularioInstanciaForm from "./FormularioInstanciaForm";
 
-export default function FormularioDinamico() {
-  const [mostrarFormularioTipo, setMostrarFormularioTipo] = useState(false);
-  const [mostrarFormularioInstancia, setMostrarFormularioInstancia] = useState(false);
+export default function FormularioDinamico({
+  mostrarFormularioTipo,
+  setMostrarFormularioTipo,
+}) {
+  // const [mostrarFormularioTipo, setMostrarFormularioTipo] = useState(false);
+  // const [mostrarFormularioInstancia, setMostrarFormularioInstancia] =
+  // useState(false);
   const [tiposFormulario, setTiposFormulario] = useState([]);
 
-  // Obtener los tipos de formulario
-  useEffect(() => {
-    fetch("http://localhost:3002/api/formulariosTipo")
-      .then((res) => res.json())
-      .then((data) => setTiposFormulario(data));
-  }, []);
+  // // Obtener los tipos de formulario
+  // useEffect(() => {
+  //   fetch("https://backend-arog-v4.onrender.com/api/formulariosTipo")
+  //     .then((res) => res.json())
+  //     .then((data) => setTiposFormulario(data));
+  // }, []);
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md border">
@@ -25,17 +29,25 @@ export default function FormularioDinamico() {
         >
           Crear Formulario
         </button>
-
+        {/* 
         <button
-          onClick={() => setMostrarFormularioInstancia(!mostrarFormularioInstancia)}
+          onClick={() =>
+            setMostrarFormularioInstancia(!mostrarFormularioInstancia)
+          }
           className="bg-verde text-white px-4 py-2 rounded-md"
         >
           LLenar Formulario
-        </button>
+        </button> */}
       </div>
 
-      {mostrarFormularioTipo && <FormularioTipoForm />}
-      {mostrarFormularioInstancia && <FormularioInstanciaForm tiposFormulario={tiposFormulario} />}
+      {mostrarFormularioTipo && (
+        <FormularioTipoForm
+          setMostrarFormularioTipo={setMostrarFormularioTipo()}
+        />
+      )}
+      {/* {mostrarFormularioInstancia && (
+        <FormularioInstanciaForm tiposFormulario={tiposFormulario} />
+      )} */}
     </div>
   );
 }
