@@ -118,7 +118,7 @@ const onSubmit = async (data) => {
             if (rutaData) {
                 try {
                     const vehiculoResponse = await fetch(
-                        "http://localhost:3002/api/rutas/asignar-vehiculo",
+                        "https://backend-arog-v4.onrender.com/api/rutas/asignar-vehiculo",
                         {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
@@ -155,7 +155,7 @@ const onSubmit = async (data) => {
             closeModal();
             try {
                 const vehiculoResponse = await fetch(
-                    "http://localhost:3002/api/rutas/asignar-vehiculo",
+                    "https://backend-arog-v4.onrender.com/api/rutas/asignar-vehiculo",
                     {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },

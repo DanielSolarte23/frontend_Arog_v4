@@ -7,6 +7,11 @@ import Paginacion from "./Paginacion";
 import { usePago } from "@/context/PagosContext";
 import FormularioPago from "./FormularioPago";
 import DetallesPago from "./DetallesPago";
+// import jsPDF from 'jspdf';
+// import 'jspdf-autotable';
+import dynamic from "next/dynamic";
+import FacturaPagoModal from "./FacturaPagoModal";
+import Link from "next/link";
 
 export default function PagosTabla({ isPago, setisPago }) {
   const {
@@ -29,21 +34,30 @@ export default function PagosTabla({ isPago, setisPago }) {
   const [nuevoPago, setNuevoPago] = useState({
     idCliente: "",
     descripcion: "",
-    fechaPago: "",
     fechaVencimiento: "",
     montoPago: "",
-    montoPagoRealizado: "",
-    interesMora: "",
-    diasMora: "",
-    estadoMora: "",
-    metodoPago: "",
-    frecuenciaProximoPago: "",
+    // montoPagoRealizado: "",
+    // interesMora: "",
+    // diasMora: "",
+    // estadoMora: "",
+    // metodoPago: "",
+    // frecuenciaProximoPago: "",
   });
   const [notification, setNotification] = useState({
     message: "",
     isVisible: false,
     type: "success",
   });
+  const [facturaModalOpen, setFacturaModalOpen] = useState(false);
+
+  const abrirModalFactura = (pago) => {
+    setPagoSeleccionado(pago);
+    setFacturaModalOpen(true);
+  };
+
+  const handleDescargarFactura = () => {
+    generarPDF(pagoSeleccionado);
+  };
 
   useEffect(() => {
     const updateItemsPerPage = () => {
@@ -198,10 +212,10 @@ export default function PagosTabla({ isPago, setisPago }) {
         fechaPago: pago.fechaPago || "",
         montoPago: pago.montoPago || "",
         montoPagoRealizado: pago.montoPagoRealizado || "",
-        interesMora: pago.interesMora || "",
-        diasMora: pago.diasMora || "",
-        estadoMora: pago.estadoMora || "",
-        metodoPago: pago.metodoPago || "",
+        // interesMora: pago.interesMora || "",
+        // diasMora: pago.diasMora || "",
+        // estadoMora: pago.estadoMora || "",
+        // metodoPago: pago.metodoPago || "",
       });
       console.log(pago);
     } else {
@@ -212,15 +226,15 @@ export default function PagosTabla({ isPago, setisPago }) {
         fechaPago: "",
         fechaVencimiento: "",
         montoPago: "",
-        montoPagoRealizado: "",
-        interesMora: "",
-        diasMora: "",
-        estadoMora: "",
-        metodoPago: "",
+        // montoPagoRealizado: "",
+        // interesMora: "",
+        // diasMora: "",
+        // estadoMora: "",
+        // metodoPago: "",
       });
     }
-    setDetallePago(true);
-    // setModalOpen(true);
+    // setDetallePago(true);
+    setModalOpen(true);
   };
 
   const handleSubmit = async (e) => {
@@ -232,11 +246,11 @@ export default function PagosTabla({ isPago, setisPago }) {
       fechaPago: nuevoPago.fechaPago,
       fechaVencimiento: nuevoPago.fechaVencimiento,
       montoPago: nuevoPago.montoPago,
-      montoPagoRealizado: nuevoPago.montoPagoRealizado,
-      interesMora: nuevoPago.interesMora,
-      diasMora: nuevoPago.diasMora,
-      estadoMora: nuevoPago.estadoMora,
-      metodoPago: nuevoPago.metodoPago,
+      // montoPagoRealizado: nuevoPago.montoPagoRealizado,
+      // interesMora: nuevoPago.interesMora,
+      // diasMora: nuevoPago.diasMora,
+      // estadoMora: nuevoPago.estadoMora,
+      // metodoPago: nuevoPago.metodoPago,
     };
 
     try {
@@ -259,11 +273,11 @@ export default function PagosTabla({ isPago, setisPago }) {
           fechaPago: "",
           fechaVencimiento: "",
           montoPago: "",
-          montoPagoRealizado: "",
-          interesMora: "",
-          diasMora: "",
-          estadoMora: "",
-          metodoPago: "",
+          // montoPagoRealizado: "",
+          // interesMora: "",
+          // diasMora: "",
+          // estadoMora: "",
+          // metodoPago: "",
         });
         showNotification("Pago registrado exitosamente");
         console.log("Resultado de la API:", resultado);
@@ -288,11 +302,11 @@ export default function PagosTabla({ isPago, setisPago }) {
       fechaPago: "",
       fechaVencimiento: "",
       montoPago: "",
-      montoPagoRealizado: "",
-      interesMora: "",
-      diasMora: "",
-      estadoMora: "",
-      metodoPago: "",
+      // montoPagoRealizado: "",
+      // interesMora: "",
+      // diasMora: "",
+      // estadoMora: "",
+      // metodoPago: "",
     });
   };
 
@@ -305,6 +319,112 @@ export default function PagosTabla({ isPago, setisPago }) {
     return <LoadingScreen />;
   }
 
+  const generarPDF = async () => {
+    if (!pagoSeleccionado) return;
+
+    // Importación dinámica de jsPDF y autoTable
+    const jsPDF = (await import("jspdf")).default;
+    const autoTable = (await import("jspdf-autotable")).default;
+
+    const doc = new jsPDF();
+    doc.setFont("helvetica");
+
+    // URL de tu logo (ajusta según tu proyecto)
+    const imgUrl = "/ArogV2.png"; // Cambia esto por la ruta de tu logo
+
+    const img = new Image();
+    img.crossOrigin = "Anonymous"; // Importante para CORS
+
+    const addImageToPdf = () => {
+      return new Promise((resolve) => {
+        img.onload = () => {
+          resolve();
+        };
+        img.src = imgUrl;
+      });
+    };
+
+    const generatePdfWithImage = async () => {
+      try {
+        await addImageToPdf();
+
+        const pageWidth = doc.internal.pageSize.width;
+        const imgWidth = 40;
+        const imgHeight = 40;
+        const imgX = (pageWidth - imgWidth) / 2;
+
+        // Añadir logo
+        doc.addImage(img, "PNG", imgX, 10, imgWidth, imgHeight);
+
+        // Encabezado centrado
+        doc.setFontSize(20);
+        doc.text("Resumen de Tu Factura", pageWidth / 2, 70, { align: "center" });
+
+        // Subtítulo centrado
+        doc.setFontSize(12);
+        doc.text("Detalle de Transacción", pageWidth / 2, 80, { align: "center" });
+
+        // Detalles del pago
+        const startY = 100;
+        const leftMargin = 20;
+        const lineHeight = 7;
+
+        doc.setFont("helvetica", "bold");
+        doc.text("Información del Pago:", leftMargin, startY);
+
+        doc.setFont("helvetica", "normal");
+        doc.text(`Cliente: ${pagoSeleccionado.cliente.nombre} ${pagoSeleccionado.cliente.apellido}`, leftMargin, startY + lineHeight);
+
+        doc.text(`Descripción: ${pagoSeleccionado.descripcion}`, leftMargin, startY + lineHeight * 2);
+
+        doc.text(`Monto Total: $${pagoSeleccionado.montoPago.toLocaleString()}`, leftMargin, startY + lineHeight * 3);
+
+        doc.text(`Fecha de Emisión: ${new Date(pagoSeleccionado.fechaEmision).toLocaleDateString()}`, leftMargin, startY + lineHeight * 4);
+
+        doc.text(`Fecha de Vencimiento: ${new Date(pagoSeleccionado.fechaVencimiento).toLocaleDateString()}`, leftMargin, startY + lineHeight * 5);
+
+        doc.text(`Estado: ${pagoSeleccionado.estadoPago}`, leftMargin, startY + lineHeight * 6);
+
+        // Desglose de conceptos
+        const desglose = [
+          ["Concepto", "Valor"],
+          ["Monto Original", `$${pagoSeleccionado.montoPago.toLocaleString()}`],
+          ["Monto Pagado", `$${pagoSeleccionado.montoPagoRealizado?.toLocaleString() || "0"}`],
+          ["Días de Mora", pagoSeleccionado.diasMora || "0"],
+          ["Interés de Mora", `$${pagoSeleccionado.interesMora?.toLocaleString() || "0"}`]
+        ];
+
+        autoTable(doc, {
+          startY: startY + lineHeight * 8,
+          head: [desglose[0]],
+          body: desglose.slice(1),
+          theme: "grid",
+          headStyles: { fillColor: [114, 170, 0] }, // Color personalizable
+          styles: {
+            halign: "center",
+            fontSize: 12,
+          },
+          margin: { left: 20, right: 20 },
+        });
+
+        // Pie de página centrado
+        const pageHeight = doc.internal.pageSize.height;
+        doc.setFontSize(10);
+        doc.text("Comprobante generado electrónicamente", pageWidth / 2, pageHeight - 30, { align: "center" });
+        doc.text("Agradecemos su preferencia.", pageWidth / 2, pageHeight - 20, { align: "center" });
+
+        // Guardar el PDF
+        const fileName = `Factura_${pagoSeleccionado.cliente.nombre}_${new Date().toISOString().split("T")[0]}.pdf`;
+        doc.save(fileName);
+      } catch (error) {
+        console.error("Error generando PDF:", error);
+      }
+    };
+
+    generatePdfWithImage();
+  };
+
+
   return (
     <div className="relative overflow-x-auto bg-white h-full border-gray-200 rounded-lg">
       {notification.isVisible && (
@@ -315,7 +435,20 @@ export default function PagosTabla({ isPago, setisPago }) {
           onClose={closeNotification}
         />
       )}
-
+      {facturaModalOpen && (
+        <FacturaPagoModal
+          pago={pagoSeleccionado}
+          onClose={() => {
+            setFacturaModalOpen(false);
+            setPagoSeleccionado(null);
+          }}
+          onEdit={() => {
+            setFacturaModalOpen(false);
+            abrirModal(pagoSeleccionado);
+          }}
+          onDownloadPDF={handleDescargarFactura}
+        />
+      )}
       <nav className="bg-white border-b border-b-gray-200 flex flex-col md:flex-row items-center justify-between py-2 px-4 gap-4 h-[15%] xl-plus:h-1/10">
         <div className="relative w-full md:w-1/3 flex items-center">
           <i className="fa-solid left-3 text-zinc-400 absolute fa-magnifying-glass"></i>
@@ -329,19 +462,17 @@ export default function PagosTabla({ isPago, setisPago }) {
         </div>
         <div className="flex items-center gap-2 md:w-auto">
           <button
-            className={` border p-2 rounded-lg text-verde-dos flex items-center gap-2  transition w-full md:w-auto justify-center px-4 ${
-              isPago ? "bg-white hover:bg-lime-50" : "bg-lime-600 text-white"
-            }`}
+            className={` border p-2 rounded-lg text-verde-dos flex items-center gap-2  transition w-full md:w-auto justify-center px-4 ${isPago ? "bg-white hover:bg-lime-50" : "bg-lime-600 text-white"
+              }`}
             onClick={() => setisPago(false)}
           >
             Pagos
           </button>
           <button
-            className={`border p-2 rounded-lg text-verde-dos flex items-center gap-2 transition w-full md:w-auto justify-center px-4 ${
-              !isPago
-                ? "bg-white-600 text-verde-dos hover:bg-lime-100"
-                : "bg-verde text-white"
-            }`}
+            className={`border p-2 rounded-lg text-verde-dos flex items-center gap-2 transition w-full md:w-auto justify-center px-4 ${!isPago
+              ? "bg-white-600 text-verde-dos hover:bg-lime-100"
+              : "bg-verde text-white"
+              }`}
             onClick={() => setisPago(true)}
           >
             Clientes
@@ -366,7 +497,7 @@ export default function PagosTabla({ isPago, setisPago }) {
 
       <div className="overflow-x-auto h-[70%] xl-plus:h-8/10 w-full p-6 xl-plus:p-10">
         <div className="overflow-hidden rounded-lg border border-gray-200">
-          <table className="text-sm text-left text-gray-500 w-full">
+          <table className=" text-left text-gray-500 w-full">
             {/* Encabezado */}
             <thead className="text-xs text-gray-700 uppercase bg-white border-b border-gray-200">
               <tr>
@@ -383,10 +514,13 @@ export default function PagosTabla({ isPago, setisPago }) {
                 <th className="px-4 py-3 md:px-6 md:py-4 text-center">
                   Detalles
                 </th>
+                <th className="px-4 py-3 md:px-6 md:py-4 text-center">
+                  transacciones
+                </th>
               </tr>
             </thead>
             {/* Cuerpo */}
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-200 text-xs xl-plus:text-base">
               {currentItems.map((pago) => (
                 <tr className="bg-white border-b border-gray-200" key={pago.id}>
                   <td className="px-4 py-2 md:px-6 md:py-4">
@@ -432,14 +566,22 @@ export default function PagosTabla({ isPago, setisPago }) {
                   <td className="px-4 py-2 md:px-6 md:py-4 text-center">
                     {pago.diasMora}
                   </td>
-                  <td className="px-4 py-1 text-center">
+                  <td className="px-4 py-1 text-center space-x-2">
                     <button
-                      onClick={() => abrirModal(pago)}
+                      onClick={() => abrirModalFactura(pago)}
                       className="font-bold py-1 px-3 rounded"
-                      aria-label="Editar Pago"
+                      aria-label="Ver Factura"
                     >
-                      <i className="fa-solid fa-pen"></i>
+                      <i className="fa-solid fa-file-invoice"></i>
                     </button>
+                  </td>
+                  <td className="px-4 py-1 text-center space-x-2">
+                    <Link
+                      href={`/secure/administrador/pagos/${pago.id}`}
+                      className="font-bold py-1 px-3 rounded"
+                    >
+                      <i className="fa-solid fa-right-left"></i>
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -456,18 +598,6 @@ export default function PagosTabla({ isPago, setisPago }) {
           getPageNumbers={getPageNumbers}
         />
       </div>
-
-      {DetallePago && (
-        <DetallesPago
-          handleCloseModal={handleCloseModal}
-          pagoSeleccionado={pagoSeleccionado}
-          handleSubmit={handleSubmit}
-          handleInputChange={handleInputChange}
-          nuevoPago={nuevoPago}
-          setDetallePago={setDetallePago}
-        />
-      )}
-
       {modalOpen && (
         <FormularioPago
           handleCloseModal={handleCloseModal}

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'https://backend-arog-v4.onrender.com/api',
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:3002/api',
   withCredentials: true, // Importante para que las cookies sean enviadas con las solicitudes
   headers: {
     'Content-Type': 'application/json'
