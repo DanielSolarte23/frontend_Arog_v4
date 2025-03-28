@@ -12,6 +12,7 @@ import DetallesPago from "./DetallesPago";
 import dynamic from "next/dynamic";
 import FacturaPagoModal from "./FacturaPagoModal";
 import Link from "next/link";
+import TransaccionDetalle from "./TablaTransacciones";
 
 export default function PagosTabla({ isPago, setisPago }) {
   const {
@@ -26,6 +27,7 @@ export default function PagosTabla({ isPago, setisPago }) {
   } = usePago();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [transaccionOpen, setTransaccionOpen] = useState(false);
   const [pagoSeleccionado, setPagoSeleccionado] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -358,11 +360,15 @@ export default function PagosTabla({ isPago, setisPago }) {
 
         // Encabezado centrado
         doc.setFontSize(20);
-        doc.text("Resumen de Tu Factura", pageWidth / 2, 70, { align: "center" });
+        doc.text("Resumen de Tu Factura", pageWidth / 2, 70, {
+          align: "center",
+        });
 
         // Subtítulo centrado
         doc.setFontSize(12);
-        doc.text("Detalle de Transacción", pageWidth / 2, 80, { align: "center" });
+        doc.text("Detalle de Transacción", pageWidth / 2, 80, {
+          align: "center",
+        });
 
         // Detalles del pago
         const startY = 100;
@@ -373,25 +379,59 @@ export default function PagosTabla({ isPago, setisPago }) {
         doc.text("Información del Pago:", leftMargin, startY);
 
         doc.setFont("helvetica", "normal");
-        doc.text(`Cliente: ${pagoSeleccionado.cliente.nombre} ${pagoSeleccionado.cliente.apellido}`, leftMargin, startY + lineHeight);
+        doc.text(
+          `Cliente: ${pagoSeleccionado.cliente.nombre} ${pagoSeleccionado.cliente.apellido}`,
+          leftMargin,
+          startY + lineHeight
+        );
 
-        doc.text(`Descripción: ${pagoSeleccionado.descripcion}`, leftMargin, startY + lineHeight * 2);
+        doc.text(
+          `Descripción: ${pagoSeleccionado.descripcion}`,
+          leftMargin,
+          startY + lineHeight * 2
+        );
 
-        doc.text(`Monto Total: $${pagoSeleccionado.montoPago.toLocaleString()}`, leftMargin, startY + lineHeight * 3);
+        doc.text(
+          `Monto Total: $${pagoSeleccionado.montoPago.toLocaleString()}`,
+          leftMargin,
+          startY + lineHeight * 3
+        );
 
-        doc.text(`Fecha de Emisión: ${new Date(pagoSeleccionado.fechaEmision).toLocaleDateString()}`, leftMargin, startY + lineHeight * 4);
+        doc.text(
+          `Fecha de Emisión: ${new Date(
+            pagoSeleccionado.fechaEmision
+          ).toLocaleDateString()}`,
+          leftMargin,
+          startY + lineHeight * 4
+        );
 
-        doc.text(`Fecha de Vencimiento: ${new Date(pagoSeleccionado.fechaVencimiento).toLocaleDateString()}`, leftMargin, startY + lineHeight * 5);
+        doc.text(
+          `Fecha de Vencimiento: ${new Date(
+            pagoSeleccionado.fechaVencimiento
+          ).toLocaleDateString()}`,
+          leftMargin,
+          startY + lineHeight * 5
+        );
 
-        doc.text(`Estado: ${pagoSeleccionado.estadoPago}`, leftMargin, startY + lineHeight * 6);
+        doc.text(
+          `Estado: ${pagoSeleccionado.estadoPago}`,
+          leftMargin,
+          startY + lineHeight * 6
+        );
 
         // Desglose de conceptos
         const desglose = [
           ["Concepto", "Valor"],
           ["Monto Original", `$${pagoSeleccionado.montoPago.toLocaleString()}`],
-          ["Monto Pagado", `$${pagoSeleccionado.montoPagoRealizado?.toLocaleString() || "0"}`],
+          [
+            "Monto Pagado",
+            `$${pagoSeleccionado.montoPagoRealizado?.toLocaleString() || "0"}`,
+          ],
           ["Días de Mora", pagoSeleccionado.diasMora || "0"],
-          ["Interés de Mora", `$${pagoSeleccionado.interesMora?.toLocaleString() || "0"}`]
+          [
+            "Interés de Mora",
+            `$${pagoSeleccionado.interesMora?.toLocaleString() || "0"}`,
+          ],
         ];
 
         autoTable(doc, {
@@ -410,11 +450,23 @@ export default function PagosTabla({ isPago, setisPago }) {
         // Pie de página centrado
         const pageHeight = doc.internal.pageSize.height;
         doc.setFontSize(10);
-        doc.text("Comprobante generado electrónicamente", pageWidth / 2, pageHeight - 30, { align: "center" });
-        doc.text("Agradecemos su preferencia.", pageWidth / 2, pageHeight - 20, { align: "center" });
+        doc.text(
+          "Comprobante generado electrónicamente",
+          pageWidth / 2,
+          pageHeight - 30,
+          { align: "center" }
+        );
+        doc.text(
+          "Agradecemos su preferencia.",
+          pageWidth / 2,
+          pageHeight - 20,
+          { align: "center" }
+        );
 
         // Guardar el PDF
-        const fileName = `Factura_${pagoSeleccionado.cliente.nombre}_${new Date().toISOString().split("T")[0]}.pdf`;
+        const fileName = `Factura_${pagoSeleccionado.cliente.nombre}_${
+          new Date().toISOString().split("T")[0]
+        }.pdf`;
         doc.save(fileName);
       } catch (error) {
         console.error("Error generando PDF:", error);
@@ -423,7 +475,6 @@ export default function PagosTabla({ isPago, setisPago }) {
 
     generatePdfWithImage();
   };
-
 
   return (
     <div className="relative overflow-x-auto bg-white h-full border-gray-200 rounded-lg">
@@ -449,6 +500,9 @@ export default function PagosTabla({ isPago, setisPago }) {
           onDownloadPDF={handleDescargarFactura}
         />
       )}
+
+      {transaccionOpen && <TransaccionDetalle />}
+
       <nav className="bg-white border-b border-b-gray-200 flex flex-col md:flex-row items-center justify-between py-2 px-4 gap-4 h-[15%] xl-plus:h-1/10">
         <div className="relative w-full md:w-1/3 flex items-center">
           <i className="fa-solid left-3 text-zinc-400 absolute fa-magnifying-glass"></i>
@@ -462,17 +516,19 @@ export default function PagosTabla({ isPago, setisPago }) {
         </div>
         <div className="flex items-center gap-2 md:w-auto">
           <button
-            className={` border p-2 rounded-lg text-verde-dos flex items-center gap-2  transition w-full md:w-auto justify-center px-4 ${isPago ? "bg-white hover:bg-lime-50" : "bg-lime-600 text-white"
-              }`}
+            className={` border p-2 rounded-lg text-verde-dos flex items-center gap-2  transition w-full md:w-auto justify-center px-4 ${
+              isPago ? "bg-white hover:bg-lime-50" : "bg-lime-600 text-white"
+            }`}
             onClick={() => setisPago(false)}
           >
             Pagos
           </button>
           <button
-            className={`border p-2 rounded-lg text-verde-dos flex items-center gap-2 transition w-full md:w-auto justify-center px-4 ${!isPago
-              ? "bg-white-600 text-verde-dos hover:bg-lime-100"
-              : "bg-verde text-white"
-              }`}
+            className={`border p-2 rounded-lg text-verde-dos flex items-center gap-2 transition w-full md:w-auto justify-center px-4 ${
+              !isPago
+                ? "bg-white-600 text-verde-dos hover:bg-lime-100"
+                : "bg-verde text-white"
+            }`}
             onClick={() => setisPago(true)}
           >
             Clientes
@@ -576,12 +632,12 @@ export default function PagosTabla({ isPago, setisPago }) {
                     </button>
                   </td>
                   <td className="px-4 py-1 text-center space-x-2">
-                    <Link
-                      href={`/secure/administrador/pagos/${pago.id}`}
+                    <button
+                      // href={`/secure/administrador/pagos/${pago.id}`}
                       className="font-bold py-1 px-3 rounded"
                     >
                       <i className="fa-solid fa-right-left"></i>
-                    </Link>
+                    </button>
                   </td>
                 </tr>
               ))}
