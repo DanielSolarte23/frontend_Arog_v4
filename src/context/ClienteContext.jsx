@@ -37,7 +37,7 @@ export function ClienteProvider({ children }) {
         try {
             const res = await getClientesRequest();
             setClientes(res.data);
-            console.log("Datos recibidos de clientes:", res.data);
+            // console.log("Datos recibidos de clientes:", res.data);
         } catch (error) {
             handleError(error, "Error al cargar clientes");
             console.log(error);
