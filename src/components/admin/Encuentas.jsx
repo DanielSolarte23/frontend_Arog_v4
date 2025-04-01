@@ -1,5 +1,5 @@
 import React from 'react'
-import EncuestasDashboard from './Encuestas'
+import EncuestasDashboard from './EncuestaDashbord'
 
 function Encuentas() {
   return (

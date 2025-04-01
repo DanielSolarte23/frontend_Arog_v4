@@ -3,7 +3,7 @@ import React from 'react'
 
 function Estadisticas() {
   return (
-    <div>
+    <div className='h-full'>
       <DashboardEstadistico/>
     </div>
   )

@@ -98,7 +98,7 @@ export default function EncuestaResultados({ encuestaId, onBack }) {
 
     return (
         <div className="bg-white rounded-lg overflow-hidden px-4">
-            <div className="">
+            <div className="p-6">
                 <div className="flex justify-between items-center mb-6">
                     <button
                         onClick={onBack}
