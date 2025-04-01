@@ -219,7 +219,7 @@ export default function TransaccionDetalle() {
     };
 
     if (loading) return <LoadingScreen />;
-
+ 
     return (
         <div className="relative overflow-x-auto bg-white h-full border-gray-200 rounded-lg">
             {notification.isVisible && (

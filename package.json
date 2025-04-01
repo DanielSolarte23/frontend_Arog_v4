@@ -25,6 +25,7 @@
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "leaflet-routing-machine": "^3.2.12",
+    "lucide-react": "^0.486.0",
     "next": "^15.1.7",
     "react": "^19.0.0",
     "react-dnd": "^16.0.1",

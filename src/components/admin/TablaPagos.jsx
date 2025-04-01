@@ -549,7 +549,7 @@ export default function PagosTabla({ isPago, setisPago }) {
                         );
                       } else if (pago.estadoPago === "pagadoParcial") {
                         return (
-                          <span className="bg-yellow-200 p-2 rounded-md">
+                          <span className="bg-yellow-200 p-2 rounded-md whitespace-nowrap">
                             Pago parcial
                           </span>
                         );
