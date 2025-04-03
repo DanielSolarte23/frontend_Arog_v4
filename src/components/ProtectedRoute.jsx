@@ -79,3 +79,26 @@
 
 //   return <>{children}</>;
 // }
+
+"use client"
+import { useAauth } from "@/context/AauthContext";
+import { useRouter } from "next/navigation"; // Importar useRouter
+import { useEffect } from "react";
+
+export default function ProtectedRoute({ children }) {
+  const { loading, isAuthenticated } = useAauth();
+  const router = useRouter(); // Usar useRouter
+
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.push("/acceso-denegado"); // Usar router.push para redireccionar
+    }
+  }, [loading, isAuthenticated, router]); // Añadir router como dependencia
+
+  if (loading) return <h1>Loading...</h1>;
+
+  // Si no está autenticado y no está cargando, no renderizar nada
+  if (!isAuthenticated && !loading) return null;
+
+  return <>{children}</>;
+}
