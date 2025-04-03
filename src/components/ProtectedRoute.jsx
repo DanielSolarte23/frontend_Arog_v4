@@ -5,25 +5,25 @@
 // import { useAuth } from '@/context/AuthContext';
 // import LoadingScreen from '@/components/LoadingScreen';
 
-// export const ProtectedRoute = ({ 
-//   children, 
-//   rolesPermitidos = ["administrador"], 
+// export const ProtectedRoute = ({
+//   children,
+//   rolesPermitidos = ["administrador"],
 //   redirectUrl = '/auth/inicio'
 // }) => {
 //   const { isAuthenticated, loading, usuario } = useAuth();
 //   const router = useRouter();
 
 //   useEffect(() => {
- 
+
 //     if (!loading) {
 
 //       if (!isAuthenticated) {
 //         router.push(redirectUrl);
 //         console.log('Token Invalido');
-//       } 
+//       }
 
 //       else if (
-//         rolesPermitidos.length > 0 && 
+//         rolesPermitidos.length > 0 &&
 //         !rolesPermitidos.includes(usuario?.rol)
 //       ) {
 //         router.push('/acceso-denegado'); // O cualquier otra ruta para acceso denegado
@@ -80,10 +80,11 @@
 //   return <>{children}</>;
 // }
 
-"use client"
+"use client";
 import { useAauth } from "@/context/AauthContext";
 import { useRouter } from "next/navigation"; // Importar useRouter
 import { useEffect } from "react";
+import LoadingScreenIni from "./publicas/LoadingScreenInicio";
 
 export default function ProtectedRoute({ children }) {
   const { loading, isAuthenticated } = useAauth();
@@ -95,7 +96,7 @@ export default function ProtectedRoute({ children }) {
     }
   }, [loading, isAuthenticated, router]); // Añadir router como dependencia
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <LoadingScreenIni />;
 
   // Si no está autenticado y no está cargando, no renderizar nada
   if (!isAuthenticated && !loading) return null;
