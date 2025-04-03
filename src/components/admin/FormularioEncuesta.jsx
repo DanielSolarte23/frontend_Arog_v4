@@ -214,7 +214,7 @@ export default function EncuestaForm({ encuesta = null, onBack, onSuccess }) {
     };
 
     return (
-        <div className="bg-white rounded-lg overflow-hidden">
+        <div className="bg-white rounded-lg overflow-hidden h-full">
             <div className="p-6">
                 <div className="flex justify-between items-center mb-6">
                     <button
@@ -252,7 +252,7 @@ export default function EncuestaForm({ encuesta = null, onBack, onSuccess }) {
                             type="text"
                             value={formData.titulo}
                             onChange={handleChange}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            className="shadow appearance-none border rounded w-full py-2 xl-plus:py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             placeholder="Título de la encuesta"
                             required
                         />
@@ -284,7 +284,7 @@ export default function EncuestaForm({ encuesta = null, onBack, onSuccess }) {
                                 type="date"
                                 value={formData.fechaExpiracion || ''}
                                 onChange={handleChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="shadow appearance-none border rounded w-full py-2 xl-plus:py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             />
                         </div>
 
@@ -297,7 +297,7 @@ export default function EncuestaForm({ encuesta = null, onBack, onSuccess }) {
                                 name="estado"
                                 value={formData.estado}
                                 onChange={handleChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="shadow appearance-none border rounded w-full py-2 xl-plus:py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             >
                                 <option value="ACTIVA">Activa</option>
                                 <option value="INACTIVA">Inactiva</option>
@@ -312,7 +312,7 @@ export default function EncuestaForm({ encuesta = null, onBack, onSuccess }) {
                             <button
                                 type="button"
                                 onClick={addQuestion}
-                                className="bg-verde text-white px-3 py-2 rounded text-sm flex items-center gap-1"
+                                className="bg-verde text-white px-3 py-2 xl-plus:py-3 rounded text-sm flex items-center gap-1"
                             >
                                 <Plus size={16} />
                                 Añadir pregunta
@@ -327,7 +327,7 @@ export default function EncuestaForm({ encuesta = null, onBack, onSuccess }) {
                                         onClick={() => toggleQuestion(questionIndex)}
                                     >
                                         <div className="flex items-center">
-                                            <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full mr-2">
+                                            <span className="bg-lime-100 text-verde-dos text-xs font-medium px-2.5 py-0.5 rounded-full mr-2">
                                                 {questionIndex + 1}
                                             </span>
                                             <span className="font-medium truncate">
@@ -363,7 +363,7 @@ export default function EncuestaForm({ encuesta = null, onBack, onSuccess }) {
                                                     type="text"
                                                     value={pregunta.texto}
                                                     onChange={(e) => handleQuestionChange(questionIndex, 'texto', e.target.value)}
-                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                    className="shadow appearance-none border rounded w-full py-2 xl-plus:py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                                     placeholder="Escribe la pregunta"
                                                     required
                                                 />
@@ -377,7 +377,7 @@ export default function EncuestaForm({ encuesta = null, onBack, onSuccess }) {
                                                     <select
                                                         value={pregunta.tipo}
                                                         onChange={(e) => handleQuestionChange(questionIndex, 'tipo', e.target.value)}
-                                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                        className="shadow appearance-none border rounded w-full py-2 xl-plus:py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                                     >
                                                         <option value="texto_libre">Texto libre</option>
                                                         <option value="seleccion_unica">Selección única</option>
@@ -393,7 +393,7 @@ export default function EncuestaForm({ encuesta = null, onBack, onSuccess }) {
                                                     <select
                                                         value={pregunta.requerida ? 'true' : 'false'}
                                                         onChange={(e) => handleQuestionChange(questionIndex, 'requerida', e.target.value === 'true')}
-                                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                        className="shadow appearance-none border rounded w-full py-2 xl-plus:py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                                     >
                                                         <option value="true">Sí</option>
                                                         <option value="false">No</option>
