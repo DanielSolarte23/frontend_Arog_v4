@@ -134,13 +134,13 @@ export function TareaProvider({ children }) {
     }
   }
 
-  useEffect(() => {
-    getTareas();
-  }, [])
+  // useEffect(() => {
+  //   getTareas();
+  // }, [])
   
-  useEffect(() => {
-    console.log("Ubications:", tareas);
-  }, [tareas]);
+  // useEffect(() => {
+  //   console.log("Ubications:", tareas);
+  // }, [tareas]);
   
 
   return (

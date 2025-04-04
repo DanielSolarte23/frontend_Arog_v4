@@ -90,13 +90,13 @@ export function EncuestasProvider({ children }) {
     }
   };
 
-  useEffect(() => {
-    getEncuestas();
-  }, [])
+  // useEffect(() => {
+  //   getEncuestas();
+  // }, [])
   
-  useEffect(() => {
-    console.log("Encuestas actualizadas:", encuestas);
-  }, [encuestas]); // Se ejecutará cada vez que `Encuestas` cambie
+  // useEffect(() => {
+  //   console.log("Encuestas actualizadas:", encuestas);
+  // }, [encuestas]); // Se ejecutará cada vez que `Encuestas` cambie
   
 
   return (

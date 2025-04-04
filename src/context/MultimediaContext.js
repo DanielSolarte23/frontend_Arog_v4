@@ -90,13 +90,13 @@ export function MultimediaProvider({ children }) {
     }
   };
 
-  useEffect(() => {
-    getMultimedia();
-  }, [])
+  // useEffect(() => {
+  //   getMultimedia();
+  // }, [])
   
-  useEffect(() => {
-    console.log("Multimedia actualizadas:", multimedia);
-  }, [multimedia]); // Se ejecutará cada vez que `rutas` cambie
+  // useEffect(() => {
+  //   console.log("Multimedia actualizadas:", multimedia);
+  // }, [multimedia]); // Se ejecutará cada vez que `rutas` cambie
   
 
   return (

@@ -92,9 +92,9 @@ export function FormularioTipoProvider({ children }) {
     }
   };
 
-  useEffect(() => {
-    getFormulariosTipo();
-  }, [])
+  // useEffect(() => {
+  //   getFormulariosTipo();
+  // }, [])
   
   // useEffect(() => {
   //   console.log("Rutas actualizadas:", formularioTipo);

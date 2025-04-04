@@ -1,9 +1,12 @@
-import React from 'react'
+import GestorDocumentos from "@/components/admin/GestorDocumentos";
+import React from "react";
 
 function Archivo() {
   return (
-    <div>Archivo</div>
-  )
+    <div>
+      <GestorDocumentos />
+    </div>
+  );
 }
 
-export default Archivo
+export default Archivo;

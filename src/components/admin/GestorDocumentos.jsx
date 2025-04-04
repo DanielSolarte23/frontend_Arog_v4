@@ -50,20 +50,20 @@ const GestorDocumentos = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className=" rounded-lg border mx-auto p-4 bg-white">
       <h1 className="text-3xl font-bold mb-6">Gestor de Documentos</h1>
       
       {/* Pestañas principales */}
       <div className="mb-6">
         <div className="flex border-b border-gray-200">
           <button
-            className={`py-2 px-4 font-medium ${pestanaActiva === 'crear' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+            className={`py-2 px-4 font-medium ${pestanaActiva === 'crear' ? 'border-b-2 border-verde text-verde' : 'text-gray-500 hover:text-gray-700'}`}
             onClick={() => setPestanaActiva('crear')}
           >
             Crear Documento
           </button>
           <button
-            className={`py-2 px-4 font-medium ${pestanaActiva === 'listar' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+            className={`py-2 px-4 font-medium ${pestanaActiva === 'listar' ? 'border-b-2 border-verde text-verde' : 'text-gray-500 hover:text-gray-700'}`}
             onClick={() => setPestanaActiva('listar')}
           >
             Ver Documentos
@@ -75,7 +75,7 @@ const GestorDocumentos = () => {
           <div className="p-4 border rounded-lg mt-4">
             <div className="flex border-b border-gray-200 mb-4">
               <button
-                className={`py-2 px-4 font-medium ${tipoPestanaActiva === 'informe' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                className={`py-2 px-4 font-medium ${tipoPestanaActiva === 'informe' ? 'border-b-2 border-verde text-verde' : 'text-gray-500 hover:text-gray-700'}`}
                 onClick={() => {
                   setTipoPestanaActiva('informe');
                   setTipoDocumentoActivo('INFORME');
@@ -84,7 +84,7 @@ const GestorDocumentos = () => {
                 Informe
               </button>
               <button
-                className={`py-2 px-4 font-medium ${tipoPestanaActiva === 'certificado' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                className={`py-2 px-4 font-medium ${tipoPestanaActiva === 'certificado' ? 'border-b-2 border-verde text-verde' : 'text-gray-500 hover:text-gray-700'}`}
                 onClick={() => {
                   setTipoPestanaActiva('certificado');
                   setTipoDocumentoActivo('CERTIFICADO');
@@ -108,13 +108,13 @@ const GestorDocumentos = () => {
           <div className="p-4 border rounded-lg mt-4">
             <div className="flex border-b border-gray-200 mb-4">
               <button
-                className={`py-2 px-4 font-medium ${tipoListadoActivo === 'informes' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                className={`py-2 px-4 font-medium ${tipoListadoActivo === 'informes' ? 'border-b-2 border-verde text-verde' : 'text-gray-500 hover:text-gray-700'}`}
                 onClick={() => setTipoListadoActivo('informes')}
               >
                 Informes
               </button>
               <button
-                className={`py-2 px-4 font-medium ${tipoListadoActivo === 'certificados' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                className={`py-2 px-4 font-medium ${tipoListadoActivo === 'certificados' ? 'border-b-2 border-verde text-verde' : 'text-gray-500 hover:text-gray-700'}`}
                 onClick={() => setTipoListadoActivo('certificados')}
               >
                 Certificados

@@ -88,9 +88,9 @@ export function VehiculoProvider({ children }) {
       }
   };
 
-    useEffect(() => {
-        getVehiculos();
-    }, []);
+    // useEffect(() => {
+    //     getVehiculos();
+    // }, []);
 
     return (
         <vehiculoContext.Provider

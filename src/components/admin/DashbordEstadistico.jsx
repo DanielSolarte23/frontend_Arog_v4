@@ -161,10 +161,10 @@ export default function DashboardEstadistico() {
 
             <main className="container mx-auto px-4 py-8">
                 {activeTab === 'general' && (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 ">
                         <div className="bg-white  p-6 rounded-lg shadow border">
                             <h2 className="text-xl font-semibold text-gray-800 mb-4">Comparación de Recolección Diaria</h2>
-                            <div className="h-64">
+                            <div className="h-64 xl-plus:h-96">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <ComposedChart data={comparisonData}>
                                         <CartesianGrid strokeDasharray="3 3" />
@@ -182,7 +182,7 @@ export default function DashboardEstadistico() {
 
                         <div className="bg-white p-6 rounded-lg shadow border">
                             <h2 className="text-xl font-semibold text-gray-800 mb-4">Distribución por Tipo de Residuo</h2>
-                            <div className="h-64">
+                            <div className="h-64 xl-plus:h-96">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <PieChart>
                                         <Pie
@@ -211,7 +211,7 @@ export default function DashboardEstadistico() {
                             </div>
                         </div>
 
-                        <div className="bg-white p-6 rounded-lg shadow border lg:col-span-2">
+                        <div className="bg-white p-6 rounded-lg shadow border lg:col-span-2 xl-plus:h-64">
                             <h2 className="text-xl font-semibold text-gray-800 mb-4">Resumen Estadístico</h2>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div className="bg-lime-50 p-4 rounded-lg">

@@ -116,7 +116,7 @@ const FormularioInforme = ({ onCreacionExitosa }) => {
               name="remitente"
               value={formulario.remitente}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
               required
             />
           </div>
@@ -130,7 +130,7 @@ const FormularioInforme = ({ onCreacionExitosa }) => {
               name="destinatario"
               value={formulario.destinatario}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
               required
             />
           </div>
@@ -146,7 +146,7 @@ const FormularioInforme = ({ onCreacionExitosa }) => {
               name="asunto"
               value={formulario.asunto}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
               required
             />
           </div>
@@ -160,7 +160,7 @@ const FormularioInforme = ({ onCreacionExitosa }) => {
               name="fecha"
               value={formulario.fecha}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
               required
             />
           </div>
@@ -175,7 +175,7 @@ const FormularioInforme = ({ onCreacionExitosa }) => {
             value={formulario.introduccion}
             onChange={handleInputChange}
             rows="3"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
             required
           ></textarea>
         </div>
@@ -189,7 +189,7 @@ const FormularioInforme = ({ onCreacionExitosa }) => {
             value={formulario.desarrollo}
             onChange={handleInputChange}
             rows="5"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
             required
           ></textarea>
         </div>
@@ -203,7 +203,7 @@ const FormularioInforme = ({ onCreacionExitosa }) => {
             value={formulario.conclusion}
             onChange={handleInputChange}
             rows="3"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
             required
           ></textarea>
         </div>
@@ -217,7 +217,7 @@ const FormularioInforme = ({ onCreacionExitosa }) => {
             name="referencia"
             value={formulario.referencia}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
           />
         </div>
         
@@ -229,7 +229,7 @@ const FormularioInforme = ({ onCreacionExitosa }) => {
             type="file"
             accept="application/pdf"
             onChange={handleArchivoChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
             required
           />
           <p className="text-xs text-gray-500 mt-1">Solo archivos PDF (máx. 10MB)</p>
@@ -251,7 +251,7 @@ const FormularioInforme = ({ onCreacionExitosa }) => {
             type="submit"
             disabled={cargando}
             className={`px-4 py-2 rounded-md text-white font-medium 
-              ${cargando ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'}`}
+              ${cargando ? 'bg-gray-400' : 'bg-verde hover:bg-verde'}`}
           >
             {cargando ? 'Procesando...' : 'Crear Informe'}
           </button>

@@ -121,7 +121,7 @@ const FormularioCertificado = ({ onCreacionExitosa }) => {
                             name="nombreEntidad"
                             value={formulario.nombreEntidad}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
                             required
                         />
                     </div>
@@ -135,7 +135,7 @@ const FormularioCertificado = ({ onCreacionExitosa }) => {
                             name="lugarExpedicion"
                             value={formulario.lugarExpedicion}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
                             required
                         />
                     </div>
@@ -151,7 +151,7 @@ const FormularioCertificado = ({ onCreacionExitosa }) => {
                             name="nombrePersona"
                             value={formulario.nombrePersona}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
                             required
                         />
                     </div>
@@ -165,7 +165,7 @@ const FormularioCertificado = ({ onCreacionExitosa }) => {
                                 name="tipoIdentificacion"
                                 value={formulario.tipoIdentificacion}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
                             >
                                 <option value="DNI">DNI</option>
                                 <option value="NIE">NIE</option>
@@ -183,7 +183,7 @@ const FormularioCertificado = ({ onCreacionExitosa }) => {
                                 name="numeroIdentificacion"
                                 value={formulario.numeroIdentificacion}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
                                 required
                             />
                         </div>
@@ -199,7 +199,7 @@ const FormularioCertificado = ({ onCreacionExitosa }) => {
                         value={formulario.concepto}
                         onChange={handleInputChange}
                         rows="3"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
                         required
                     ></textarea>
                 </div>
@@ -214,7 +214,7 @@ const FormularioCertificado = ({ onCreacionExitosa }) => {
                             name="numeroReferencia"
                             value={formulario.numeroReferencia}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
                             required
                         />
                     </div>
@@ -228,7 +228,7 @@ const FormularioCertificado = ({ onCreacionExitosa }) => {
                             name="fechaExpedicion"
                             value={formulario.fechaExpedicion}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
                             required
                         />
                     </div>
@@ -242,7 +242,7 @@ const FormularioCertificado = ({ onCreacionExitosa }) => {
                             name="fechaVencimiento"
                             value={formulario.fechaVencimiento}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
                         />
                     </div>
                 </div>
@@ -257,7 +257,7 @@ const FormularioCertificado = ({ onCreacionExitosa }) => {
                             name="cargoCertificante"
                             value={formulario.cargoCertificante}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
                             required
                         />
                     </div>
@@ -271,7 +271,7 @@ const FormularioCertificado = ({ onCreacionExitosa }) => {
                             name="referencia"
                             value={formulario.referencia}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-verde"
                         />
                     </div>
                 </div>
@@ -280,7 +280,7 @@ const FormularioCertificado = ({ onCreacionExitosa }) => {
                         type="submit"
                         disabled={cargando}
                         className={`px-4 py-2 rounded-md text-white font-medium 
-              ${cargando ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'}`}
+              ${cargando ? 'bg-gray-400' : 'bg-verde hover:bg-verde'}`}
                     >
                         {cargando ? 'Procesando...' : 'Crear Certificado'}
                     </button>

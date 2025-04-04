@@ -92,9 +92,9 @@ export function RutasProvider({ children }) {
     }
   };
 
-  useEffect(() => {
-    getRutas();
-  }, [])
+  // useEffect(() => {
+  //   getRutas();
+  // }, [])
   
   // useEffect(() => {
   //   console.log("Rutas actualizadas:", rutas);

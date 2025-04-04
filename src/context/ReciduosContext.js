@@ -90,13 +90,13 @@ export function ReciduosProvider({ children }) {
     }
   };
 
-  useEffect(() => {
-    getReciduos();
-  }, [])
+  // useEffect(() => {
+  //   getReciduos();
+  // }, [])
   
-  useEffect(() => {
-    console.log("Reciduos actualizadas:", reciduos);
-  }, [reciduos]); // Se ejecutará cada vez que `reciduos` cambie
+  // useEffect(() => {
+  //   console.log("Reciduos actualizadas:", reciduos);
+  // }, [reciduos]); // Se ejecutará cada vez que `reciduos` cambie
   
 
   return (
