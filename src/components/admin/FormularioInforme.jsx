@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 
-const FormularioInforme = ({ onCreacionExitosa }) => {
+const FormularioInformex = ({ onCreacionExitosa }) => {
   const [cargando, setCargando] = useState(false);
   const [archivoPdf, setArchivoPdf] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -261,4 +261,4 @@ const FormularioInforme = ({ onCreacionExitosa }) => {
   );
 };
 
-export default FormularioInforme;
+export default FormularioInformex;
