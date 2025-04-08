@@ -38,11 +38,11 @@ function LoginForm() {
     }
   }, [isAuthenticated, router]);
   // Limpia errores de autenticación cuando se desmonta el componente
-//   useEffect(() => {
-//     return () => {
-//       clearErrors();
-//     };
-//   }, [clearErrors]);
+  //   useEffect(() => {
+  //     return () => {
+  //       clearErrors();
+  //     };
+  //   }, [clearErrors]);
 
   // const onSubmit = async (data) => {
   //     try {
@@ -148,7 +148,7 @@ function LoginForm() {
             ¿Olvidaste tu contraseña?{" "}
             <Link
               className="text-verde-dos font-semibold"
-              href="/auth/registro"
+              href="/auth/forgot-password"
             >
               Recuperar
             </Link>
