@@ -1,25 +1,38 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useState } from "react";
+import { useState, useEffect } from "react"; // Importa useEffect
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
 const ResetPasswordForm = () => {
   const router = useRouter(); // Inicializa useRouter
-  const { token } = router.query; // Obtiene el token de la URL
+  const { query, isReady } = router; // Obtén 'query' y 'isReady' del router
+  const [message, setMessage] = useState("");
+  const [token, setToken] = useState(null); // Estado local para el token
+
+  // Usamos useEffect para esperar que el router esté listo
+  useEffect(() => {
+    if (isReady && query.token) {
+      setToken(query.token); // Establecemos el token cuando el router esté listo
+    }
+  }, [isReady, query.token]); // Dependencias para ejecutar el efecto cuando se inicializa
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  const [message, setMessage] = useState("");
 
   const onSubmit = async (data) => {
     const { password, confirmPassword } = data;
     if (password !== confirmPassword) {
       return setMessage("Las contraseñas no coinciden");
     }
+    if (!token) {
+      return setMessage("Token no disponible");
+    }
+
     try {
       const res = await axios.post(
         `http://localhost:3002/api/aauth/reset-password/${token}`,
@@ -97,8 +110,7 @@ const ResetPasswordForm = () => {
             </>
           )}
         </p>
-      </form>{" "}
-      F
+      </form>
     </div>
   );
 };
