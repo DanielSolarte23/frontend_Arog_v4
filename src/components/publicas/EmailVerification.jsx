@@ -3,15 +3,16 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'; // Importa useRouter
 import { verifyEmailRequest } from '@/api/auth'; // Ajusta la ruta
 
-
 const EmailVerification = () => {
   const [verificationStatus, setVerificationStatus] = useState('verifying');
-  const router = useRouter(); // Inicializa useRouter
-  const { token } = router.query; // Obtiene el token de la URL
+  const router = useRouter(); 
+  const { query, isReady } = router; 
+  const token = query.token; // Obtén el token de la URL
 
   useEffect(() => {
+    // Verifica si el router está listo y si el token está disponible
     const verifyEmail = async () => {
-      if (token) {
+      if (isReady && token) {
         try {
           await verifyEmailRequest(token);
           setVerificationStatus('success');
@@ -22,7 +23,7 @@ const EmailVerification = () => {
     };
 
     verifyEmail();
-  }, [token]);
+  }, [isReady, token]); 
 
   return (
     <div className="flex items-center justify-center h-full">
