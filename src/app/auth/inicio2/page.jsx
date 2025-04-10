@@ -24,9 +24,9 @@ function LoginPage() {
         if (isAuthenticated) router.push('/secure/administrador'); // Usar router.push
     }, [isAuthenticated, router]); // Agregar router como dependencia
 
-    const handleGoogleLogin = () => {
-        window.location.href = 'http://localhost:3002/api/auth/google';
-    };
+    // const handleGoogleLogin = () => {
+    //     window.location.href = 'http://localhost:3002/api/auth/google';
+    // };
 
     return (
         <div className="flex items-center justify-center h-full bg-zinc-900">

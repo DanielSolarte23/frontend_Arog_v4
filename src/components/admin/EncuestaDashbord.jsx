@@ -86,7 +86,7 @@ export default function EncuestasDashboard() {
 
   // Eliminar encuesta
   const handleDelete = async (id) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar esta encuesta?")) {
+    if (typeof window !== 'undefined' && window.confirm("¿Estás seguro de que deseas eliminar esta encuesta?")) {
       try {
         await axios.delete(`http://localhost:3002/api/encuestas/${id}`);
         setEncuestas(encuestas.filter((enc) => enc.id !== id));
@@ -95,6 +95,7 @@ export default function EncuestasDashboard() {
       }
     }
   };
+
 
   const changeView = async (view, encuesta = null) => {
     setActiveView(view);
@@ -211,23 +212,26 @@ function EncuestasList({
   //   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const updateItemsPerPage = () => {
-      if (window.innerWidth >= 1536) {
-        // 2xl en Tailwind (1536px)
-        setItemsPerPage(10);
-      } else if (window.innerWidth >= 640) {
-        // sm en Tailwind (640px)
-        setItemsPerPage(5);
-      } else {
-        setItemsPerPage(3); // Opcional para pantallas más pequeñas
-      }
-    };
+    // Verificamos que estamos en el cliente
+    if (typeof window !== 'undefined') {
+      const updateItemsPerPage = () => {
+        if (window.innerWidth >= 1536) { // 2xl en Tailwind (1536px)
+          setItemsPerPage(10);
+        } else if (window.innerWidth >= 640) { // sm en Tailwind (640px)
+          setItemsPerPage(5);
+        } else {
+          setItemsPerPage(3); // Opcional para pantallas más pequeñas
+        }
+      };
 
-    updateItemsPerPage(); // Llamar una vez para establecer el valor inicial
-    window.addEventListener("resize", updateItemsPerPage);
+      updateItemsPerPage(); // Llamar una vez para establecer el valor inicial
+      window.addEventListener("resize", updateItemsPerPage);
 
-    return () => window.removeEventListener("resize", updateItemsPerPage);
-  }, []);
+      // Limpiar el event listener cuando el componente se desmonte
+      return () => window.removeEventListener("resize", updateItemsPerPage);
+    }
+  }, []); // Solo se ejecuta una vez cuando el componente se monta
+
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;

@@ -31,21 +31,26 @@ export default function UsuariosTabla() {
   });
 
   useEffect(() => {
-    const updateItemsPerPage = () => {
-      if (window.innerWidth >= 1536) { // 2xl en Tailwind (1536px)
-        setItemsPerPage(10);
-      } else if (window.innerWidth >= 640) { // sm en Tailwind (640px)
-        setItemsPerPage(5);
-      } else {
-        setItemsPerPage(3); // Opcional para pantallas más pequeñas
-      }
-    };
-
-    updateItemsPerPage(); // Llamar una vez para establecer el valor inicial
-    window.addEventListener("resize", updateItemsPerPage);
-
-    return () => window.removeEventListener("resize", updateItemsPerPage);
-  }, []);
+    // Verificamos que estamos en el cliente
+    if (typeof window !== 'undefined') {
+      const updateItemsPerPage = () => {
+        if (window.innerWidth >= 1536) { // 2xl en Tailwind (1536px)
+          setItemsPerPage(10);
+        } else if (window.innerWidth >= 640) { // sm en Tailwind (640px)
+          setItemsPerPage(5);
+        } else {
+          setItemsPerPage(3); // Opcional para pantallas más pequeñas
+        }
+      };
+  
+      updateItemsPerPage(); // Llamar una vez para establecer el valor inicial
+      window.addEventListener("resize", updateItemsPerPage);
+  
+      // Limpiar el event listener cuando el componente se desmonte
+      return () => window.removeEventListener("resize", updateItemsPerPage);
+    }
+  }, []); // Solo se ejecuta una vez cuando el componente se monta
+  
 
   // Función para mostrar notificaciones
   const showNotification = (message, type = "success") => {

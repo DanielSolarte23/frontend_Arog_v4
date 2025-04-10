@@ -49,9 +49,9 @@ export default function UbicacionModal({ isOpen, onClose }) {
     if (search.length > 2) {
       setIsLoading(true);
       setError(null);
-      
+
       const viewbox = `${POPAYAN_BOUNDS.west},${POPAYAN_BOUNDS.north},${POPAYAN_BOUNDS.east},${POPAYAN_BOUNDS.south}`;
-      
+
       fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(search)}&countrycodes=CO&viewbox=${viewbox}&bounded=1&limit=10&city=Popayán`)
         .then((res) => {
           if (!res.ok) throw new Error("Error en la búsqueda");
@@ -59,11 +59,11 @@ export default function UbicacionModal({ isOpen, onClose }) {
         })
         .then((data) => {
           // Filtrar resultados para dar prioridad a los de Popayán
-          const filteredData = data.filter(item => 
-            item.display_name.toLowerCase().includes('popayán') || 
+          const filteredData = data.filter(item =>
+            item.display_name.toLowerCase().includes('popayán') ||
             item.display_name.toLowerCase().includes('popayan')
           );
-          
+
           // Si hay resultados filtrados, usarlos; si no, usar todos los resultados
           setSuggestions(filteredData.length > 0 ? filteredData : data);
           setIsLoading(false);
@@ -99,7 +99,7 @@ export default function UbicacionModal({ isOpen, onClose }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    
+
     if (!nombre.trim()) {
       alert("Por favor ingrese un nombre para la ubicación");
       return;
@@ -109,10 +109,10 @@ export default function UbicacionModal({ isOpen, onClose }) {
     fetch("http://localhost:3002/api/ubicaciones", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        nombre, 
-        latitud: posicion.lat, 
-        longitud: posicion.lng 
+      body: JSON.stringify({
+        nombre,
+        latitud: posicion.lat,
+        longitud: posicion.lng
       }),
     })
       .then((res) => {
@@ -138,13 +138,13 @@ export default function UbicacionModal({ isOpen, onClose }) {
         // Verificar si el clic está dentro de los límites de Popayán
         const { lat, lng } = e.latlng;
         if (
-          lat >= POPAYAN_BOUNDS.south && 
-          lat <= POPAYAN_BOUNDS.north && 
-          lng >= POPAYAN_BOUNDS.west && 
+          lat >= POPAYAN_BOUNDS.south &&
+          lat <= POPAYAN_BOUNDS.north &&
+          lng >= POPAYAN_BOUNDS.west &&
           lng <= POPAYAN_BOUNDS.east
         ) {
           setPosicion(e.latlng);
-          
+
           // Hacer búsqueda inversa para obtener el nombre del lugar
           fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`)
             .then(res => res.json())
@@ -153,7 +153,7 @@ export default function UbicacionModal({ isOpen, onClose }) {
                 // Extraer un nombre más conciso para la ubicación
                 const addressParts = data.address;
                 let simpleName = "";
-                
+
                 if (addressParts.road) {
                   simpleName = addressParts.road;
                   if (addressParts.house_number) {
@@ -167,7 +167,7 @@ export default function UbicacionModal({ isOpen, onClose }) {
                   // Usar las primeras partes del nombre completo
                   simpleName = data.display_name.split(',').slice(0, 2).join(',');
                 }
-                
+
                 setNombre(simpleName);
               }
             })
@@ -175,11 +175,11 @@ export default function UbicacionModal({ isOpen, onClose }) {
         }
       },
     });
-    
+
     return (
-      <Marker 
-        position={[posicion.lat, posicion.lng]} 
-        icon={customIcon} 
+      <Marker
+        position={[posicion.lat, posicion.lng]}
+        icon={customIcon}
         draggable={true}
         eventHandlers={{
           dragend: (e) => {
@@ -192,19 +192,25 @@ export default function UbicacionModal({ isOpen, onClose }) {
     );
   }
 
-  // Manejar cierre del modal con Escape
   useEffect(() => {
-    const handleEscKey = (e) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
-    
-    window.addEventListener('keydown', handleEscKey);
-    return () => {
-      window.removeEventListener('keydown', handleEscKey);
-    };
+    // Verificamos que estamos en el cliente
+    if (typeof window !== 'undefined') {
+      const handleEscKey = (e) => {
+        if (e.key === 'Escape' && isOpen) {
+          onClose();
+        }
+      };
+
+      // Añadir el event listener
+      window.addEventListener('keydown', handleEscKey);
+
+      // Limpiar el event listener cuando el componente se desmonte
+      return () => {
+        window.removeEventListener('keydown', handleEscKey);
+      };
+    }
   }, [isOpen, onClose]);
+
 
   // Limpia estados cuando se cierra el modal
   useEffect(() => {
@@ -227,7 +233,7 @@ export default function UbicacionModal({ isOpen, onClose }) {
         setSuggestions([]);
       }
     };
-    
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -241,15 +247,15 @@ export default function UbicacionModal({ isOpen, onClose }) {
       <div className="bg-white p-5 rounded shadow-lg w-full max-w-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Agregar Ubicación en Popayán</h2>
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
             aria-label="Cerrar"
           >
             &times;
           </button>
         </div>
-        
+
         <div className="relative mb-4 search-container">
           <div className="flex gap-2">
             <input
@@ -269,9 +275,9 @@ export default function UbicacionModal({ isOpen, onClose }) {
               {isLoading ? "..." : "Buscar"}
             </button>
           </div>
-          
+
           {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-          
+
           {suggestions.length > 0 && (
             <ul className="absolute z-10 bg-white border rounded shadow max-h-60 w-full overflow-auto mt-1">
               {suggestions.map((s, index) => (
@@ -287,15 +293,15 @@ export default function UbicacionModal({ isOpen, onClose }) {
             </ul>
           )}
         </div>
-        
+
         <div className="border rounded overflow-hidden h-72 mb-4">
-          <MapContainer 
-            center={[posicion.lat, posicion.lng]} 
-            zoom={15} 
+          <MapContainer
+            center={[posicion.lat, posicion.lng]}
+            zoom={15}
             className="h-full w-full"
             ref={mapRef}
           >
-            <TileLayer 
+            <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
@@ -303,7 +309,7 @@ export default function UbicacionModal({ isOpen, onClose }) {
             <MapCenter center={[posicion.lat, posicion.lng]} />
           </MapContainer>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">
@@ -319,7 +325,7 @@ export default function UbicacionModal({ isOpen, onClose }) {
               required
             />
           </div>
-          
+
           <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
             <div>
               <span className="font-medium">Latitud:</span> {posicion.lat.toFixed(6)}
@@ -328,18 +334,18 @@ export default function UbicacionModal({ isOpen, onClose }) {
               <span className="font-medium">Longitud:</span> {posicion.lng.toFixed(6)}
             </div>
           </div>
-          
+
           <div className="flex space-x-2">
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="bg-verde text-white p-2 rounded flex-1 hover:bg-green-600 transition-colors"
               disabled={isLoading}
             >
               {isLoading ? "Guardando..." : "Guardar ubicación"}
             </button>
-            <button 
+            <button
               type="button"
-              onClick={onClose} 
+              onClick={onClose}
               className="border border-red-500 text-red-500 p-2 rounded hover:bg-red-50 transition-colors"
             >
               Cancelar

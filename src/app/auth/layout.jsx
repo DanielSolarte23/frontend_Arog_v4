@@ -1,6 +1,6 @@
 export default function AuthLayout({ children }) {
   return (
-  <div className="h-screen border-2 border-red-700">
+  <div className="h-screen">
     {children}
   </div>
   );

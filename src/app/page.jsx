@@ -67,8 +67,8 @@ export default function Home() {
             <li>
               <Link
                 className={` px-4 py-4 rounded-md   transition-colors text-xl ${isScrolled
-                    ? "text-white bg-lime-600 hover:bg-lime-700"
-                    : "bg-white text-verde hover:bg-lime-200"
+                  ? "text-white bg-lime-600 hover:bg-lime-700"
+                  : "bg-white text-verde hover:bg-lime-200"
                   }`}
                 href="/auth/inicio"
               >
@@ -78,8 +78,8 @@ export default function Home() {
             <li>
               <Link
                 className={`px-4 py-4  rounded-md  hover:bg-lime-50 transition-colors text-xl border ${isScrolled
-                    ? "border-lime-600 text-lime-600"
-                    : " border-white text-white hover:text-verde"
+                  ? "border-lime-600 text-lime-600"
+                  : " border-white text-white hover:text-verde"
                   }`}
                 href="/auth/registro"
               >

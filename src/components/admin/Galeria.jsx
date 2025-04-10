@@ -129,9 +129,9 @@ export default function GaleriaC() {
         <div className="file-icon flex flex-col items-center justify-center p-8 rounded-lg bg-gray-100">
           <span className="text-xl text-gray-600 mb-2">{selectedItem.nombreArchivo}</span>
           <span className="text-sm text-gray-500 mb-4">{selectedItem.tipoArchivo}</span>
-          <a 
-            href={selectedItem.url} 
-            target="_blank" 
+          <a
+            href={selectedItem.url}
+            target="_blank"
             rel="noopener noreferrer"
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
           >
@@ -169,7 +169,7 @@ export default function GaleriaC() {
               </svg>
             </button>
           </nav>
-          
+
           <div className="flex-grow p-4 overflow-y-auto">
             {currentItems.length === 0 ? (
               <div className="flex items-center justify-center h-full text-gray-500">
@@ -194,10 +194,10 @@ export default function GaleriaC() {
               </div>
             )}
           </div>
-          
+
           {media.length > itemsPerPage && (
             <div className="flex flex-col md:flex-row justify-between w-full gap-4 border-t py-3 px-4">
-              <button 
+              <button
                 className="flex items-center justify-center gap-2 border border-gray-200 px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={goToPrevPage}
                 disabled={currentPage === 1}
@@ -220,7 +220,7 @@ export default function GaleriaC() {
                 </span>
               </div>
 
-              <button 
+              <button
                 className="flex items-center justify-center gap-2 border border-gray-200 px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={goToNextPage}
                 disabled={currentPage === totalPages}
@@ -258,10 +258,10 @@ export default function GaleriaC() {
               </svg>
             </button>
             <h2 className="text-xl font-semibold mb-4">Subir nuevo archivo</h2>
-            <UploadForm setModalOpen={setModalOpen} loadMedia={loadMedia}  onSuccessUpload={() => {
+            <UploadForm setModalOpen={setModalOpen} loadMedia={loadMedia} onSuccessUpload={() => {
               setModalOpen(false);
               loadMedia();
-            }}/>
+            }} />
           </div>
         </div>
       )}
@@ -273,9 +273,9 @@ export default function GaleriaC() {
             <div className="max-h-[80vh] overflow-auto">
               {renderDetailContent()}
             </div>
-            
+
             <div className="absolute top-72 left-2 right-2 flex justify-between">
-              <button 
+              <button
                 onClick={goToPreviousImage}
                 className="p-2 rounded-full bg-black bg-opacity-50 hover:bg-opacity-70 transition "
               >
@@ -297,7 +297,7 @@ export default function GaleriaC() {
                 </svg>
               </button>
 
-              <button 
+              <button
                 onClick={goToNextImage}
                 className="p-2 rounded-full bg-black bg-opacity-50 hover:bg-opacity-70 transition"
               >
@@ -311,12 +311,16 @@ export default function GaleriaC() {
               <h3 className="font-semibold">{selectedItem.nombreArchivo}</h3>
               <p className="text-sm text-gray-500">{selectedItem.tipoArchivo}</p>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-2 mt-4">
               <div className="flex justify-between w-full">
-                <button 
+                <button
                   className="flex items-center px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 transition"
-                  onClick={() => window.open(selectedItem.url, '_blank')}
+                  onClick={() => {
+                    if (typeof window !== 'undefined' && selectedItem.url) {
+                      window.open(selectedItem.url, '_blank');
+                    }
+                  }}
                 >
                   <span className="font-medium text-black">Descargar</span>
                   <svg
@@ -327,7 +331,6 @@ export default function GaleriaC() {
                     <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z" />
                   </svg>
                 </button>
-
                 <button
                   className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
                   onClick={() => setModalDelete(true)}
@@ -374,14 +377,14 @@ export default function GaleriaC() {
             </h5>
 
             <div className="flex justify-center gap-4">
-              <button 
+              <button
                 onClick={() => setModalDelete(false)}
                 className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 transition"
               >
                 Cancelar
               </button>
-              
-              <button 
+
+              <button
                 onClick={() => handleDelete(selectedItem.id)}
                 className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
               >

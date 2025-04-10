@@ -64,8 +64,11 @@ function LoginForm() {
   // };
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:3002/api/auth/google";
+    if (typeof window !== "undefined") {
+      window.location.href = "http://localhost:3002/api/auth/google";
+    }
   };
+  
 
   return (
     <div className="w-full  bg-white/10 filter border rounded-lg shadow-xl px-4 sm:px-8 md:px-10 lg:px-14 py-8 md:py-12 lg:py-10 flex flex-col">

@@ -27,9 +27,9 @@ function RegistesPage() {
     signup(values);
   });
 
-  const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:3002/api/auth/google";
-  };
+  // const handleGoogleLogin = () => {
+  //   window.location.href = "http://localhost:3002/api/auth/google";
+  // };
   return (
     <div className="flex items-end justify-center h-full bg-zinc-900">
       <article className="w-full flex justify-center h-full items-center blackBlock">

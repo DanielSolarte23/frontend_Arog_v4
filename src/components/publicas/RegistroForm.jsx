@@ -43,8 +43,11 @@ function RegistroForm() {
   });
 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:3002/api/auth/google";
+    if (typeof window !== "undefined") {
+      window.location.href = "http://localhost:3002/api/auth/google";
+    }
   };
+  
 
   return (
     <div className="w-full bg-white/10 filter border rounded-lg shadow-xl border-t px-4 sm:px-8 md:px-14 py-6 sm:py-8 md:py-12 flex flex-col justify-evenly">

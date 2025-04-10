@@ -77,20 +77,26 @@ export default function TransaccionDetalle() {
     }, [idPago]);
 
     useEffect(() => {
-        const updateItemsPerPage = () => {
-            if (window.innerWidth >= 1536) {
-                setItemsPerPage(10);
-            } else if (window.innerWidth >= 640) {
-                setItemsPerPage(5);
-            } else {
-                setItemsPerPage(3);
-            }
-        };
+        // Verificamos que estamos en el cliente
+        if (typeof window !== 'undefined') {
+            const updateItemsPerPage = () => {
+                if (window.innerWidth >= 1536) { // 2xl en Tailwind (1536px)
+                    setItemsPerPage(10);
+                } else if (window.innerWidth >= 640) { // sm en Tailwind (640px)
+                    setItemsPerPage(5);
+                } else {
+                    setItemsPerPage(3); // Opcional para pantallas más pequeñas
+                }
+            };
 
-        updateItemsPerPage();
-        window.addEventListener("resize", updateItemsPerPage);
-        return () => window.removeEventListener("resize", updateItemsPerPage);
-    }, []);
+            updateItemsPerPage(); // Llamar una vez para establecer el valor inicial
+            window.addEventListener("resize", updateItemsPerPage);
+
+            // Limpiar el event listener cuando el componente se desmonte
+            return () => window.removeEventListener("resize", updateItemsPerPage);
+        }
+    }, []); // Solo se ejecuta una vez cuando el componente se monta
+
 
     // Filtrado y paginación
     const filteredTransacciones = useMemo(() => {
@@ -142,29 +148,29 @@ export default function TransaccionDetalle() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         // Validaciones antes de enviar
         if (!nuevaTransaccion.monto || !nuevaTransaccion.metodoPago) {
             showNotification("Por favor complete todos los campos requeridos", "error");
             return;
         }
-    
+
         try {
-            const datosParaEnviar = { 
+            const datosParaEnviar = {
                 ...nuevaTransaccion,
                 monto: parseFloat(nuevaTransaccion.monto),
                 idPago: parseInt(nuevaTransaccion.idPago)
             };
-    
+
             const resultado = transaccionSeleccionada
                 ? await updateTransaccion(transaccionSeleccionada.id, datosParaEnviar)
                 : await createTransaccion(datosParaEnviar);
-    
+
             // Resto del código igual...
         } catch (error) {
             console.error(error);
             showNotification(
-                error.response?.data?.message || "Error al guardar transacción", 
+                error.response?.data?.message || "Error al guardar transacción",
                 "error"
             );
         }
@@ -193,7 +199,7 @@ export default function TransaccionDetalle() {
         } catch (error) {
             console.error('Error al crear transacción:', error.response?.data);
             showNotification(
-                error.response?.data?.message || "Error al crear transacción", 
+                error.response?.data?.message || "Error al crear transacción",
                 "error"
             );
             throw error;
@@ -211,7 +217,7 @@ export default function TransaccionDetalle() {
         } catch (error) {
             console.error('Error al actualizar transacción:', error.response?.data);
             showNotification(
-                error.response?.data?.message || "Error al actualizar transacción", 
+                error.response?.data?.message || "Error al actualizar transacción",
                 "error"
             );
             throw error;
@@ -219,7 +225,7 @@ export default function TransaccionDetalle() {
     };
 
     if (loading) return <LoadingScreen />;
- 
+
     return (
         <div className="relative overflow-x-auto bg-white h-full border-gray-200 rounded-lg">
             {notification.isVisible && (

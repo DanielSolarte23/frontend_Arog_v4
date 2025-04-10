@@ -17,13 +17,14 @@ const MapWithRoute = ({ points }) => {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    if (isLoaded && points && points.length === 3) {
+    // Verificamos si estamos en el cliente y si Google Maps está cargado
+    if (typeof window !== "undefined" && window.google && window.google.maps && isLoaded && points && points.length === 3) {
       const directionsService = new window.google.maps.DirectionsService();
       const waypoints = points.slice(1, -1).map((point) => ({
         location: point,
         stopover: true,
       }));
-
+  
       directionsService.route(
         {
           origin: points[0],
@@ -41,6 +42,7 @@ const MapWithRoute = ({ points }) => {
       );
     }
   }, [isLoaded, points]);
+  
 
   const onLoad = React.useCallback(function callback(map) {
     mapRef.current = map;

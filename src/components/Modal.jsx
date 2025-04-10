@@ -3,14 +3,21 @@ import { useEffect } from "react";
 
 const Modal = ({ children, onClose }) => {
   useEffect(() => {
-    const handleEsc = (event) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
+    // Comprobamos si estamos en el cliente antes de acceder a `window`
+    if (typeof window !== "undefined") {
+      const handleEsc = (event) => {
+        if (event.key === "Escape") {
+          onClose();
+        }
+      };
+
+      window.addEventListener("keydown", handleEsc);
+
+      // Limpiar el event listener al desmontar el componente
+      return () => window.removeEventListener("keydown", handleEsc);
+    }
   }, [onClose]);
+
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

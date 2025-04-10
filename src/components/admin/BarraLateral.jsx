@@ -20,26 +20,28 @@ export default function BarraLateral() {
   };
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 830) {
-        setIsOpen(true);
-      } else {
-        setIsOpen(false);
-      }
-    };
-
-    // Configuración inicial
     if (typeof window !== "undefined") {
-      handleResize();
+      const handleResize = () => {
+        if (window.innerWidth >= 830) {
+          setIsOpen(true);
+        } else {
+          setIsOpen(false);
+        }
+      };
+  
+      // Configuración inicial
+      handleResize(); // Llamar inmediatamente para establecer el estado
+  
+      // Agregar el event listener para manejar el cambio de tamaño
       window.addEventListener("resize", handleResize);
-    }
-
-    return () => {
-      if (typeof window !== "undefined") {
+  
+      // Limpiar el event listener cuando el componente se desmonte
+      return () => {
         window.removeEventListener("resize", handleResize);
-      }
-    };
+      };
+    }
   }, []);
+  
 
   const menuItems = [
     {

@@ -108,21 +108,24 @@ export default function DashboardEstadistico() {
     const [windowWidth, setWindowWidth] = useState(1024);
 
     useEffect(() => {
-        const handleResize = () => {
+        if (typeof window !== 'undefined') {
+            const handleResize = () => {
+                setWindowWidth(window.innerWidth);
+            };
+
+            // Establecer el ancho inicial
             setWindowWidth(window.innerWidth);
-        };
 
-        // Establecer el ancho inicial
-        setWindowWidth(window.innerWidth);
+            // Agregar listener para manejar cambios de tamaño
+            window.addEventListener('resize', handleResize);
 
-        // Agregar listener para manejar cambios de tamaño
-        window.addEventListener('resize', handleResize);
-
-        // Limpiar al desmontar
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+            // Limpiar al desmontar
+            return () => {
+                window.removeEventListener('resize', handleResize);
+            };
+        }
     }, []);
+
 
     const barrioData = getPesoPorBarrio();
     const diaData = getPesoPorDia();

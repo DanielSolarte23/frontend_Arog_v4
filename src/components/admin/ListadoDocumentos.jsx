@@ -12,11 +12,11 @@ const ListadoDocumentos = ({ tipoDocumento, onVerDocumento, onEliminarDocumento,
       try {
         setCargando(true);
         const response = await fetch(`/api/documentos?tipo=${tipoDocumento}`);
-        
+
         if (response.ok) {
           const data = await response.json();
           // Ordenar por fecha de creación (más reciente primero)
-          const documentosOrdenados = data.sort((a, b) => 
+          const documentosOrdenados = data.sort((a, b) =>
             new Date(b.fechaCreacion) - new Date(a.fechaCreacion)
           );
           setDocumentos(documentosOrdenados);
@@ -48,12 +48,12 @@ const ListadoDocumentos = ({ tipoDocumento, onVerDocumento, onEliminarDocumento,
   // Función para obtener título del documento basado en metadatos
   const obtenerTituloDocumento = (documento) => {
     if (!documento.metadata) return 'Documento sin título';
-    
+
     try {
-      const metadata = typeof documento.metadata === 'string' 
-        ? JSON.parse(documento.metadata) 
+      const metadata = typeof documento.metadata === 'string'
+        ? JSON.parse(documento.metadata)
         : documento.metadata;
-      
+
       if (tipoDocumento === 'INFORME') {
         return metadata.asunto || 'Informe sin asunto';
       } else {
@@ -68,12 +68,12 @@ const ListadoDocumentos = ({ tipoDocumento, onVerDocumento, onEliminarDocumento,
   // Función para obtener una descripción corta
   const obtenerDescripcionDocumento = (documento) => {
     if (!documento.metadata) return '';
-    
+
     try {
-      const metadata = typeof documento.metadata === 'string' 
-        ? JSON.parse(documento.metadata) 
+      const metadata = typeof documento.metadata === 'string'
+        ? JSON.parse(documento.metadata)
         : documento.metadata;
-      
+
       if (tipoDocumento === 'INFORME') {
         return `De: ${metadata.remitente || 'No especificado'} - Para: ${metadata.destinatario || 'No especificado'}`;
       } else {
@@ -97,12 +97,17 @@ const ListadoDocumentos = ({ tipoDocumento, onVerDocumento, onEliminarDocumento,
     return (
       <div className="bg-red-50 p-4 rounded-md border border-red-200">
         <p className="text-red-600">{error}</p>
-        <button 
+        <button
           className="mt-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-          onClick={() => window.location.reload()}
+          onClick={() => {
+            if (typeof window !== 'undefined') {
+              window.location.reload();
+            }
+          }}
         >
           Reintentar
         </button>
+
       </div>
     );
   }
@@ -120,11 +125,11 @@ const ListadoDocumentos = ({ tipoDocumento, onVerDocumento, onEliminarDocumento,
       <h3 className="text-lg font-medium">
         {tipoDocumento === 'INFORME' ? 'Listado de Informes' : 'Listado de Certificados'} ({documentos.length})
       </h3>
-      
+
       <div className="bg-white rounded-md shadow overflow-hidden">
         {documentos.map((documento) => (
-          <div 
-            key={documento.id} 
+          <div
+            key={documento.id}
             className="border-b border-gray-200 last:border-b-0 hover:bg-gray-50 transition-colors"
           >
             <div className="flex items-center p-4">
@@ -135,24 +140,26 @@ const ListadoDocumentos = ({ tipoDocumento, onVerDocumento, onEliminarDocumento,
                   Creado: {formatearFecha(documento.fechaCreacion)}
                 </p>
               </div>
-              
+
               <div className="flex space-x-2">
-                <button 
+                <button
                   className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
                   onClick={() => onVerDocumento(documento)}
                 >
                   Ver
                 </button>
-                <button 
+                <button
                   className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
                   onClick={() => {
-                    if (window.confirm('¿Está seguro de eliminar este documento?')) {
+                    // Verificar si estamos en el cliente
+                    if (typeof window !== 'undefined' && window.confirm('¿Está seguro de eliminar este documento?')) {
                       onEliminarDocumento(documento.id);
                     }
                   }}
                 >
                   Eliminar
                 </button>
+
               </div>
             </div>
           </div>

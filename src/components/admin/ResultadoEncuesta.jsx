@@ -38,51 +38,55 @@ export default function EncuestaResultados({ encuestaId, onBack }) {
 
     const exportarResultados = () => {
         if (!resultados) return;
-
-        // Crear un objeto para exportar que sea más legible
-        const dataToExport = {
+      
+        // Verificar que estamos en el cliente
+        if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+          // Crear un objeto para exportar que sea más legible
+          const dataToExport = {
             encuesta: {
-                titulo: encuesta.titulo,
-                descripcion: encuesta.descripcion,
-                fechaCreacion: encuesta.createdAt,
-                fechaExpiracion: encuesta.fechaExpiracion,
-                totalRespuestas: resultados.totalRespuestas
+              titulo: encuesta.titulo,
+              descripcion: encuesta.descripcion,
+              fechaCreacion: encuesta.createdAt,
+              fechaExpiracion: encuesta.fechaExpiracion,
+              totalRespuestas: resultados.totalRespuestas
             },
             preguntas: resultados.preguntas.map(pregunta => {
-                const preguntaData = {
-                    texto: pregunta.texto,
-                    tipo: pregunta.tipo,
-                    totalRespuestas: pregunta.totalRespuestas
-                };
-
-                if (pregunta.tipo === 'opcion_multiple' || pregunta.tipo === 'seleccion_unica') {
-                    preguntaData.opciones = pregunta.opciones.map(opcion => ({
-                        texto: opcion.texto,
-                        cantidad: opcion.cantidad,
-                        porcentaje: opcion.porcentaje.toFixed(2) + '%'
-                    }));
-                } else if (pregunta.tipo === 'escala') {
-                    preguntaData.promedio = pregunta.promedio.toFixed(2);
-                }
-
-                return preguntaData;
+              const preguntaData = {
+                texto: pregunta.texto,
+                tipo: pregunta.tipo,
+                totalRespuestas: pregunta.totalRespuestas
+              };
+      
+              if (pregunta.tipo === 'opcion_multiple' || pregunta.tipo === 'seleccion_unica') {
+                preguntaData.opciones = pregunta.opciones.map(opcion => ({
+                  texto: opcion.texto,
+                  cantidad: opcion.cantidad,
+                  porcentaje: opcion.porcentaje.toFixed(2) + '%'
+                }));
+              } else if (pregunta.tipo === 'escala') {
+                preguntaData.promedio = pregunta.promedio.toFixed(2);
+              }
+      
+              return preguntaData;
             })
-        };
-
-        // Convertir a JSON
-        const jsonStr = JSON.stringify(dataToExport, null, 2);
-
-        // Crear un blob y descargar
-        const blob = new Blob([jsonStr], { type: 'application/json' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `resultados-encuesta-${encuestaId}.json`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-    };
+          };
+      
+          // Convertir a JSON
+          const jsonStr = JSON.stringify(dataToExport, null, 2);
+      
+          // Crear un blob y descargar
+          const blob = new Blob([jsonStr], { type: 'application/json' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `resultados-encuesta-${encuestaId}.json`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        }
+      };
+      
 
     if (loading) return (
         <LoadingScreen/>
