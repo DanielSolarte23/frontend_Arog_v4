@@ -24,7 +24,7 @@ export default function FormularioTipoForm({
 
   const enviarFormulario = async () => {
     const data = { nombre, descripcion, creadorId: 1, campos };
-    await fetch("http://localhost:3002/api/formulariosTipo", {
+    await fetch("https://backend-arog-v4.onrender.com/api/formulariosTipo", {
       // await fetch("https://backend-arog-v4.onrender.com/api/formulariosTipo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

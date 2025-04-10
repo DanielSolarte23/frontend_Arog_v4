@@ -44,7 +44,7 @@ function RegistroForm() {
 
   const handleGoogleLogin = () => {
     if (typeof window !== "undefined") {
-      window.location.href = "http://localhost:3002/api/auth/google";
+      window.location.href = "https://backend-arog-v4.onrender.com/api/auth/google";
     }
   };
   

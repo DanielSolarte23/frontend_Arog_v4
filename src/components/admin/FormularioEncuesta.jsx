@@ -79,9 +79,9 @@ export default function EncuestaForm({ encuesta = null, onBack, onSuccess }) {
 
             let response;
             if (encuesta) {
-                response = await axios.put(`http://localhost:3002/api/encuestas/${encuesta.id}`, dataToSend);
+                response = await axios.put(`https://backend-arog-v4.onrender.com/api/encuestas/${encuesta.id}`, dataToSend);
             } else {
-                response = await axios.post('http://localhost:3002/api/encuestas', dataToSend);
+                response = await axios.post('https://backend-arog-v4.onrender.com/api/encuestas', dataToSend);
             }
 
             if (onSuccess) {

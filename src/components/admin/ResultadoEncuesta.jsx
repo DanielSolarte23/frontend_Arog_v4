@@ -15,11 +15,11 @@ export default function EncuestaResultados({ encuestaId, onBack }) {
             try {
                 setLoading(true);
                 // Cargar la información básica de la encuesta
-                const encuestaResponse = await axios.get(`http://localhost:3002/api/encuestas/${encuestaId}`);
+                const encuestaResponse = await axios.get(`https://backend-arog-v4.onrender.com/api/encuestas/${encuestaId}`);
                 setEncuesta(encuestaResponse.data);
 
                 // Cargar los resultados
-                const resultadosResponse = await axios.get(`http://localhost:3002/api/encuestas/${encuestaId}/resultados`);
+                const resultadosResponse = await axios.get(`https://backend-arog-v4.onrender.com/api/encuestas/${encuestaId}/resultados`);
                 setResultados(resultadosResponse.data);
 
                 setError(null);

@@ -25,7 +25,7 @@ const ResetPasswordForm = ({ initialToken }) => {
     }
     try {
       const res = await axios.post(
-        `http://localhost:3002/api/aauth/reset-password/${token}`,
+        `https://backend-arog-v4.onrender.com/api/aauth/reset-password/${token}`,
         { password }
       );
       setMessage(res.data.message);

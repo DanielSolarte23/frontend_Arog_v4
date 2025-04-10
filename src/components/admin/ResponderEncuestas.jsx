@@ -16,7 +16,7 @@ export default function ResponderEncuesta({ encuestaId, onBack, onSuccess }) {
     const fetchEncuesta = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:3002/api/encuestas/${encuestaId}`);
+        const response = await axios.get(`https://backend-arog-v4.onrender.com/api/encuestas/${encuestaId}`);
         setEncuesta(response.data);
         
         // Inicializar las respuestas vacías
@@ -129,7 +129,7 @@ export default function ResponderEncuesta({ encuestaId, onBack, onSuccess }) {
       const todasLasRespuestas = [...respuestasFormateadas, ...respuestasExtras];
       
       // Enviar a la API
-      await axios.post(`http://localhost:3002/api/encuestas/${encuestaId}/responder`, {
+      await axios.post(`https://backend-arog-v4.onrender.com/api/encuestas/${encuestaId}/responder`, {
         usuarioId: 1, // Esto deberías obtenerlo de tu sistema de autenticación
         ciudadanoId: 1, // Igual aquí
         respuestas: todasLasRespuestas

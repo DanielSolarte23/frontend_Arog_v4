@@ -44,7 +44,7 @@ const RutaForm = ({ modalRutas, setModalRutas }) => {
 
     try {
       // Primera petición: Guardar la ruta
-      const rutaResponse = await fetch("http://localhost:3002/api/rutas", {
+      const rutaResponse = await fetch("https://backend-arog-v4.onrender.com/api/rutas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -68,7 +68,7 @@ const RutaForm = ({ modalRutas, setModalRutas }) => {
 
       setTimeout(async () => {
         const vehiculoResponse = await fetch(
-          "http://localhost:3002/api/rutas/asignar-vehiculo",
+          "https://backend-arog-v4.onrender.com/api/rutas/asignar-vehiculo",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

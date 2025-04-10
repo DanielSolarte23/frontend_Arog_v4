@@ -30,7 +30,7 @@ const GestorDocumentos = () => {
 
   const handleEliminarDocumento = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3002/api/documentos${id}`, {
+      const response = await fetch(`https://backend-arog-v4.onrender.com/api/documentos${id}`, {
         method: 'DELETE',
       });
       

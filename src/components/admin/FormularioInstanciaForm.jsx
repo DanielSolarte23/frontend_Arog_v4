@@ -21,7 +21,7 @@ export default function FormularioInstanciaForm({ tiposFormulario }) {
       })),
     };
 
-    await fetch("http://localhost:3002/api/formularios", {
+    await fetch("https://backend-arog-v4.onrender.com/api/formularios", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),

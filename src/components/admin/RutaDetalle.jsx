@@ -11,7 +11,7 @@ const RutaDetalle = ({ ruta, onClose }) => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`http://localhost:3002/api/rutas`, {
+      const response = await fetch(`https://backend-arog-v4.onrender.com/api/rutas`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

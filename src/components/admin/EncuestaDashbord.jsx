@@ -46,7 +46,7 @@ export default function EncuestasDashboard() {
     const fetchEncuestas = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:3002/api/encuestas");
+        const response = await axios.get("https://backend-arog-v4.onrender.com/api/encuestas");
         setEncuestas(response.data);
         setError(null);
       } catch (err) {
@@ -88,7 +88,7 @@ export default function EncuestasDashboard() {
   const handleDelete = async (id) => {
     if (typeof window !== 'undefined' && window.confirm("¿Estás seguro de que deseas eliminar esta encuesta?")) {
       try {
-        await axios.delete(`http://localhost:3002/api/encuestas/${id}`);
+        await axios.delete(`https://backend-arog-v4.onrender.com/api/encuestas/${id}`);
         setEncuestas(encuestas.filter((enc) => enc.id !== id));
       } catch (err) {
         setError("Error al eliminar la encuesta: " + err.message);
@@ -103,7 +103,7 @@ export default function EncuestasDashboard() {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:3002/api/encuestas/${encuesta.id}`
+          `https://backend-arog-v4.onrender.com/api/encuestas/${encuesta.id}`
         );
         setSelectedEncuesta(response.data); // Obtener la encuesta con las preguntas
       } catch (err) {

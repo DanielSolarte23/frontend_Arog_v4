@@ -67,7 +67,7 @@ const FormularioInformex = ({ onCreacionExitosa }) => {
       
       formData.append('metadata', metadatosJSON);
       
-      const response = await fetch('http://localhost:3002/api/documentos', {
+      const response = await fetch('https://backend-arog-v4.onrender.com/api/documentos', {
         method: 'POST',
         body: formData,
       });

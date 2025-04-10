@@ -19,7 +19,7 @@ export default function GaleriaC() {
   const loadMedia = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("http://localhost:3002/api/multimedia");
+      const { data } = await axios.get("https://backend-arog-v4.onrender.com/api/multimedia");
       setMedia(data);
       setError(null);
     } catch (err) {
@@ -38,7 +38,7 @@ export default function GaleriaC() {
   // Función para eliminar un archivo
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3002/api/multimedia/${id}`);
+      await axios.delete(`https://backend-arog-v4.onrender.com/api/multimedia/${id}`);
       // Actualizar la lista tras eliminar
       setMedia(media.filter((item) => item.id !== id));
       setModalDelete(false);

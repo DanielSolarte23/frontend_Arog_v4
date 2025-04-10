@@ -106,7 +106,7 @@ export default function UbicacionModal({ isOpen, onClose }) {
     }
 
     setIsLoading(true);
-    fetch("http://localhost:3002/api/ubicaciones", {
+    fetch("https://backend-arog-v4.onrender.com/api/ubicaciones", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

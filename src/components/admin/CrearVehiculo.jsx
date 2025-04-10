@@ -13,7 +13,7 @@ export default function VehiculoModal({ isOpen, onClose }) {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3002/api/autos", {
+      const response = await fetch("https://backend-arog-v4.onrender.com/api/autos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

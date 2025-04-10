@@ -14,7 +14,7 @@ export default function EncuestaDetail({ encuestaId, onBack, onResponder }) {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:3002/api/encuestas/${encuestaId}`
+          `https://backend-arog-v4.onrender.com/api/encuestas/${encuestaId}`
         );
         setEncuesta(response.data);
         setError(null);

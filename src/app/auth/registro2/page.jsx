@@ -29,10 +29,10 @@ function RegistesPage() {
 
   const handleGoogleLogin = () => {
     if (typeof window !== "undefined") {
-      window.location.href = "http://localhost:3002/api/auth/google";
+      window.location.href = "https://backend-arog-v4.onrender.com/api/auth/google";
     }
   };
-  
+
   return (
     <div className="flex items-end justify-center h-full bg-zinc-900">
       <article className="w-full flex justify-center h-full items-center blackBlock">

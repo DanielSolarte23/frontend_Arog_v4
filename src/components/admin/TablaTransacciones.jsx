@@ -51,7 +51,7 @@ export default function TransaccionDetalle({  }) {
     if (!idPago) return;
     try {
       const response = await axios.get(
-        `http://localhost:3002/api/pagos/${idPago}/transacciones`
+        `https://backend-arog-v4.onrender.com/api/pagos/${idPago}/transacciones`
       );
       setTransacciones(response.data);
       setLoading(false);
@@ -204,7 +204,7 @@ export default function TransaccionDetalle({  }) {
   const createTransaccion = async (datos) => {
     try {
       const response = await axios.post(
-        "http://localhost:3002/api/pagos/transacciones",
+        "https://backend-arog-v4.onrender.com/api/pagos/transacciones",
         datos
       );
       return response.data;
@@ -221,7 +221,7 @@ export default function TransaccionDetalle({  }) {
   const updateTransaccion = async (id, datos) => {
     try {
       const response = await axios.put(
-        `http://localhost:3002/api/transacciones/${id}`,
+        `https://backend-arog-v4.onrender.com/api/transacciones/${id}`,
         {
           ...datos,
           monto: parseFloat(datos.monto),

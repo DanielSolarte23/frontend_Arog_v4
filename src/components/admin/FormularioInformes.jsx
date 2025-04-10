@@ -304,7 +304,7 @@ export default function FormularioInforme({ cerrarFormulario }) {
 
       // Enviar con axios
       const response = await axios.post(
-        "http://localhost:3002/api/documentos",
+        "https://backend-arog-v4.onrender.com/api/documentos",
         formData,
         {
           headers: {

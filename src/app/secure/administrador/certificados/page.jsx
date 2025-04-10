@@ -17,7 +17,7 @@ function Certificados() {
     const obtenerDatos = async () => {
       try {
         const respuesta = await axios.get(
-          "http://localhost:3002/api/documentos"
+          "https://backend-arog-v4.onrender.com/api/documentos"
         );
         setDatos(respuesta.data);
         console.log("Datos recibidos:", respuesta.data);
