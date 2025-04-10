@@ -1,12 +1,12 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
-const ResetPasswordForm = () => {
-  const router = useRouter(); // Inicializa useRouter
-  const [token, setToken] = useState(null); // Guardamos el token en el estado
+const ResetPasswordForm = ({ initialToken }) => {
+  const router = useRouter();
+  const [token, setToken] = useState(initialToken);
   const {
     register,
     handleSubmit,
@@ -14,12 +14,6 @@ const ResetPasswordForm = () => {
     formState: { errors },
   } = useForm();
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    if (router.query.token) {
-      setToken(router.query.token); // Establece el token cuando esté disponible
-    }
-  }, [router.query.token]); // Reaccionamos solo cuando el token cambia
 
   const onSubmit = async (data) => {
     const { password, confirmPassword } = data;
