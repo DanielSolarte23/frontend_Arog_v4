@@ -66,7 +66,7 @@ export default function Incidencias() {
   const obtenerIncidencias = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:3002/api/incidencias");
+      const response = await axios.get("https://backend-arog-v4.onrender.com/api/incidencias");
       setIncidencias(response.data);
 
       // Actualizar paginación
@@ -85,7 +85,7 @@ export default function Incidencias() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3002/api/incidencias",
+        "https://backend-arog-v4.onrender.com/api/incidencias",
         formIncidencia
       );
 
@@ -107,7 +107,7 @@ export default function Incidencias() {
 
     try {
       const response = await axios.put(
-        `http://localhost:3002/api/incidencias/${incidenciaSeleccionada.id}`,
+        `https://backend-arog-v4.onrender.com/api/incidencias/${incidenciaSeleccionada.id}`,
         formIncidencia
       );
 
@@ -132,7 +132,7 @@ export default function Incidencias() {
   // Función para cambiar el estado de una incidencia
   const cambiarEstadoIncidencia = async (id, estado) => {
     try {
-      await axios.patch(`http://localhost:3002/api/incidencias/${id}/status`, {
+      await axios.patch(`https://backend-arog-v4.onrender.com/api/incidencias/${id}/status`, {
         estadoIncidencia: estado,
       });
 
