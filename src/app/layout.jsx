@@ -8,6 +8,7 @@ import { FormularioTipoProvider } from "@/context/FormularioTipoContext";
 import { PagoProvider } from "@/context/PagosContext";
 import { ClienteProvider } from "@/context/ClienteContext";
 import { AauthProvider } from "@/context/AauthContext";
+import { DocumentosProvider } from "@/context/DocumentosContext";
 
 export const metadata = {
   title: "Arog App",
@@ -19,7 +20,7 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body className="h-screen">
         <AauthProvider>
-        {/* <AuthProvider> */}
+          {/* <AuthProvider> */}
           <RutasProvider>
             <VehiculoProvider>
               <UsuarioProvider>
@@ -27,7 +28,9 @@ export default function RootLayout({ children }) {
                   <FormularioTipoProvider>
                     <PagoProvider>
                       <ClienteProvider>
-                        <main className="h-full">{children}</main>
+                        <DocumentosProvider>
+                          <main className="h-full">{children}</main>
+                        </DocumentosProvider>
                       </ClienteProvider>
                     </PagoProvider>
                   </FormularioTipoProvider>
@@ -35,7 +38,7 @@ export default function RootLayout({ children }) {
               </UsuarioProvider>
             </VehiculoProvider>
           </RutasProvider>
-        {/* </AuthProvider> */}
+          {/* </AuthProvider> */}
         </AauthProvider>
       </body>
     </html>

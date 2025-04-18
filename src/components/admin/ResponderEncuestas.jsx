@@ -152,7 +152,7 @@ export default function ResponderEncuesta({ encuestaId, onBack, onSuccess }) {
 
   if (loading) return (
     <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-verde"></div>
     </div>
   );
 
@@ -219,7 +219,7 @@ export default function ResponderEncuesta({ encuestaId, onBack, onSuccess }) {
             {encuesta.preguntas.map((pregunta, index) => (
               <div key={pregunta.id} className="bg-gray-50 rounded p-4">
                 <div className="flex items-start mb-4">
-                  <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full mr-2">
+                  <span className="bg-lime-100 text-verde text-xs font-medium px-2.5 py-0.5 rounded-full mr-2">
                     {index + 1}
                   </span>
                   <h4 className="text-md font-medium text-gray-800">
@@ -251,7 +251,7 @@ export default function ResponderEncuesta({ encuestaId, onBack, onSuccess }) {
                             value={opcion.id}
                             checked={respuestas[pregunta.id] === opcion.id}
                             onChange={() => handleRespuestaChange(pregunta.id, null, pregunta.tipo, opcion.id)}
-                            className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                            className="w-4 h-4 text-verde focus:ring-verde"
                             required={pregunta.requerida}
                           />
                           <label 
@@ -276,7 +276,7 @@ export default function ResponderEncuesta({ encuestaId, onBack, onSuccess }) {
                             value={opcion.id}
                             checked={(respuestas[pregunta.id] || []).includes(opcion.id)}
                             onChange={() => handleRespuestaChange(pregunta.id, null, pregunta.tipo, opcion.id)}
-                            className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                            className="w-4 h-4 text-verde focus:ring-verde"
                           />
                           <label 
                             htmlFor={`opcion-${opcion.id}`}
@@ -313,7 +313,7 @@ export default function ResponderEncuesta({ encuestaId, onBack, onSuccess }) {
                             />
                             <label
                               htmlFor={`escala-${pregunta.id}-${valor}`}
-                              className="block w-full py-2 bg-gray-100 rounded cursor-pointer hover:bg-gray-200 peer-checked:bg-blue-500 peer-checked:text-white"
+                              className="block w-full py-2 bg-gray-100 rounded cursor-pointer hover:bg-gray-200 peer-checked:bg-verde peer-checked:text-white"
                             >
                               {valor}
                             </label>
@@ -331,7 +331,7 @@ export default function ResponderEncuesta({ encuestaId, onBack, onSuccess }) {
             <button
               type="submit"
               disabled={submitting}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded flex items-center gap-2"
+              className="bg-verde hover:bg-verde text-white px-6 py-2 rounded flex items-center gap-2"
             >
               <Send size={18} />
               {submitting ? 'Enviando...' : 'Enviar respuestas'}

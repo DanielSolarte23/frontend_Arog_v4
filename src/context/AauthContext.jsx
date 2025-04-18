@@ -39,6 +39,8 @@ export const AauthProvider = ({ children }) => {
       console.log(res);
       setIsAuthenticated(true);
       setUser(res.data);
+      console.log(res.data, "este es el usuario");
+
     } catch (error) {
       if (Array.isArray(error.response.data)) {
         return setErrors(error.response.data);
@@ -93,22 +95,22 @@ export const AauthProvider = ({ children }) => {
   }, []);
 
   const requestPasswordReset = async (email) => {
-  try {
-    const res = await requestPasswordResetRequest(email);
-    setErrors([res.data.message]);  // Mensaje de éxito
-  } catch (error) {
-    setErrors([error.response.data.message || 'Hubo un error al solicitar el restablecimiento']);
-  }
-};
+    try {
+      const res = await requestPasswordResetRequest(email);
+      setErrors([res.data.message]);  // Mensaje de éxito
+    } catch (error) {
+      setErrors([error.response.data.message || 'Hubo un error al solicitar el restablecimiento']);
+    }
+  };
 
-const resetPassword = async (token, password) => {
-  try {
-    const res = await resetPasswordRequest(token, password);
-    setErrors([res.data.message]);  // Mensaje de éxito
-  } catch (error) {
-    setErrors([error.response.data.message || 'Hubo un error al restablecer la contraseña']);
-  }
-};
+  const resetPassword = async (token, password) => {
+    try {
+      const res = await resetPasswordRequest(token, password);
+      setErrors([res.data.message]);  // Mensaje de éxito
+    } catch (error) {
+      setErrors([error.response.data.message || 'Hubo un error al restablecer la contraseña']);
+    }
+  };
 
 
   return (

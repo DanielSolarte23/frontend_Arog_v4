@@ -47,7 +47,7 @@ export default function EncuestaDetail({ encuestaId, onBack, onResponder }) {
     encuesta.fechaExpiracion && new Date(encuesta.fechaExpiracion) < new Date();
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden h-full px-4">
+    <div className="bg-white rounded-lg overflow-y-auto h-full px-4">
       <div className="p-6">
         <div className="flex justify-between items-center mb-6">
           <button

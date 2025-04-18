@@ -5,27 +5,36 @@ import { X, FileText, Calendar, FileType, File } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import FormularioInforme from "@/components/admin/FormularioInformes";
+import { useDocumentos } from "@/context/DocumentosContext";
 
 function Informes() {
-  const [datos, setDatos] = useState(null);
+  const {
+    documentosInforme,
+    // documentooCertificado,
+    getDocumentoInforme,
+    // getDocumentosCertificado,
+  } = useDocumentos();
+
+  // const [documentosInforme, setDatos] = useState(null);
   const [informeSeleccionado, setInformeSeleccionado] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalForm, setMostrarModalForm] = useState(false);
 
-  useEffect(() => {
-    const obtenerDatos = async () => {
-      try {
-        const respuesta = await axios.get(
-          "http://localhost:3002/api/documentos"
-        );
-        setDatos(respuesta.data);
-        console.log("Datos recibidos:", respuesta.data);
-      } catch (error) {
-        console.error("Error al obtener datos:", error);
-      }
-    };
+  // const getDocumentoInforme = async () => {
+  //   try {
+  //     const respuesta = await axios.get(
+  //       "http://localhost:3002/api/documentosInforme/informes"
+  //     );
+  //     setDatos(respuesta.data);
+  //     console.log("Datos recibidos:", respuesta.data);
+  //   } catch (error) {
+  //     console.error("Error al obtener documentosInforme:", error);
+  //   }
+  // };
 
-    obtenerDatos();
+  useEffect(() => {
+    getDocumentoInforme();
+    // getDocumentosCertificado();
   }, []);
 
   const abrirModal = (informe) => {
@@ -82,8 +91,8 @@ function Informes() {
       </div>
       <div className="p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {Array.isArray(datos) && datos.length > 0 ? (
-            datos.map((informe) => (
+          {Array.isArray(documentosInforme) && documentosInforme.length > 0 ? (
+            documentosInforme.map((informe) => (
               <div
                 key={informe.id}
                 className="border rounded-lg shadow hover:shadow-md transition-all duration-200 cursor-pointer bg-white overflow-hidden flex flex-col"
@@ -120,8 +129,8 @@ function Informes() {
             ))
           ) : (
             <div className="col-span-full flex justify-center items-center p-8 text-gray-500">
-              {datos === null ? (
-                <p>Cargando documentos...</p>
+              {documentosInforme === null ? (
+                <p>Cargando documentosInforme...</p>
               ) : (
                 <p>No hay informes disponibles.</p>
               )}
@@ -133,7 +142,7 @@ function Informes() {
       {/* Modal abrir formulario y registrar un nuevo informe */}
 
       {mostrarModalForm && (
-        <FormularioInforme cerrarFormulario={cerrarFormulario} />
+        <FormularioInforme getDocumentoInforme={getDocumentoInforme} cerrarFormulario={cerrarFormulario} />
       )}
 
       {/* Modal para mostrar el documento */}

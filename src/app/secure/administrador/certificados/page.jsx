@@ -17,7 +17,7 @@ function Certificados() {
     const obtenerDatos = async () => {
       try {
         const respuesta = await axios.get(
-          "http://localhost:3002/api/documentos"
+          "http://localhost:3002/api/documentos/certificados"
         );
         setDatos(respuesta.data);
         console.log("Datos recibidos:", respuesta.data);

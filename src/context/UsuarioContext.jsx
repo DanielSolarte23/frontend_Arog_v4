@@ -37,7 +37,7 @@ export function UsuarioProvider({ children }) {
     try {
       const res = await getUsuariosRequest();
       setUsuarios(res.data);
-      console.log("Datos recibidos de usuario:", res.data);
+      // console.log("Datos recibidos de usuario:", res.data);
     } catch (error) {
       handleError(error, "Error al cargar usuarios");
       console.log(error);
@@ -82,11 +82,24 @@ export function UsuarioProvider({ children }) {
   const getUsuario = async (id) => {
     try {
       const res = await getUsuarioRequest(id);
-      return res.data;
+      if (res.status === 404) {
+        setErrors("Usuario no encontrado");
+        return;
+      }
+      if (res.status === 500) {
+        setErrors("Error interno del servidor");
+        return;
+      }
+      setUsuarios(res.data);
+      return {
+        success: true,
+        data: res.data,
+        status: res.status
+      };
     } catch (error) {
       handleError(error, "Error al obtener usuario");
     }
-  };
+  }; 
 
   const updateUsuario = async (id, usuario) => {
     try {
