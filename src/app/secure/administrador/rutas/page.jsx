@@ -28,7 +28,7 @@ function AppRutas() {
   const [notification, setNotification] = useState({
     message: "",
     isVisible: false,
-    type: "success" // puede ser "success", "error", "info"
+    type: "success" 
   });
 
   // Función para mostrar notificaciones

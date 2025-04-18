@@ -61,12 +61,23 @@ export default function GaleriaC() {
         />
       );
     } else if (item.tipoArchivo.startsWith("video/")) {
-      return <video src={item.url} controls className="w-full h-full object-cover rounded-lg" />;
+      return (
+        <video
+          src={item.url}
+          controls
+          className="w-full h-full object-cover rounded-lg"
+        />
+      );
     } else {
       return (
         <div className="file-icon flex flex-col items-center justify-center h-full p-4 rounded-lg bg-gray-100">
           <span className="text-sm text-gray-600">{item.tipoArchivo}</span>
-          <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline"
+          >
             Descargar
           </a>
         </div>
@@ -103,14 +114,13 @@ export default function GaleriaC() {
 
   // Cambiar página
   const goToNextPage = () => {
-    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
   const goToPrevPage = () => {
-    setCurrentPage(prev => Math.max(prev - 1, 1));
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
-  // Renderizar detalles del archivo seleccionado
   const renderDetailContent = () => {
     if (!selectedItem) return null;
 
@@ -123,12 +133,22 @@ export default function GaleriaC() {
         />
       );
     } else if (selectedItem.tipoArchivo.startsWith("video/")) {
-      return <video src={selectedItem.url} controls className="w-full max-h-[60vh] rounded-lg" />;
+      return (
+        <video
+          src={selectedItem.url}
+          controls
+          className="w-full max-h-[60vh] rounded-lg"
+        />
+      );
     } else {
       return (
         <div className="file-icon flex flex-col items-center justify-center p-8 rounded-lg bg-gray-100">
-          <span className="text-xl text-gray-600 mb-2">{selectedItem.nombreArchivo}</span>
-          <span className="text-sm text-gray-500 mb-4">{selectedItem.tipoArchivo}</span>
+          <span className="text-xl text-gray-600 mb-2">
+            {selectedItem.nombreArchivo}
+          </span>
+          <span className="text-sm text-gray-500 mb-4">
+            {selectedItem.tipoArchivo}
+          </span>
           <a
             href={selectedItem.url}
             target="_blank"
@@ -142,7 +162,12 @@ export default function GaleriaC() {
     }
   };
 
-  if (loading) return <div className="flex items-center justify-center h-full p-8">Cargando archivos...</div>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-full p-8">
+        Cargando archivos...
+      </div>
+    );
   if (error) return <div className="error text-red-500 p-8">{error}</div>;
 
   return (
@@ -180,12 +205,12 @@ export default function GaleriaC() {
                 {currentItems.map((item, index) => (
                   <div
                     key={item.id}
-                    onClick={() => openDetailModal(item, indexOfFirstItem + index)}
+                    onClick={() =>
+                      openDetailModal(item, indexOfFirstItem + index)
+                    }
                     className="cursor-pointer relative overflow-hidden rounded-lg border border-gray-200 hover:shadow-lg transition"
                   >
-                    <div className="w-full h-full">
-                      {renderMediaItem(item)}
-                    </div>
+                    <div className="w-full h-full">{renderMediaItem(item)}</div>
                     <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 truncate">
                       {item.nombreArchivo}
                     </div>
@@ -258,10 +283,14 @@ export default function GaleriaC() {
               </svg>
             </button>
             <h2 className="text-xl font-semibold mb-4">Subir nuevo archivo</h2>
-            <UploadForm setModalOpen={setModalOpen} loadMedia={loadMedia} onSuccessUpload={() => {
-              setModalOpen(false);
-              loadMedia();
-            }} />
+            <UploadForm
+              setModalOpen={setModalOpen}
+              loadMedia={loadMedia}
+              onSuccessUpload={() => {
+                setModalOpen(false);
+                loadMedia();
+              }}
+            />
           </div>
         </div>
       )}
@@ -269,7 +298,20 @@ export default function GaleriaC() {
       {/* Modal para ver imagen/archivo en detalle con navegación */}
       {modalCard && selectedItem && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 p-4 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl relative">
+         
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl relative border border-red-500">
+          <button
+            onClick={() => setModalCard(false)}
+            className="p-2 rounded-full bg-black bg-opacity-50 hover:bg-opacity-70 transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="w-6 h-6 fill-white"
+            >
+              <path d="M6.225 4.811a1.5 1.5 0 0 0-2.121 2.122L9.878 12l-5.774 5.067a1.5 1.5 0 1 0 2.122 2.122L12 14.122l5.067 5.067a1.5 1.5 0 1 0 2.122-2.122L14.122 12l5.067-5.067a1.5 1.5 0 1 0-2.122-2.122L12 9.878 6.225 4.811z" />
+            </svg>
+          </button>
             <div className="max-h-[80vh] overflow-auto">
               {renderDetailContent()}
             </div>
@@ -279,21 +321,16 @@ export default function GaleriaC() {
                 onClick={goToPreviousImage}
                 className="p-2 rounded-full bg-black bg-opacity-50 hover:bg-opacity-70 transition "
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-6 h-6 fill-white">
-                  <path d="M15.75 19.5L8.25 12l7.5-7.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-
-              <button
-                onClick={() => setModalCard(false)}
-                className="p-2 rounded-full bg-black bg-opacity-50 hover:bg-opacity-70 transition"
-              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   className="w-6 h-6 fill-white"
                 >
-                  <path d="M6.225 4.811a1.5 1.5 0 0 0-2.121 2.122L9.878 12l-5.774 5.067a1.5 1.5 0 1 0 2.122 2.122L12 14.122l5.067 5.067a1.5 1.5 0 1 0 2.122-2.122L14.122 12l5.067-5.067a1.5 1.5 0 1 0-2.122-2.122L12 9.878 6.225 4.811z" />
+                  <path
+                    d="M15.75 19.5L8.25 12l7.5-7.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </button>
 
@@ -301,15 +338,25 @@ export default function GaleriaC() {
                 onClick={goToNextImage}
                 className="p-2 rounded-full bg-black bg-opacity-50 hover:bg-opacity-70 transition"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-6 h-6 fill-white">
-                  <path d="M8.25 4.5l7.5 7.5-7.5 7.5" strokeLinecap="round" strokeLinejoin="round" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  className="w-6 h-6 fill-white"
+                >
+                  <path
+                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </button>
             </div>
 
             <div className="mt-4">
               <h3 className="font-semibold">{selectedItem.nombreArchivo}</h3>
-              <p className="text-sm text-gray-500">{selectedItem.tipoArchivo}</p>
+              <p className="text-sm text-gray-500">
+                {selectedItem.tipoArchivo}
+              </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-2 mt-4">
@@ -317,8 +364,8 @@ export default function GaleriaC() {
                 <button
                   className="flex items-center px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400 transition"
                   onClick={() => {
-                    if (typeof window !== 'undefined' && selectedItem.url) {
-                      window.open(selectedItem.url, '_blank');
+                    if (typeof window !== "undefined" && selectedItem.url) {
+                      window.open(selectedItem.url, "_blank");
                     }
                   }}
                 >

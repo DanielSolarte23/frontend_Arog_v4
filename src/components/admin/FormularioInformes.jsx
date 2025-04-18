@@ -3,18 +3,23 @@
 import { useState } from "react";
 import jsPDF from "jspdf";
 import axios from "axios";
+import { useDocumentos } from "@/context/DocumentosContext";
 
-export default function FormularioInforme({ cerrarFormulario }) {
+export default function FormularioInforme({ cerrarFormulario, getDocumentoInforme }) {
+
+  const {
+    postDocumentos
+  } = useDocumentos();
+
   const [datos, setDatos] = useState({
     tituloInforme: "",
-    codigoInforme: "",
     fechaEmision: new Date().toISOString().split("T")[0],
     autorNombre: "",
     autorCargo: "",
     autorDni: "",
     entidad: "",
     rucEntidad: "",
-    tipoInforme: "TECNICO", // TECNICO, GESTION, EVALUACION
+    tipoInforme: "TECNICO",
     contenidoResumen: "",
     contenidoConclusion: "",
   });
@@ -41,7 +46,7 @@ export default function FormularioInforme({ cerrarFormulario }) {
 
     // Número de informe
     doc.setFontSize(12);
-    doc.text(`INFORME N° ${datos.codigoInforme}`, 20, yPos);
+    doc.text(`INFORME N° ${datos.codigoInforme || "[Por asignar]"}`, 20, yPos);
     yPos += lineHeight * 2;
 
     // Información del informe
@@ -114,7 +119,8 @@ export default function FormularioInforme({ cerrarFormulario }) {
 
     // Número de informe
     doc.setFontSize(12);
-    doc.text(`INFORME N° ${datos.codigoInforme}`, 20, yPos);
+
+    doc.text(`INFORME N° ${datos.codigoInforme || "[Por asignar]"}`, 20, yPos);
     yPos += lineHeight * 2;
 
     // Información del informe
@@ -192,7 +198,8 @@ export default function FormularioInforme({ cerrarFormulario }) {
 
     // Número y fecha
     doc.setFontSize(12);
-    doc.text(`INFORME DE EVALUACIÓN N° ${datos.codigoInforme}`, 20, yPos);
+
+    doc.text(`INFORME N° ${datos.codigoInforme || "[Por asignar]"}`, 20, yPos);
     yPos += lineHeight;
 
     doc.text(
@@ -289,18 +296,16 @@ export default function FormularioInforme({ cerrarFormulario }) {
       const pdfDoc = generarPDF();
       const pdfBlob = pdfDoc.output("blob");
 
-      // Crear FormData
       const formData = new FormData();
 
-      // Usar 'file' como nombre del campo para coincider con la config de Multer
       formData.append(
         "file",
         pdfBlob,
-        `informe_${datos.tipoInforme.toLowerCase()}_${datos.codigoInforme}.pdf`
+        `informe_${datos.tipoInforme.toLowerCase()}_${Date.now()}.pdf`
       );
+
       formData.append("tipoDocumento", "INFORME");
       formData.append("subtipoCertificado", datos.tipoInforme);
-      formData.append("referenciaId", datos.codigoInforme);
 
       // Enviar con axios
       const response = await axios.post(
@@ -314,6 +319,9 @@ export default function FormularioInforme({ cerrarFormulario }) {
       );
 
       setMessage("Informe subido exitosamente");
+      cerrarFormulario();
+      setPreviewUrl(null);
+      getDocumentoInforme(); // Actualizar la lista de informes
       console.log("Respuesta del servidor:", response.data);
     } catch (error) {
       console.error("Error al subir el informe:", error);
@@ -337,11 +345,10 @@ export default function FormularioInforme({ cerrarFormulario }) {
 
         {message && (
           <div
-            className={`p-3 mb-4 rounded ${
-              message.includes("Error")
-                ? "bg-red-100 text-red-700"
-                : "bg-green-100 text-green-700"
-            }`}
+            className={`p-3 mb-4 rounded ${message.includes("Error")
+              ? "bg-red-100 text-red-700"
+              : "bg-green-100 text-green-700"
+              }`}
           >
             {message}
           </div>
@@ -373,16 +380,6 @@ export default function FormularioInforme({ cerrarFormulario }) {
               required
               value={datos.tituloInforme}
             />
-
-            <input
-              name="codigoInforme"
-              onChange={handleChange}
-              placeholder="Código/Número de informe"
-              className="border p-2 rounded"
-              required
-              value={datos.codigoInforme}
-            />
-
             <div className="flex flex-col">
               <label className="text-sm text-gray-600">Fecha de emisión</label>
               <input
@@ -416,7 +413,7 @@ export default function FormularioInforme({ cerrarFormulario }) {
             <input
               name="autorDni"
               onChange={handleChange}
-              placeholder="DNI del autor"
+              placeholder="Docuemento del autor"
               className="border p-2 rounded"
               required
               value={datos.autorDni}
@@ -434,7 +431,7 @@ export default function FormularioInforme({ cerrarFormulario }) {
             <input
               name="rucEntidad"
               onChange={handleChange}
-              placeholder="RUC de la entidad"
+              placeholder="NIT entidad"
               className="border p-2 rounded"
               required
               value={datos.rucEntidad}

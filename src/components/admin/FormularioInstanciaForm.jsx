@@ -1,7 +1,7 @@
-'use client'
+"use client";
 import { useState } from "react";
 
-export default function FormularioInstanciaForm({ tiposFormulario }) {
+export default function FormularioInstanciaForm({ formularioTipo, setModalRespuesta }) {
   const [tipoSeleccionado, setTipoSeleccionado] = useState(null);
   const [valores, setValores] = useState({});
 
@@ -31,16 +31,18 @@ export default function FormularioInstanciaForm({ tiposFormulario }) {
   };
 
   return (
-    <div className="mt-6 p-4 border rounded-md">
+    <div className="p-4 border rounded-md">
       <h2 className="text-xl font-semibold">Llenar Formulario</h2>
       <select
-        className="border p-2 w-full mt-2 rounded-md"
+        className="border px-2 py-3 w-full mt-2 rounded-md outline-none"
         onChange={(e) =>
-          setTipoSeleccionado(tiposFormulario.find((tipo) => tipo.id == e.target.value))
+          setTipoSeleccionado(
+            formularioTipo.find((tipo) => tipo.id == e.target.value)
+          )
         }
       >
         <option value="">Selecciona un tipo</option>
-        {tiposFormulario.map((tipo) => (
+        {formularioTipo.map((tipo) => (
           <option key={tipo.id} value={tipo.id}>
             {tipo.nombre}
           </option>
@@ -51,17 +53,31 @@ export default function FormularioInstanciaForm({ tiposFormulario }) {
         tipoSeleccionado.campos.map((campo) => (
           <input
             key={campo.id}
-            type={{ 'Texto': 'text', 'numero': 'number', 'fecha_hora': 'datetime-local' }[campo.tipo]}
+            type={
+              { Texto: "text", numero: "number", fecha_hora: "datetime-local" }[
+                campo.tipo
+              ]
+            }
             placeholder={campo.nombre}
-            className="border p-2 w-full mt-2 rounded-md"
+            className="border px-2 py-3 w-full mt-2 rounded-md outline-none"
             onChange={(e) => manejarCambio(campo.id, e.target.value)}
           />
         ))}
 
-      <button onClick={enviarFormulario} className="bg-verde text-white px-3 py-1 mt-2 rounded-md">
-        Guardar
-      </button>
-      
+      <div className="mt-2 flex items-center justify-end gap-2">
+        <button
+          onClick={() => setModalRespuesta(false)}
+          className="bg-gray-500 text-white px-3 py-2  rounded-md"
+        >
+          Cancelar
+        </button>
+        <button
+          onClick={enviarFormulario}
+          className="bg-verde text-white px-3 py-2 rounded-md"
+        >
+          Guardar
+        </button>
+      </div>
     </div>
   );
 }

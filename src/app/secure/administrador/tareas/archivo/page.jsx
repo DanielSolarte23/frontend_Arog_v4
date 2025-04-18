@@ -37,9 +37,9 @@ export default function Insidencias() {
   const filteredTasks = tareasArchivo.filter(
     (tarea) =>
       tarea.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tarea.descripcion.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tarea.asignado.nombres.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tarea.creador.nombres.toLowerCase().includes(searchTerm.toLowerCase())
+      (tarea.descripcion && tarea.descripcion.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (tarea.asignado && tarea.asignado.nombres && tarea.asignado.nombres.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (tarea.creador && tarea.creador.nombres && tarea.creador.nombres.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   // Formatear fecha para mostrar mejor
@@ -56,7 +56,7 @@ export default function Insidencias() {
   return (
     <div className="relative overflow-x-auto h-full border-gray-200 rounded-lg bg-white border">
       {/* Barra de navegación superior con búsqueda */}
-      <nav className="bg-white border-b border-b-gray-200 flex flex-col md:flex-row items-center justify-between py-2 px-4 gap-4 h-1/10">
+      <nav className="bg-white border-b border-b-gray-200 flex flex-col md:flex-row items-center justify-between py-2 px-4 gap-4 h-auto md:h-1/10">
         <div className="relative w-full md:w-auto">
           <input
             type="search"
@@ -67,17 +67,7 @@ export default function Insidencias() {
             required
           />
         </div>
-        <div className="flex items-center gap-2 md:w-auto">
-          {/* <button className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition w-full md:w-auto justify-center">
-            <span className="text-gray-700 font-medium">Filtrar Por</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-              className="w-5 h-5 fill-gray-400"
-            >
-              <path d="M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" />
-            </svg>
-          </button> */}
+        <div className="flex items-center gap-2 md:w-auto w-full">
           <button className="bg-lime-600 p-2 rounded-lg text-white flex items-center gap-2 hover:bg-lime-700 transition w-full md:w-auto justify-center">
             <Link href="/secure/administrador/tareas">
               <span className="font-medium">Tablero</span>
@@ -86,9 +76,10 @@ export default function Insidencias() {
         </div>
       </nav>
 
-      {/* Tabla principal */}
-      <div className="overflow-x-auto h-8/10 w-full p-10">
-        <div className="overflow-hidden rounded-lg border border-gray-200">
+      {/* Contenido principal responsivo */}
+      <div className="overflow-x-auto h-[80%] md:h-8/10 w-full p-4 md:p-10">
+        {/* Vista de tabla para pantallas medianas y grandes */}
+        <div className="hidden md:block overflow-hidden rounded-lg border border-gray-200">
           <table className="text-sm text-left text-gray-500 w-full">
             {/* Encabezado */}
             <thead className="text-xs text-gray-700 uppercase bg-white border-b border-gray-200">
@@ -119,8 +110,12 @@ export default function Insidencias() {
                       {tarea.prioridad}
                     </span>
                   </td>
-                  <td className="px-4 py-2 md:px-6 md:py-4">{tarea.asignado.nombres} {tarea.asignado.apellidos}</td>
-                  <td className="px-4 py-2 md:px-6 md:py-4">{tarea.creador.nombres} {tarea.creador.apellidos}</td>
+                  <td className="px-4 py-2 md:px-6 md:py-4">
+                    {tarea.asignado ? `${tarea.asignado.nombres} ${tarea.asignado.apellidos}` : ""}
+                  </td>
+                  <td className="px-4 py-2 md:px-6 md:py-4">
+                    {tarea.creador ? `${tarea.creador.nombres} ${tarea.creador.apellidos}` : ""}
+                  </td>
                   <td className="px-4 py-2 md:px-6 md:py-4">{formatDate(tarea.fechaCreacion)}</td>
                   <td className="px-4 py-2 md:px-6 md:py-4">{formatDate(tarea.fechaLimite)}</td>
                   <td className="px-4 py-2 md:px-6 md:py-4">
@@ -141,10 +136,81 @@ export default function Insidencias() {
             </tbody>
           </table>
         </div>
+
+        {/* Vista de tarjetas para móviles */}
+        <div className="md:hidden space-y-4">
+          {filteredTasks.length === 0 ? (
+            <div className="text-center py-6 text-gray-500">
+              No se encontraron tareas archivadas
+            </div>
+          ) : (
+            filteredTasks.map((tarea) => (
+              <div
+                key={tarea.id}
+                className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm"
+                onClick={() => openModal(tarea)}
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="font-medium text-gray-900">{tarea.titulo}</h3>
+                  <span className={`px-2 py-1 rounded-md text-xs font-medium ${
+                    tarea.prioridad === "alta" ? "bg-red-100 text-red-800" :
+                    tarea.prioridad === "media" ? "bg-yellow-100 text-yellow-800" :
+                    "bg-green-100 text-green-800"
+                  }`}>
+                    {tarea.prioridad}
+                  </span>
+                </div>
+
+                <div className="space-y-2 text-sm">
+                  {tarea.descripcion && (
+                    <div className="text-gray-600 mb-2">
+                      {truncateDescription(tarea.descripcion)}
+                    </div>
+                  )}
+                  
+                  <div className="grid grid-cols-3 gap-1">
+                    <span className="font-medium">Asignado:</span>
+                    <span className="col-span-2 text-gray-600 truncate">
+                      {tarea.asignado ? `${tarea.asignado.nombres} ${tarea.asignado.apellidos}` : "-"}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-1">
+                    <span className="font-medium">Creado:</span>
+                    <span className="col-span-2 text-gray-600">
+                      {formatDate(tarea.fechaCreacion)}
+                    </span>
+                  </div>
+
+                  {tarea.fechaLimite && (
+                    <div className="grid grid-cols-3 gap-1">
+                      <span className="font-medium">Límite:</span>
+                      <span className="col-span-2 text-gray-600">
+                        {formatDate(tarea.fechaLimite)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="mt-3 pt-2 border-t border-gray-100 flex justify-end">
+                  <button 
+                    className="bg-verde-dos px-3 py-1 rounded text-white text-sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openModal(tarea);
+                    }}
+                  >
+                    Ver detalles
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
 
-      {/* Paginación */}
-      <nav className="bg-white border-t rounded-b-md h-1/10 flex flex-col md:flex-row items-center justify-between p-2 gap-4">
+      {/* Paginación responsive */}
+      <nav className="bg-white border-t rounded-b-md h-auto py-4 md:h-1/10 flex flex-col md:flex-row items-center justify-between p-2 gap-4">
         <button className="flex items-center gap-2 border px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition order-1 md:order-none w-full md:w-auto justify-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +222,8 @@ export default function Insidencias() {
           <span className="text-gray-700 font-medium">Anterior</span>
         </button>
 
-        <ul className="flex items-center -space-x-px h-8 text-sm flex-wrap justify-center order-3 md:order-none">
+        {/* Paginación para escritorio */}
+        <ul className="hidden md:flex items-center -space-x-px h-8 text-sm">
           <li>
             <a
               href="#"
@@ -199,6 +266,13 @@ export default function Insidencias() {
             </a>
           </li>
         </ul>
+        
+        {/* Paginación simplificada para móviles */}
+        <div className="md:hidden flex items-center">
+          <span className="px-3 py-1 text-gray-700">
+            Página 1 de 5
+          </span>
+        </div>
 
         <button className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-lg bg-white hover:bg-gray-100 transition order-2 md:order-none w-full md:w-auto justify-center">
           <span className="text-gray-700 font-medium">Siguiente</span>
@@ -212,7 +286,7 @@ export default function Insidencias() {
         </button>
       </nav>
 
-      {/* Modal de detalles */}
+      {/* Modal de detalles (mantener igual) */}
       {modalVisible && selectedTarea && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -271,12 +345,16 @@ export default function Insidencias() {
                 <div className="space-y-4">
                   <div>
                     <h3 className="text-sm font-medium text-gray-500">Asignado a</h3>
-                    <p className="text-base text-gray-900">{selectedTarea.asignado.nombres} {selectedTarea.asignado.apellidos}</p>
+                    <p className="text-base text-gray-900">
+                      {selectedTarea.asignado ? `${selectedTarea.asignado.nombres} ${selectedTarea.asignado.apellidos}` : "-"}
+                    </p>
                   </div>
                   
                   <div>
                     <h3 className="text-sm font-medium text-gray-500">Creado por</h3>
-                    <p className="text-base text-gray-900">{selectedTarea.creador.nombres} {selectedTarea.creador.apellidos}</p>
+                    <p className="text-base text-gray-900">
+                      {selectedTarea.creador ? `${selectedTarea.creador.nombres} ${selectedTarea.creador.apellidos}` : "-"}
+                    </p>
                   </div>
                   
                   <div>

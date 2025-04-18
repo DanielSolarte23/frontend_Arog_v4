@@ -60,33 +60,11 @@ export default function EncuestasDashboard() {
     fetchEncuestas();
   }, []);
 
-  // Helper function to safely convert a value to lowercase
-  // const safeToLowerCase = (value) => {
-  //   return value ? value.toLowerCase() : "";
-  // };
-
-  // const filterUsuarios = useMemo(() => {
-  //   if (!searchQuery) return usuarios || [];
-  //   if (!usuarios) return [];
-
-  //   const lowercaseQuery = searchQuery.toLowerCase();
-  //   return usuarios.filter((usuario) => {
-  //     if (!usuario) return false;
-
-  //     return (
-  //       safeToLowerCase(usuario.nombres).includes(lowercaseQuery) ||
-  //       safeToLowerCase(usuario.apellidos).includes(lowercaseQuery) ||
-  //       safeToLowerCase(usuario.correoElectronico).includes(lowercaseQuery) ||
-  //       safeToLowerCase(usuario.telefono).includes(lowercaseQuery) ||
-  //       safeToLowerCase(usuario.direccion).includes(lowercaseQuery) ||
-  //       safeToLowerCase(usuario.rol).includes(lowercaseQuery)
-  //     );
-  //   });
-  // }, [searchQuery, usuarios]);
-
-  // Eliminar encuesta
   const handleDelete = async (id) => {
-    if (typeof window !== 'undefined' && window.confirm("¿Estás seguro de que deseas eliminar esta encuesta?")) {
+    if (
+      typeof window !== "undefined" &&
+      window.confirm("¿Estás seguro de que deseas eliminar esta encuesta?")
+    ) {
       try {
         await axios.delete(`https://backend-arog-v4.onrender.com/api/encuestas/${id}`);
         setEncuestas(encuestas.filter((enc) => enc.id !== id));
@@ -95,7 +73,6 @@ export default function EncuestasDashboard() {
       }
     }
   };
-
 
   const changeView = async (view, encuesta = null) => {
     setActiveView(view);
@@ -119,12 +96,6 @@ export default function EncuestasDashboard() {
 
   if (loading) return <LoadingScreen />;
 
-  //   const handleSearchChange = (e) => {
-  //     setSearchQuery(e.target.value);
-  //     setCurrentPage(1);
-  //   };
-
-  // Renderizar la vista activa
   const renderActiveView = () => {
     switch (activeView) {
       case "list":
@@ -213,11 +184,13 @@ function EncuestasList({
 
   useEffect(() => {
     // Verificamos que estamos en el cliente
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const updateItemsPerPage = () => {
-        if (window.innerWidth >= 1536) { // 2xl en Tailwind (1536px)
+        if (window.innerWidth >= 1536) {
+          // 2xl en Tailwind (1536px)
           setItemsPerPage(10);
-        } else if (window.innerWidth >= 640) { // sm en Tailwind (640px)
+        } else if (window.innerWidth >= 640) {
+          // sm en Tailwind (640px)
           setItemsPerPage(5);
         } else {
           setItemsPerPage(3); // Opcional para pantallas más pequeñas
@@ -231,7 +204,6 @@ function EncuestasList({
       return () => window.removeEventListener("resize", updateItemsPerPage);
     }
   }, []); // Solo se ejecuta una vez cuando el componente se monta
-
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -294,30 +266,30 @@ function EncuestasList({
         />
       )} */}
 
-      <nav className="bg-white border-b border-b-gray-200 flex flex-col md:flex-row items-center justify-between py-2 px-4 gap-4 h-[15%] xl-plus:h-1/10">
-        <div className="relative w-full md:w-1/3 flex items-center">
-          <i className="fa-solid left-3 text-zinc-400 absolute fa-magnifying-glass"></i>
-          {/* <input
-            type="text"
-            placeholder="Buscar..."
-            value={searchQuery}
-            onChange={handleSearchChange}
-            className="px-3 pl-10 py-2 border border-zinc-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-rojo"
-          /> */}
+      <nav className="bg-white border-b border-b-gray-200 flex flex-col md:flex-row items-center justify-between py-3 px-4 gap-3 h-auto md:h-[15%] xl-plus:h-1/10">
+        <div className="flex items-center w-full md:w-auto justify-between">
+          <h1 className="text-lg font-semibold text-gray-800">Encuestas</h1>
+          <div className="md:hidden">
+            <span className="text-sm text-gray-500">
+              {encuestas.length} encuestas
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-2 md:w-auto">
+
+        <div className="flex items-center gap-2 w-full md:w-auto">
           <button
             onClick={onNew}
-            className="bg-verde  text-white px-4 py-2 rounded flex items-center gap-2"
+            className="bg-verde text-white px-3 py-2 rounded-lg flex items-center gap-2 w-full md:w-auto justify-center hover:bg-verde-dos transition"
           >
             <Plus size={18} />
-            Nueva Encuesta
+            <span className="font-medium">Nueva Encuesta</span>
           </button>
         </div>
       </nav>
 
-      <div className="overflow-x-auto h-[70%] xl-plus:h-8/10 w-full p-6 xl-plus:p-10">
-        <div className="overflow-hidden rounded-lg border border-gray-200">
+      <div className="overflow-x-auto h-[70%] xl-plus:h-8/10 w-full p-4 md:p-6 xl-plus:p-10">
+        {/* Vista de tabla para pantallas medianas y grandes */}
+        <div className="hidden md:block overflow-hidden rounded-lg border border-gray-200">
           <table className="text-sm text-left text-gray-500 w-full">
             {/* Encabezado */}
             <thead className="text-xs text-gray-700 uppercase bg-white border-b border-gray-200">
@@ -332,14 +304,14 @@ function EncuestasList({
 
             {/* Cuerpo */}
             <tbody className="bg-white divide-y divide-gray-200">
-              {encuestas.length === 0 ? (
+              {currentItems.length === 0 ? (
                 <tr>
                   <td colSpan="5" className="px-4 py-2 md:px-6 md:py-4">
                     No hay encuestas disponibles
                   </td>
                 </tr>
               ) : (
-                encuestas.map((encuesta) => (
+                currentItems.map((encuesta) => (
                   <tr key={encuesta.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
@@ -351,13 +323,14 @@ function EncuestasList({
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {encuesta.creador.nombres} {encuesta.creador.apellidos}
+                      {encuesta.creador?.nombres}{" "}
+                      {encuesta.creador?.apellidos || ""}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {encuesta._count.preguntas}
+                      {encuesta._count?.preguntas}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {encuesta._count.respuestas}
+                      {encuesta._count?.respuestas}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
@@ -396,6 +369,100 @@ function EncuestasList({
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Vista de tarjetas para móviles */}
+        <div className="md:hidden space-y-4">
+          {currentItems.length === 0 ? (
+            <div className="text-center py-6 text-gray-500">
+              No hay encuestas disponibles
+            </div>
+          ) : (
+            currentItems.map((encuesta) => (
+              <div
+                key={encuesta.id}
+                className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm"
+              >
+                <div className="mb-3">
+                  <h3 className="font-medium text-gray-900 mb-1">
+                    {encuesta.titulo}
+                  </h3>
+                  {encuesta.descripcion && (
+                    <p className="text-sm text-gray-600">
+                      {encuesta.descripcion.substring(0, 100)}
+                      {encuesta.descripcion.length > 100 ? "..." : ""}
+                    </p>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-sm mb-3">
+                  <div>
+                    <span className="font-medium text-gray-700">Creador:</span>
+                    <p className="text-gray-600">
+                      {encuesta.creador?.nombres} {encuesta.creador?.apellidos}
+                    </p>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div>
+                      <span className="font-medium text-gray-700">
+                        Preguntas:
+                      </span>
+                      <p className="text-gray-600">
+                        {encuesta._count?.preguntas}
+                      </p>
+                    </div>
+
+                    <div>
+                      <span className="font-medium text-gray-700">
+                        Respuestas:
+                      </span>
+                      <p className="text-gray-600">
+                        {encuesta._count?.respuestas}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-3 pt-2 border-t border-gray-100 flex justify-end gap-2">
+                  <button
+                    onClick={() => onView(encuesta)}
+                    className="bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded text-gray-700 text-sm flex items-center gap-1"
+                    title="Ver detalles"
+                  >
+                    <Eye size={14} />
+                    <span>Ver</span>
+                  </button>
+
+                  <button
+                    onClick={() => onEdit(encuesta)}
+                    className="bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded text-gray-700 text-sm flex items-center gap-1"
+                    title="Editar"
+                  >
+                    <Edit size={14} />
+                    <span>Editar</span>
+                  </button>
+
+                  <button
+                    onClick={() => onResults(encuesta)}
+                    className="bg-verde-dos px-3 py-1 rounded text-white text-sm flex items-center gap-1"
+                    title="Ver resultados"
+                  >
+                    <BarChart2 size={14} />
+                    <span>Resultados</span>
+                  </button>
+
+                  <button
+                    onClick={() => onDelete(encuesta.id)}
+                    className="bg-red-100 text-red-600 hover:bg-red-200 px-3 py-1 rounded text-sm flex items-center gap-1"
+                    title="Eliminar"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
 

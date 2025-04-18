@@ -1,6 +1,42 @@
-import React from "react";
+'use client'
+import { useAauth } from "@/context/AauthContext";
+import { useUsuario } from "@/context/UsuarioContext";
+import React, { useEffect, useState } from "react";
 
 export default function PageAdministrador() {
+
+  const { user } = useAauth();
+  const { getUsuario, usuarios } = useUsuario();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (user && user.id) {
+      const fetchUsuario = async () => {
+        try {
+          await getUsuario(user.id);
+          console.log("Usuario obtenido correctamente");
+        } catch (error) {
+          console.error("Error al obtener usuario:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchUsuario();
+    } else {
+      console.log("No hay usuario autenticado o no tiene ID");
+      setLoading(false);
+    }
+  }, []); // Incluir dependencias correctas
+
+  // Efecto separado para mostrar los datos cuando usuarios cambie
+  useEffect(() => {
+    if (!loading) {
+      console.log("user:", user);
+      console.log("usuarios:", usuarios);
+    }
+  }, []);
+
   return (
     <>
       {/* Primer Header */}
@@ -24,12 +60,12 @@ export default function PageAdministrador() {
           </div>
 
           <div className="text-gray-700">
-            <p className="font-medium text-base md:text-lg">Nombre usuario</p>
+            <p className="font-medium text-base md:text-lg">{usuarios.nombres}</p>
             <a
               href="mailto:usuario@ejemplo.com"
               className="text- text-sm md:text-base hover:underline"
             >
-              usuario@ejemplo.com
+              {usuarios.correoElectronico}
             </a>
           </div>
         </div>
@@ -72,6 +108,8 @@ export default function PageAdministrador() {
                 type="text"
                 id="nombre"
                 className="mt-1 border-0 border-b-2 border-verde px-4 rounded-md w-full focus:outline-none focus:ring-0 py-1 md:py-2"
+                placeholder={usuarios.nombres}
+                disabled
               />
             </div>
 
@@ -86,6 +124,8 @@ export default function PageAdministrador() {
                 type="text"
                 id="apellido"
                 className="mt-1 border-0 border-b-2 border-verde px-4 rounded-md w-full focus:outline-none focus:ring-0 py-1 md:py-2"
+                placeholder={usuarios.apellidos}
+                disabled
               />
             </div>
 
@@ -100,6 +140,8 @@ export default function PageAdministrador() {
                 type="text"
                 id="telefono"
                 className="mt-1 border-0 border-b-2 border-verde px-4 rounded-md w-full focus:outline-none focus:ring-0 py-1 md:py-2"
+                placeholder={usuarios.telefono}
+                disabled
               />
             </div>
 
@@ -114,6 +156,8 @@ export default function PageAdministrador() {
                 type="text"
                 id="direccion"
                 className="mt-1 border-0 border-b-2 border-verde px-4 rounded-md w-full focus:outline-none focus:ring-0 py-1 md:py-2"
+                placeholder={`${usuarios.direccion}  `}
+                disabled
               />
             </div>
           </div>
