@@ -3,11 +3,17 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'; // Importa useRouter
 import { verifyEmailRequest } from '@/api/auth'; // Ajusta la ruta
 
-
 const EmailVerification = () => {
   const [verificationStatus, setVerificationStatus] = useState('verifying');
   const router = useRouter(); // Inicializa useRouter
-  const { token } = router.query; // Obtiene el token de la URL
+  const [token, setToken] = useState(null); // Para almacenar el token
+
+  useEffect(() => {
+
+    if (router.query.token) {
+      setToken(router.query.token);
+    }
+  }, [router.query]);
 
   useEffect(() => {
     const verifyEmail = async () => {
@@ -21,7 +27,9 @@ const EmailVerification = () => {
       }
     };
 
-    verifyEmail();
+    if (token) {
+      verifyEmail();
+    }
   }, [token]);
 
   return (

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { requestPasswordResetRequest } from "@/api/auth";
@@ -25,59 +25,65 @@ export default function ForgotPassword() {
         type: "error",
         message: error.response?.data?.message || "Error al enviar el correo",
       });
-      console.log(data);
-      console.log(error);
     }
   };
 
   return (
-    <div className="flex items-center justify-center h-full border">
-      <article className="w-full flex justify-center h-6/10 items-center blackBlock border border-red-600"> 
-        <div className="w-2/6 2xl:p-10 h-full rounded-md flex flex-col justify-center ">
-          <div className="border 2xl:py-5 px-10 rounded-xl h-[90%] contain shadow-2xl filter py-5">
-
-            
-            <div className="h-2/10 flex justify-center items-center">
-              {/* <Logo className="2xl:w-32 w-24" /> */}
-              <LogoArog className={`w-20 h-20 mb-10`}/>
-            </div>
-            <h1 className="text-2xl font-bold mb-6">
-              Recuperar contraseña
-            </h1>
-
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div>
-                <input
-                  type="email"
-                  {...register("email", { required: true })}
-                  className="w-full bg-transparent border outline-none text-xl px-4 py-4 rounded-md placeholder shadow-xl"
-                  placeholder="Correo electrónico"
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm">El correo es requerido</p>
-                )}
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-verde px-3 py-4 rounded-md  text-xl font-semibold text-white"
-              >
-                Enviar enlace de recuperación
-              </button>
-            </form>
-
-            {status.message && (
-              <div
-                className={`mt-4 p-3 rounded ${
-                  status.type === "success" ? "bg-green-600" : "bg-red-600"
-                }`}
-              >
-                {status.message}
-              </div>
-            )}
+    <div className="w-full min-h-screen flex justify-center items-center px-4 py-8">
+      <div className="w-full max-w-md mx-auto">
+        <div className="border px-4 sm:px-6 md:px-10 py-14 rounded-xl shadow-lg filter">
+          <div className="flex justify-center items-center mb-6">
+            <LogoArog className="w-16 h-16 md:w-20 md:h-20" />
           </div>
+          <h1 className="text-xl md:text-2xl font-semibold mb-6 text-verde-dos text-start">
+            Recuperar contraseña
+          </h1>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="relative">
+              <input
+                type="email"
+                placeholder="Ingresa tu correo"
+                {...register("email", { 
+                  required: "El correo electrónico es obligatorio",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Correo electrónico inválido"
+                  }
+                })}
+                className={`block w-full px-4 py-3 text-verde-dos placeholder:text-gray-600 placeholder:font-thin bg-transparent border-b-2 md:border-b-4 
+                border-verde-dos hover:border-verde focus:border-verde rounded-lg focus:outline-none text-sm md:text-base pl-10 ${
+                  errors.email ? "border-red-500" : "border-verde"
+                }`}
+              />
+              <i className="fa-solid fa-envelope absolute text-verde top-1/2 -translate-y-1/2 left-3 text-base md:text-lg"></i>
+              
+              {errors.email && (
+                <p className="text-red-500 text-xs md:text-sm mt-1 ml-1">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-verde hover:bg-verde-dos px-3 py-3 rounded-lg text-base md:text-lg font-medium text-white transition-colors duration-300"
+            >
+              Enviar enlace de recuperación
+            </button>
+          </form>
+
+          {status.message && (
+            <div
+              className={`mt-6 p-3 rounded-lg text-sm md:text-base text-white text-center ${
+                status.type === "success" ? "bg-green-600" : "bg-red-600"
+              }`}
+            >
+              {status.message}
+            </div>
+          )}
         </div>
-      </article>
+      </div>
     </div>
   );
 }

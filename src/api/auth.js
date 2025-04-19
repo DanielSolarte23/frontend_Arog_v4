@@ -9,11 +9,11 @@ export const verifyTokenRequest = () => axios.get('/aauth/verify')
 // export const logoutRequest = () => axios.get('/logout')
 
 export const verifyEmailRequest = async (token) => {
-    return await axios.get(`/api/aauth/verify-email/${token}`);
+    return await axios.get(`/aauth/verify-email/${token}`);
 };
 
-export const requestPasswordResetRequest = async email => await axios.post('/request-password-reset', {email})
+export const requestPasswordResetRequest = async email => await axios.post('/aauth/request-password-reset', {email})
 
 export const resetPasswordRequest = async (token, password) => {
-    return await axios.post(`/api/reset-password/${token}`, { password });
+    return await axios.post(`/aauth/reset-password/${token}`, { password });
 };

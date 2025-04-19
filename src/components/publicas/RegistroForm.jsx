@@ -20,7 +20,7 @@ function RegistroForm() {
   //   const [registerError, setRegisterError] = useState(null);
   const router = useRouter();
   const [showRequirements, setShowRequirements] = useState(false);
-
+  const [showPassword, setshowPassword] = useState("password");
   // Referencia para comparar contraseñas
   const contraseña = watch("contraseña");
 
@@ -47,7 +47,6 @@ function RegistroForm() {
       window.location.href = "http://localhost:3002/api/auth/google";
     }
   };
-  
 
   return (
     <div className="w-full bg-white/10 filter border rounded-lg shadow-xl border-t px-4 sm:px-8 md:px-14 py-6 sm:py-8 md:py-12 flex flex-col justify-evenly">
@@ -183,7 +182,7 @@ function RegistroForm() {
           <div className="mt-2">
             <div className="w-full h-12 md:h-14 relative">
               <input
-                type="password"
+                type={showPassword}
                 placeholder="Ingresa una contraseña"
                 {...register("contraseña", {
                   required: "La contraseña es obligatoria",
@@ -205,6 +204,14 @@ function RegistroForm() {
                 onBlur={() => setTimeout(() => setShowRequirements(false), 200)}
               />
               <i className="fa-solid fa-lock absolute text-verde top-1/2 -translate-y-1/2 left-3 text-base sm:text-lg md:text-xl"></i>
+              <i
+                onClick={() => {
+                  setshowPassword((prevState) =>
+                    prevState === "password" ? "text" : "password"
+                  );
+                }}
+                className="fa-solid fa-eye absolute text-verde top-1/2 -translate-y-1/2 left-[87%] text-lg md:text-xl cursor-pointer"
+              ></i>
             </div>
             {errors.contraseña && (
               <p className="text-red-500 text-sm mt-1">
@@ -216,7 +223,7 @@ function RegistroForm() {
           <div className="mt-2">
             <div className="w-full h-12 md:h-14 relative">
               <input
-                type="password"
+                type={showPassword}
                 placeholder="Confirma tu contraseña"
                 {...register("confirmarContraseña", {
                   required: "Debes confirmar tu contraseña",

@@ -137,7 +137,7 @@ function LoginForm() {
                   prevState === "password" ? "text" : "password"
                 );
               }}
-              className="fa-solid fa-eye absolute text-verde top-1/2 -translate-y-1/2 left-[95%] text-lg md:text-xl cursor-pointer"
+              className="fa-solid fa-eye absolute text-verde top-1/2 -translate-y-1/2 left-[90%] md:left-[95%] text-lg md:text-xl cursor-pointer"
             ></i>
           </div>
           {errors.contraseña && (

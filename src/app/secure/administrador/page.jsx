@@ -90,7 +90,7 @@ export default function PageAdministrador() {
       </header>
 
       {/* Segundo Header - Formulario */}
-      <header className="bg-white drop-shadow-md md:mt-5 p-4 md:p-8 lg:p-5 border border-gray-200 rounded-lg">
+      <header className="bg-white shadow-md md:mt-5 p-4 md:p-8 lg:p-5 border border-gray-200 rounded-lg">
         <form className="p-2 md:p-6 lg:p-10">
           <h2 className="text-lg md:text-xl font-semibold mb-4">
             Datos personales
