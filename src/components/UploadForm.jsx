@@ -71,7 +71,7 @@ const UploadForm = ({ setModalOpen, loadMedia }) => {
 
       // Enviar archivo al servidor
       const response = await axios.post(
-        "http://localhost:3002/api/multimedia/upload",
+        "https://backend-arog-v4.onrender.com/api/multimedia/upload",
         formData,
         {
           headers: {
